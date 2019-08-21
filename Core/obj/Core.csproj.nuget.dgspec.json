@@ -1,30 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lab101a\\source\\repos\\Compiler2019\\Core\\Core.csproj": {}
+    "C:\\Users\\lab201a\\Desktop\\compiler2019\\Core\\Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lab101a\\source\\repos\\Compiler2019\\Core\\Core.csproj": {
+    "C:\\Users\\lab201a\\Desktop\\compiler2019\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lab101a\\source\\repos\\Compiler2019\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\lab201a\\Desktop\\compiler2019\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Users\\lab101a\\source\\repos\\Compiler2019\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\lab101a\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lab101a\\source\\repos\\Compiler2019\\Core\\obj\\",
+        "projectPath": "C:\\Users\\lab201a\\Desktop\\compiler2019\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\lab201a\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lab201a\\Desktop\\compiler2019\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\lab101a\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\lab201a\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

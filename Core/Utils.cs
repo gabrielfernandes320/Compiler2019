@@ -9,22 +9,32 @@ namespace CompilerCore.Utils
 {
     public class Utils
     {
-        public void WriteFile(List<String> textToSwrite)
+        public void WriteFile(String[] textToSwrite)
         {
-            string[] lines = { "First line", "Second line", "Third line" };
-
+          
             string path = @"C:\temp\test.txt";
             if (!File.Exists(path))
             {
-                // Create a file to write to.
+               
                 using (StreamWriter sw = File.CreateText(path))
                 {
                     foreach (var line in textToSwrite)
                     {
-                        sw.Write(line);
+                        sw.WriteLine(line);
                     }
                 }
             }
+            else
+            {
+    
+            }
+        }
+
+        public string[] ReadFile(String pathToRead)
+        {
+            string[] lines = File.ReadAllLines(pathToRead);
+
+            return lines;
         }
     }
 }

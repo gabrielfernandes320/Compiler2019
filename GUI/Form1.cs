@@ -2,6 +2,7 @@
 using CompilerCore.Utils;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace GUI
 {
@@ -17,14 +18,14 @@ namespace GUI
 
         private void BtnAccept_Click(object sender, System.EventArgs e)
         {
-            List<string> lines = new List<string>();
+            string pathToRead = @"C:\temp\test.txt";
 
-            foreach (var line in tbSourceCode.Lines)
-            {
-                lines.Add(line);
-            }
+            util.WriteFile(tbSourceCode.Lines);
+            tbSourceCode.Clear();
 
-            util.WriteFile(lines);
+            string[] lines = File.ReadAllLines(pathToRead);
+            tbSourceCode.Lines = lines;
+
         }
     }
 }
