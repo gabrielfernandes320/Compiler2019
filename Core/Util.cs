@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CompilerCore.Utils
 {
-    public class Utils
+    public class Util
     {
         public void WriteFile(String[] textToSwrite)
         {
