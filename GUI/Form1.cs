@@ -4,6 +4,7 @@ using CompilerCore.Enums;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Core;
 
 namespace GUI
 {
@@ -21,18 +22,24 @@ namespace GUI
         private void BtnAccept_Click(object sender, System.EventArgs e)
         {
             string pathToRead = @"C:\temp\test.txt";
+            List<Token> tokenList = new List<Token>();
 
-
-
-
-            util.WriteFile(tbSourceCode.Lines);
-            tbSourceCode.Clear();
+            util.WriteFile(rtbSourceCode.Lines);
+            rtbSourceCode.Clear();
 
             string[] lines = File.ReadAllLines(pathToRead);
-            tbSourceCode.Lines = lines;
 
-            tbSourceCode.Clear();
-            tbSourceCode.Text = SpecialCharacters.Plus.GetStringValue();
+            tokenList = util.LexicalAnalysis(lines);
+
+            dgTokens.DataSource = tokenList;
+
+
+            rtbSourceCode.Lines = lines;
+
+           
+            
+            
+            // tbSourceCode.Text = SpecialCharacters.Plus.GetStringValue();
 
 
         }
