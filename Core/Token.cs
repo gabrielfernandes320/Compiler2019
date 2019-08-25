@@ -6,14 +6,18 @@ namespace Core
 {
     public class Token
     {
-        public int Code;
+        public int Code { get; set; }
 
-        public string Value;
+        public char Value { get; set; }
 
-        public Token(int code, string value)
+        public Token(int code, char value)
         {
             Code = code;
             Value = value;
+        }
+
+        public Token()
+        {
         }
     }
 }

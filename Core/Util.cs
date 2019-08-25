@@ -35,7 +35,7 @@ namespace CompilerCore.Utils
 
         public List<Token> LexicalAnalysis(String[] textToAnalyze)
         {
-            List<Token> analyzedText = new List<Token>();
+            List<Token> tokenList = new List<Token>();
 
             foreach (var line in textToAnalyze )
             {
@@ -43,19 +43,21 @@ namespace CompilerCore.Utils
                 {
                     if(CheckIfIsSpecialWord(letter))
                     {
-
+                        Token token = new Token();
+                        token.Code = (int)Enums.ReservedWords.Array;
+                        token.Value = letter;
+                        tokenList.Add(token);
+                        
                     }
                 }
             }
 
-            return analyzedText;
+            return tokenList;
         }
 
         private Boolean CheckIfIsSpecialWord(char Letter)
         {
             List<char> spWords = new List<char> { ':', ';', ',', '.', '(', ')', '[', ']', '\'', '=', '<', '>', '+', '-', '/', '*' };
-
-
 
             if (spWords.Contains(Letter))
             {
@@ -63,6 +65,7 @@ namespace CompilerCore.Utils
             }
             return false;
         }
+
     }
 
 }
