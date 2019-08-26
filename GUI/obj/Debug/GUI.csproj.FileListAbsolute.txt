@@ -37,3 +37,16 @@ C:\Users\gabri\source\repos\Compiler2019\GUI\obj\Debug\GUI.csproj.CoreCompileInp
 C:\Users\gabri\source\repos\Compiler2019\GUI\obj\Debug\GUI.csproj.CopyComplete
 C:\Users\gabri\source\repos\Compiler2019\GUI\obj\Debug\GUI.exe
 C:\Users\gabri\source\repos\Compiler2019\GUI\obj\Debug\GUI.pdb
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\bin\Debug\GUI.exe.config
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\bin\Debug\GUI.exe
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\bin\Debug\GUI.pdb
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\bin\Debug\Core.dll
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\bin\Debug\Core.pdb
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\obj\Debug\GUI.csprojAssemblyReference.cache
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\obj\Debug\GUI.Form1.resources
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\obj\Debug\GUI.Properties.Resources.resources
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\obj\Debug\GUI.csproj.GenerateResource.cache
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\obj\Debug\GUI.csproj.CoreCompileInputs.cache
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\obj\Debug\GUI.csproj.CopyComplete
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\obj\Debug\GUI.exe
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\GUI\obj\Debug\GUI.pdb

@@ -39,7 +39,9 @@ namespace CompilerCore.Utils
         public List<Token> LexicalAnalysis(String[] textToAnalyze)
         {
             List<Token> tokenList = new List<Token>();
+            
             LexicalElements lxEl = new LexicalElements();
+            String strToConcate = "";
 
             List<Stack<char>> stkList = new List<Stack<char>>();
             foreach (var line in textToAnalyze )
@@ -59,8 +61,22 @@ namespace CompilerCore.Utils
                 while(stk.Count != 0)
                 {
                     char actualChar = stk.Pop();
+                    Token token = new Token();
+                    if (Char.IsDigit(actualChar))
+                    {
+                        while (Char.IsDigit(actualChar))
+                        {
+                            actualChar = stk.Pop();
+                            strToConcate = String.Concat(strToConcate , actualChar.ToString());
+                        }
 
-                    if (lxEl.ReservedWords.Contains(actualChar.ToString()))
+                        token.Code = 1;
+                        token.Value = strToConcate;
+                        tokenList.Add(token);
+                        strToConcate = "";
+
+
+                    }
                     {
 
                     }

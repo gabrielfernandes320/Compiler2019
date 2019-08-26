@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gabri\\source\\repos\\Compiler2019\\Core\\Core.csproj": {}
+    "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gabri\\source\\repos\\Compiler2019\\Core\\Core.csproj": {
+    "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabri\\source\\repos\\Compiler2019\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Users\\gabri\\source\\repos\\Compiler2019\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\gabri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabri\\source\\repos\\Compiler2019\\Core\\obj\\",
+        "projectPath": "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\gabriel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\gabri\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"

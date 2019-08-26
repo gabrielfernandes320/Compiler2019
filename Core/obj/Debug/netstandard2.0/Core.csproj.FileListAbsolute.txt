@@ -25,3 +25,12 @@ C:\Users\gabri\source\repos\Compiler2019\Core\obj\Debug\netstandard2.0\Core.Asse
 C:\Users\gabri\source\repos\Compiler2019\Core\obj\Debug\netstandard2.0\Core.AssemblyInfo.cs
 C:\Users\gabri\source\repos\Compiler2019\Core\obj\Debug\netstandard2.0\Core.dll
 C:\Users\gabri\source\repos\Compiler2019\Core\obj\Debug\netstandard2.0\Core.pdb
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\Core\bin\Debug\netstandard2.0\Core.deps.json
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\Core\bin\Debug\netstandard2.0\Core.dll
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\Core\bin\Debug\netstandard2.0\Core.pdb
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\Core\obj\Debug\netstandard2.0\Core.csprojAssemblyReference.cache
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\Core\obj\Debug\netstandard2.0\Core.csproj.CoreCompileInputs.cache
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\Core\obj\Debug\netstandard2.0\Core.AssemblyInfoInputs.cache
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\Core\obj\Debug\netstandard2.0\Core.AssemblyInfo.cs
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\Core\obj\Debug\netstandard2.0\Core.dll
+C:\Users\gabriel\Desktop\Pessoal\compiler2019\Core\obj\Debug\netstandard2.0\Core.pdb

@@ -8,9 +8,9 @@ namespace Core
     {
         public int Code { get; set; }
 
-        public char Value { get; set; }
+        public string Value { get; set; }
 
-        public Token(int code, char value)
+        public Token(int code, string value)
         {
             Code = code;
             Value = value;
