@@ -10,6 +10,9 @@ namespace CompilerCore.Utils
 {
     public class Util
     {
+        List<String> reservedWords = new List<string>();
+
+
         public void WriteFile(String[] textToSwrite)
         {
 
@@ -36,20 +39,34 @@ namespace CompilerCore.Utils
         public List<Token> LexicalAnalysis(String[] textToAnalyze)
         {
             List<Token> tokenList = new List<Token>();
+            LexicalElements lxEl = new LexicalElements();
 
+            List<Stack<char>> stkList = new List<Stack<char>>();
             foreach (var line in textToAnalyze )
             {
+                Stack<char> stk = new Stack<char>();
+                
                 foreach (char letter in line)
                 {
-                    if(CheckIfIsSpecialWord(letter))
+                    stk.Push(letter);
+                }
+                stkList.Add(stk);
+            }
+
+
+            foreach (var stk in stkList)
+            {
+                while(stk.Count != 0)
+                {
+                    char actualChar = stk.Pop();
+
+                    if (lxEl.ReservedWords.Contains(actualChar.ToString()))
                     {
-                        Token token = new Token();
-                        token.Code = (int)Enums.ReservedWords.Array;
-                        token.Value = letter;
-                        tokenList.Add(token);
-                        
+
                     }
                 }
+                
+
             }
 
             return tokenList;
@@ -65,6 +82,7 @@ namespace CompilerCore.Utils
             }
             return false;
         }
+
 
     }
 
