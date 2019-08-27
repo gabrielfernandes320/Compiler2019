@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Core",
+    "\\Core\\Dictionary",
+    "\\Core\\Enum"
   ],
-  "SelectedNode": "\\Compiler2019.sln",
+  "SelectedNode": "\\GUI",
   "PreviewInSolutionExplorer": false
 }

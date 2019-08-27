@@ -58,13 +58,20 @@ namespace CompilerCore.Utils
                 revLetterStk.Push(letterStk.Pop());
             }
             // Int checking OK
+
+            OperatorsDictionary od = new OperatorsDictionary();
+            OperatorsEnum oe;
+
             while (revLetterStk.Count() != 0)
-                {
+            {
                     char actualChar = GetNextChar(revLetterStk);
+                    
+
+                //Numbers Finite automaton
+                if (Char.IsDigit(actualChar))
+                {
                     Token token = new Token();
-                    if (Char.IsDigit(actualChar))
-                    {
-                        strToConcate = actualChar.ToString();
+                    strToConcate = actualChar.ToString();
                             while (Char.IsDigit(actualChar))
                             {
                                 actualChar = GetNextChar(revLetterStk);
@@ -82,12 +89,23 @@ namespace CompilerCore.Utils
                             token.Code = (int)ReservedWordsEnum.Inteiro;
                             token.Value = strToConcate;
                             tokenList.Add(token);
-                            strToConcate = "";
-
-                        
-                    }
-                   
+                            strToConcate = ""; 
                 }
+                //Numbers Finite automaton
+
+                //Operators Finite automaton
+                if (od.Operators.ContainsKey(actualChar.ToString()))
+                {
+                        Token token = new Token();
+                        strToConcate = actualChar.ToString();
+                        od.Operators.TryGetValue(actualChar.ToString(), out oe);
+                        token.Code = (int)oe;
+                        token.Value = strToConcate;
+                        tokenList.Add(token);
+                        strToConcate = "";
+                }
+                   
+            }
             return tokenList;  
 
         }
@@ -101,22 +119,7 @@ namespace CompilerCore.Utils
             return stk.Pop();
         }
 
-        private Boolean CheckIfIsSpecialWord(char Letter)
-        {
-            List<char> spWords = new List<char> { ':', ';', ',', '.', '(', ')', '[', ']', '\'', '=', '<', '>', '+', '-', '/', '*' };
-
-            if (spWords.Contains(Letter))
-            {
-                return true;
-            }
-            return false;
-
-
-        }
-
-    }
-
-      
+    }    
 
 }
 

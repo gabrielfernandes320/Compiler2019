@@ -20,7 +20,7 @@ namespace Core.Dictionary
              { "<", OperatorsEnum.LessThan},
              { ">=", OperatorsEnum.GreaterOrEqual},
              { "<=", OperatorsEnum.LessOrEqual},
-             { "<=", OperatorsEnum.NotEqual},
+             { "<>", OperatorsEnum.NotEqual},
         };
         
         
