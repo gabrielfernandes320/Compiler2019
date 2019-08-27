@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\Core.csproj": {}
+    "C:\\Users\\lab101a\\Desktop\\compiler2019\\Core\\Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\Core.csproj": {
+    "C:\\Users\\lab101a\\Desktop\\compiler2019\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Users\\lab101a\\Desktop\\compiler2019\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\Core.csproj",
-        "packagesPath": "C:\\Users\\gabriel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabriel\\Desktop\\Pessoal\\compiler2019\\Core\\obj\\",
+        "projectPath": "C:\\Users\\lab101a\\Desktop\\compiler2019\\Core\\Core.csproj",
+        "packagesPath": "C:\\Users\\lab101a\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lab101a\\Desktop\\compiler2019\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lab101a\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

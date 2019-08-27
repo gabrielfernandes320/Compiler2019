@@ -29,26 +29,23 @@ namespace CompilerCore.Utils
            
         }
 
-        public string[] ReadFile(String pathToRead)
+        public string ReadFile(String pathToRead)
         {
-            string[] lines = File.ReadAllLines(pathToRead);
+            string letters = File.ReadAllText(pathToRead);
 
-            return lines;
+            return letters;
         }
 
-        public List<Token> LexicalAnalysis(String[] textToAnalyze)
+        public List<Token> LexicalAnalysis(string lettersToAnalyze)
         {
             List<Token> tokenList = new List<Token>();
             
             LexicalElements lxEl = new LexicalElements();
             String strToConcate = "";
 
-            List<Stack<char>> stkList = new List<Stack<char>>();
-            foreach (var line in textToAnalyze )
-            {
-                Stack<char> stk = new Stack<char>();
-                
-                foreach (char letter in line)
+            Stack<char> letter = new Stack<char>();
+
+                foreach (char letter in lettersToAnalyze)
                 {
                     stk.Push(letter);
                 }
@@ -75,7 +72,8 @@ namespace CompilerCore.Utils
                         tokenList.Add(token);
                         strToConcate = "";
 
-
+                        
+                        
                     }
                     {
 
@@ -97,6 +95,8 @@ namespace CompilerCore.Utils
                 return true;
             }
             return false;
+
+            
         }
 
 

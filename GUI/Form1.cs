@@ -27,18 +27,15 @@ namespace GUI
             util.WriteFile(rtbSourceCode.Lines);
             rtbSourceCode.Clear();
 
-            string[] lines = File.ReadAllLines(pathToRead);
+            string letters = File.ReadAllText(pathToRead);
 
-            tokenList = util.LexicalAnalysis(lines);
+            tokenList = util.LexicalAnalysis(letters);
 
             dgTokens.DataSource = tokenList;
 
 
             rtbSourceCode.Lines = lines;
 
-           
-            
-            
             // tbSourceCode.Text = SpecialCharacters.Plus.GetStringValue();
 
 
