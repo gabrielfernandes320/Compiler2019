@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 using CompilerCore.Utils;
-using CompilerCore.Enums;
+using Core.Enum;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -25,7 +25,7 @@ namespace GUI
             List<Token> tokenList = new List<Token>();
 
             util.WriteFile(rtbSourceCode.Lines);
-            rtbSourceCode.Clear();
+            //rtbSourceCode.Clear();
 
             string letters = File.ReadAllText(pathToRead);
 
@@ -33,8 +33,6 @@ namespace GUI
 
             dgTokens.DataSource = tokenList;
 
-
-            rtbSourceCode.Lines = lines;
 
             // tbSourceCode.Text = SpecialCharacters.Plus.GetStringValue();
 

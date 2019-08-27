@@ -5,6 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Dictionary;
+using Core.Enum;
+
 
 namespace CompilerCore.Utils
 {
@@ -40,50 +43,62 @@ namespace CompilerCore.Utils
         {
             List<Token> tokenList = new List<Token>();
             
-            LexicalElements lxEl = new LexicalElements();
             String strToConcate = "";
 
-            Stack<char> letter = new Stack<char>();
+            Stack<char> letterStk = new Stack<char>();
+            Stack<char> revLetterStk = new Stack<char>();
 
-                foreach (char letter in lettersToAnalyze)
+            foreach (char ch in lettersToAnalyze)
                 {
-                    stk.Push(letter);
+                letterStk.Push(ch);
                 }
-                stkList.Add(stk);
-            }
 
-
-            foreach (var stk in stkList)
+            while (letterStk.Count != 0)
             {
-                while(stk.Count != 0)
+                revLetterStk.Push(letterStk.Pop());
+            }
+            // Int checking OK
+            while (revLetterStk.Count() != 0)
                 {
-                    char actualChar = stk.Pop();
+                    char actualChar = GetNextChar(revLetterStk);
                     Token token = new Token();
                     if (Char.IsDigit(actualChar))
                     {
-                        while (Char.IsDigit(actualChar))
-                        {
-                            actualChar = stk.Pop();
-                            strToConcate = String.Concat(strToConcate , actualChar.ToString());
-                        }
+                        strToConcate = actualChar.ToString();
+                            while (Char.IsDigit(actualChar))
+                            {
+                                actualChar = GetNextChar(revLetterStk);
+                                if (Char.IsDigit(actualChar))
+                                {
+                                    strToConcate = String.Concat(strToConcate, actualChar.ToString());
+                                }
+                                else
+                                {
+                                    actualChar = GetNextChar(revLetterStk);
+                                }
+                            
+                            }
 
-                        token.Code = 1;
-                        token.Value = strToConcate;
-                        tokenList.Add(token);
-                        strToConcate = "";
+                            token.Code = (int)ReservedWordsEnum.Inteiro;
+                            token.Value = strToConcate;
+                            tokenList.Add(token);
+                            strToConcate = "";
 
                         
-                        
                     }
-                    {
-
-                    }
+                   
                 }
-                
+            return tokenList;  
 
+        }
+
+        private char GetNextChar(Stack<char> stk)
+        {
+           if(stk.Count() == 0)
+            {
+                return '\0';
             }
-
-            return tokenList;
+            return stk.Pop();
         }
 
         private Boolean CheckIfIsSpecialWord(char Letter)
@@ -96,10 +111,12 @@ namespace CompilerCore.Utils
             }
             return false;
 
-            
-        }
 
+        }
 
     }
 
+      
+
 }
+
