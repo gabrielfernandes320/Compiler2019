@@ -9,21 +9,18 @@ namespace Core.Dictionary
     {
         public Dictionary<string, OperatorsEnum> Operators = new Dictionary<string, OperatorsEnum>
         {
-             { "And", OperatorsEnum.And},
-             { "Not", OperatorsEnum.Not},
-             { "Or", OperatorsEnum.Or},
-             { "+", OperatorsEnum.Plus},
-             { "-", OperatorsEnum.Minus},
-             { "*", OperatorsEnum.Mult},
-             { "/", OperatorsEnum.Div},
-             { ">", OperatorsEnum.GreaterThan},
-             { "<", OperatorsEnum.LessThan},
-             { ">=", OperatorsEnum.GreaterOrEqual},
-             { "<=", OperatorsEnum.LessOrEqual},
-             { "<>", OperatorsEnum.NotEqual},
+             { "And", OperatorsEnum.And },
+             { "Not", OperatorsEnum.Not },
+             { "Or", OperatorsEnum.Or },
+             { "+", OperatorsEnum.Plus  },
+             { "-", OperatorsEnum.Minus },
+             { "*", OperatorsEnum.Mult },
+             { "/", OperatorsEnum.Div },
+             { ">", OperatorsEnum.GreaterThan },
+             { "<", OperatorsEnum.LessThan },
+             { ">=", OperatorsEnum.GreaterOrEqual },
+             { "<=", OperatorsEnum.LessOrEqual },
+             { "<>", OperatorsEnum.NotEqual },
         };
-        
-        
-        
     }
 }

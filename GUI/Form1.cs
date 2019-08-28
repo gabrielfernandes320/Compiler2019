@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Core;
+using System;
 
 namespace GUI
 {
@@ -15,13 +16,11 @@ namespace GUI
         public Form1()
         {
             InitializeComponent();
-            
-
         }
 
         private void BtnAccept_Click(object sender, System.EventArgs e)
         {
-            string pathToRead = @"C:\temp\test.txt";
+            string pathToRead = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/test.txt";
             List<Token> tokenList = new List<Token>();
 
             util.WriteFile(rtbSourceCode.Lines);

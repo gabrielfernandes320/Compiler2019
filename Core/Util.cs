@@ -15,21 +15,18 @@ namespace CompilerCore.Utils
     {
         List<String> reservedWords = new List<string>();
 
-
         public void WriteFile(String[] textToSwrite)
         {
-
-            string path = @"C:\temp\test.txt";
+            string path = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/test.txt";
 
             File.Delete(path);
             using (StreamWriter sw = File.CreateText(path))
+            {
+                foreach (var line in textToSwrite)
                 {
-                    foreach (var line in textToSwrite)
-                    {
-                        sw.WriteLine(line);
-                    }
+                    sw.WriteLine(line);
                 }
-           
+            }
         }
 
         public string ReadFile(String pathToRead)
