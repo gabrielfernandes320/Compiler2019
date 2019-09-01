@@ -33,11 +33,25 @@ namespace Core.LexicalAnalysis
             {
                 Queue procedureQueue = new Queue();
 
-                // Digits
+                /*
+                 * Atenção!
+                 * Quando um procedimento encontrar um token, é responsabilidade dele avançar o caracter a ser analizado
+                 */
+
+                // Procedure Digits
                 procedureQueue.Enqueue(ExtractDigitsProcedure(charsToAnalyze));
 
-                // Operators
+                // Procedure Operators
                 procedureQueue.Enqueue(ExtractOperatorsProcedure(charsToAnalyze));
+
+                // Procedure Alphanumeric (Extract literal or reserved words)
+                procedureQueue.Enqueue(ExtractAlphanumericProcedure(charsToAnalyze));
+
+                // Procedure Literals
+                procedureQueue.Enqueue(ExtractLiteralProcedure(charsToAnalyze));
+
+                // Procedure Special Symbols
+                procedureQueue.Enqueue(ExtractSpecialSymbolProcedure(charsToAnalyze));
 
                 // Iterate over each item in the queue to create the stack
                 bool hasAnyValidToken = false;
@@ -116,6 +130,21 @@ namespace Core.LexicalAnalysis
                 };
             }
 
+            return null;
+        }
+
+        private Token ExtractAlphanumericProcedure(Stack<char> charsToAnalyze)
+        {
+            return null;
+        }
+
+        private Token ExtractLiteralProcedure(Stack<char> charsToAnalyze)
+        {
+            return null;
+        }
+
+        private Token ExtractSpecialSymbolProcedure(Stack<char> charsToAnalyze)
+        {
             return null;
         }
 

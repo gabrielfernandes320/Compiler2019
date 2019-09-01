@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Core.Enum
+﻿namespace Core.Enum
 {
-
     public enum SpecialSymbolEnum
     {
        
