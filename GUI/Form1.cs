@@ -1,17 +1,15 @@
 ﻿using System.Windows.Forms;
-using CompilerCore.Utils;
-using Core.Enum;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using Core;
 using System;
+using Core.Utils;
+using Core.LexicalAnalysis;
 
 namespace GUI
 {
     public partial class Form1 : Form
     {
-        Util util = new Util();
+        FileHandler fileHandler = new FileHandler();
  
         public Form1()
         {
@@ -23,19 +21,22 @@ namespace GUI
             string pathToRead = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/test.txt";
             List<Token> tokenList = new List<Token>();
 
-            util.WriteFile(rtbSourceCode.Lines);
-            //rtbSourceCode.Clear();
+            fileHandler.WriteFile(rtbSourceCode.Lines);
+            // rtbSourceCode.Clear();
 
-            string letters = File.ReadAllText(pathToRead);
+            // Get text to lexical analysis
+            string textToAnalyze = fileHandler.GetText();
 
-            tokenList = util.LexicalAnalysis(letters);
+            // Initialize lexical analyzer
+            LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(textToAnalyze);
 
+            // Generate tokens list
+            tokenList = lexicalAnalyzer.ExtractTokens();
+
+            // Set extracted token to form
             dgTokens.DataSource = tokenList;
 
-
             // tbSourceCode.Text = SpecialCharacters.Plus.GetStringValue();
-
-
         }
     }
 }
