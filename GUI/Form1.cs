@@ -19,7 +19,7 @@ namespace GUI
         private void BtnAccept_Click(object sender, System.EventArgs e)
         {
             string pathToRead = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/test.txt";
-            List<Token> tokenList = new List<Token>();
+            IList<Token> tokenList = new List<Token>();
 
             fileHandler.WriteFile(rtbSourceCode.Lines);
             // rtbSourceCode.Clear();
@@ -35,6 +35,12 @@ namespace GUI
 
             // Set extracted token to form
             dgTokens.DataSource = tokenList;
+            
+            // Debug
+            /*foreach (Token token in tokenList)
+            {
+                Console.WriteLine(token.Code);
+            }*/
 
             // tbSourceCode.Text = SpecialCharacters.Plus.GetStringValue();
         }

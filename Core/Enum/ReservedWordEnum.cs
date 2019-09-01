@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Core.Enum
+﻿namespace Core.Enum
 {
-
-       public enum ReservedWordsEnum
-        {
+       public enum ReservedWordEnum
+       {
             Program = 1,
             Label = 2,
             Cons = 3,
@@ -28,16 +23,9 @@ namespace Core.Enum
             Until = 19,
             Readln = 20,
             Writeln =21 ,
-            Identificador = 25,
-            Inteiro = 26,
             For = 27,
             To = 28,
-            Case = 29,
-            Literal = 48
-        }
-
-      
-
-
+            Case = 29
+       }
     }
 

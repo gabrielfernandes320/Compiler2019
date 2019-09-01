@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Core
 {
     public class Token
     {
-        public int Code { get; set; }
+        public System.Enum Type { get; set; }
+
+        public int Code {
+            get
+            {
+                return (int)Convert.ChangeType(Type, Type.GetTypeCode());
+            }
+        }
 
         public string Value { get; set; }
-
-        public Token(int code, string value)
-        {
-            Code = code;
-            Value = value;
-        }
-
-        public Token()
-        {
-        }
     }
 }

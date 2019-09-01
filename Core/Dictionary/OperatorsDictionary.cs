@@ -7,20 +7,20 @@ namespace Core.Dictionary
 {
     class OperatorsDictionary
     {
-        public Dictionary<string, OperatorsEnum> Operators = new Dictionary<string, OperatorsEnum>
+        public IDictionary<string, OperatorEnum> operators = new Dictionary<string, OperatorEnum>
         {
-             { "And", OperatorsEnum.And },
-             { "Not", OperatorsEnum.Not },
-             { "Or", OperatorsEnum.Or },
-             { "+", OperatorsEnum.Plus  },
-             { "-", OperatorsEnum.Minus },
-             { "*", OperatorsEnum.Mult },
-             { "/", OperatorsEnum.Div },
-             { ">", OperatorsEnum.GreaterThan },
-             { "<", OperatorsEnum.LessThan },
-             { ">=", OperatorsEnum.GreaterOrEqual },
-             { "<=", OperatorsEnum.LessOrEqual },
-             { "<>", OperatorsEnum.NotEqual },
+             { "And", OperatorEnum.And },
+             { "Not", OperatorEnum.Not },
+             { "Or", OperatorEnum.Or },
+             { "+", OperatorEnum.Plus  },
+             { "-", OperatorEnum.Minus },
+             { "*", OperatorEnum.Mult },
+             { "/", OperatorEnum.Div },
+             { ">", OperatorEnum.GreaterThan },
+             { "<", OperatorEnum.LessThan },
+             { ">=", OperatorEnum.GreaterOrEqual },
+             { "<=", OperatorEnum.LessOrEqual },
+             { "<>", OperatorEnum.NotEqual },
         };
     }
 }

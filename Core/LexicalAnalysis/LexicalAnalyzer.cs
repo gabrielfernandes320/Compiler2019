@@ -14,9 +14,9 @@ namespace Core.LexicalAnalysis
             this.textToAnalyze = textToAnalyze;
         }
 
-        public List<Token> ExtractTokens()
+        public IList<Token> ExtractTokens()
         {
-            List<Token> tokenList = new List<Token>();
+            IList<Token> tokenList = new List<Token>();
 
             string strToConcate = "";
 
@@ -34,18 +34,15 @@ namespace Core.LexicalAnalysis
             }
             // Int checking OK
 
-            OperatorsDictionary od = new OperatorsDictionary();
-            OperatorsEnum oe;
+            OperatorsDictionary operatorsDictionaty = new OperatorsDictionary();
 
             while (revLetterStk.Count() != 0)
             {
                 char actualChar = GetNextChar(revLetterStk);
 
-
-                //Numbers Finite automaton
+                ///////// Numbers Finite automaton
                 if (char.IsDigit(actualChar))
                 {
-                    Token token = new Token();
                     strToConcate = actualChar.ToString();
                     while (char.IsDigit(actualChar))
                     {
@@ -58,28 +55,35 @@ namespace Core.LexicalAnalysis
                         {
                             actualChar = GetNextChar(revLetterStk);
                         }
-
                     }
 
-                    token.Code = (int)ReservedWordsEnum.Inteiro;
-                    token.Value = strToConcate;
-                    tokenList.Add(token);
-                    strToConcate = "";
-                }
-                //Numbers Finite automaton
+                    Token token = new Token
+                    {
+                        Type = NumberEnum.Integer,
+                        Value = strToConcate
+                    };
 
-                //Operators Finite automaton
-                if (od.Operators.ContainsKey(actualChar.ToString()))
+                    tokenList.Add(token);
+                }
+                ////////// Numbers Finite automaton
+
+                ////////// Operators Finite automation
+                if (operatorsDictionaty.operators.ContainsKey(actualChar.ToString()))
                 {
-                    Token token = new Token();
                     strToConcate = actualChar.ToString();
-                    od.Operators.TryGetValue(actualChar.ToString(), out oe);
-                    token.Code = (int)oe;
-                    token.Value = strToConcate;
-                    tokenList.Add(token);
-                    strToConcate = "";
-                }
 
+                    OperatorEnum operatorEnum;
+                    operatorsDictionaty.operators.TryGetValue(actualChar.ToString(), out operatorEnum);
+
+                    Token token = new Token
+                    {
+                        Type = operatorEnum,
+                        Value = strToConcate
+                    };
+                    
+                    tokenList.Add(token);
+                }
+                ////////// Operators Finite automation
             }
             return tokenList;
 

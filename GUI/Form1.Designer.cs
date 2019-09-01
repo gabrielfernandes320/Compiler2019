@@ -35,6 +35,8 @@
             this.tokenBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.bsTokens = new System.Windows.Forms.BindingSource(this.components);
             this.tokenBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.Código = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Valor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tokenBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).BeginInit();
@@ -53,9 +55,17 @@
             // 
             // dgTokens
             // 
+            this.dgTokens.AllowUserToAddRows = false;
+            this.dgTokens.AllowUserToDeleteRows = false;
+            this.dgTokens.AutoGenerateColumns = false;
             this.dgTokens.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgTokens.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Código,
+            this.Valor});
+            this.dgTokens.DataSource = this.bsTokens;
             this.dgTokens.Location = new System.Drawing.Point(633, 65);
             this.dgTokens.Name = "dgTokens";
+            this.dgTokens.ReadOnly = true;
             this.dgTokens.Size = new System.Drawing.Size(256, 553);
             this.dgTokens.TabIndex = 2;
             // 
@@ -78,6 +88,20 @@
             // tokenBindingSource
             // 
             this.tokenBindingSource.DataSource = typeof(Core.Token);
+            // 
+            // Código
+            // 
+            this.Código.DataPropertyName = "Code";
+            this.Código.HeaderText = "Código";
+            this.Código.Name = "Código";
+            this.Código.ReadOnly = true;
+            // 
+            // Valor
+            // 
+            this.Valor.DataPropertyName = "Value";
+            this.Valor.HeaderText = "Valor";
+            this.Valor.Name = "Valor";
+            this.Valor.ReadOnly = true;
             // 
             // Form1
             // 
@@ -104,6 +128,8 @@
         private System.Windows.Forms.BindingSource tokenBindingSource;
         private System.Windows.Forms.BindingSource bsTokens;
         private System.Windows.Forms.BindingSource tokenBindingSource1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Código;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Valor;
     }
 }
 
