@@ -1,5 +1,8 @@
 ﻿using Core.Dictionary;
 using Core.Enum;
+using Core.Exceptions;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,86 +10,113 @@ namespace Core.LexicalAnalysis
 {
     public class LexicalAnalyzer
     {
+        // Text to be analyzed
         private string textToAnalyze;
+
+        // Control the position in the analyze
+        char currentChar;
 
         public LexicalAnalyzer(string textToAnalyze)
         {
             this.textToAnalyze = textToAnalyze;
         }
 
-        public IList<Token> ExtractTokens()
+        public Stack<Token> ExtractTokens()
         {
-            IList<Token> tokenList = new List<Token>();
+            Stack<Token> tokenStack = new Stack<Token>();
 
-            string strToConcate = "";
+            Stack<char> charsToAnalyze = new Stack<char>(textToAnalyze.ToCharArray().Reverse());
 
-            Stack<char> letterStk = new Stack<char>();
-            Stack<char> revLetterStk = new Stack<char>();
+            this.currentChar = GetNextChar(charsToAnalyze);
 
-            foreach (char ch in textToAnalyze)
+            while (charsToAnalyze.Count != 0)
             {
-                letterStk.Push(ch);
-            }
+                Queue procedureQueue = new Queue();
 
-            while (letterStk.Count != 0)
-            {
-                revLetterStk.Push(letterStk.Pop());
-            }
-            // Int checking OK
+                // Digits
+                procedureQueue.Enqueue(ExtractDigitsProcedure(charsToAnalyze));
 
-            OperatorsDictionary operatorsDictionaty = new OperatorsDictionary();
+                // Operators
+                procedureQueue.Enqueue(ExtractOperatorsProcedure(charsToAnalyze));
 
-            while (revLetterStk.Count() != 0)
-            {
-                char actualChar = GetNextChar(revLetterStk);
-
-                ///////// Numbers Finite automaton
-                if (char.IsDigit(actualChar))
+                // Iterate over each item in the queue to create the stack
+                bool hasAnyValidToken = false;
+                foreach (Token procedure in procedureQueue)
                 {
-                    strToConcate = actualChar.ToString();
-                    while (char.IsDigit(actualChar))
+                    if (procedure != null)
                     {
-                        actualChar = GetNextChar(revLetterStk);
-                        if (char.IsDigit(actualChar))
-                        {
-                            strToConcate = string.Concat(strToConcate, actualChar.ToString());
-                        }
-                        else
-                        {
-                            actualChar = GetNextChar(revLetterStk);
-                        }
+                        hasAnyValidToken = true;
+
+                        tokenStack.Push(procedure);
+                    }
+                }
+                
+                // If all procedure do not returns a valid toke
+                if (!hasAnyValidToken)
+                {
+                    // Validate if current char is invalid
+                    if (!char.IsWhiteSpace(this.currentChar) && !this.currentChar.Equals("\r") && !this.currentChar.Equals("\n"))
+                    {
+                        // TODO: Ativar essa validação quando todas as procedures estiverem terminadas
+                        // throw new LexicalException("O caracter " + this.currentChar + " não é permitido");
                     }
 
-                    Token token = new Token
-                    {
-                        Type = NumberEnum.Integer,
-                        Value = strToConcate
-                    };
-
-                    tokenList.Add(token);
+                    this.currentChar = GetNextChar(charsToAnalyze);
                 }
-                ////////// Numbers Finite automaton
-
-                ////////// Operators Finite automation
-                if (operatorsDictionaty.operators.ContainsKey(actualChar.ToString()))
-                {
-                    strToConcate = actualChar.ToString();
-
-                    OperatorEnum operatorEnum;
-                    operatorsDictionaty.operators.TryGetValue(actualChar.ToString(), out operatorEnum);
-
-                    Token token = new Token
-                    {
-                        Type = operatorEnum,
-                        Value = strToConcate
-                    };
-                    
-                    tokenList.Add(token);
-                }
-                ////////// Operators Finite automation
             }
-            return tokenList;
 
+            return tokenStack;
+        }
+
+        private Token ExtractDigitsProcedure(Stack<char> charsToAnalyze)
+        {
+            // TODO: Criar uma lógica que reconheça o sinal negativo antes de um número
+            if (char.IsDigit(this.currentChar))
+            {
+                string strToConcate = "";
+
+                while (char.IsDigit(this.currentChar))
+                {
+                    strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
+
+                    this.currentChar = GetNextChar(charsToAnalyze);
+                }
+
+                // TODO: Validar se o número extraído está dentro do intervalo –32767 a 32767
+                //throw new LexicalException("O número " + strToConcate + " está fora do intervalo permitido –32767 a 32767");
+
+                return new Token
+                {
+                    Type = NumberEnum.Integer,
+                    Value = strToConcate
+                };
+            }
+
+            return null;
+        }
+
+        private Token ExtractOperatorsProcedure(Stack<char> charsToAnalyze)
+        {
+            OperatorsDictionary operatorsDictionaty = new OperatorsDictionary();
+
+            // TODO: Criar uma lógica para distinguir os operadores de um caracter, dos operadores com mais de uma caracter
+            if (operatorsDictionaty.operators.ContainsKey(this.currentChar.ToString()))
+            {
+                string strToConcate = this.currentChar.ToString();
+
+                OperatorEnum operatorEnum;
+                operatorsDictionaty.operators.TryGetValue(this.currentChar.ToString(), out operatorEnum);
+
+                this.currentChar = GetNextChar(charsToAnalyze);
+
+                return  new Token
+                {
+                    Type = operatorEnum,
+                    Value = strToConcate
+                };
+            }
+
+            return null;
         }
 
         private char GetNextChar(Stack<char> stk)
