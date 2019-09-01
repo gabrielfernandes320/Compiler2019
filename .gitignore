@@ -33,8 +33,8 @@ project.lock.json
 # Visual Studio Code
 .vscode/
 
-Core/obj/Debug
-Core/bin/Debug
+Core/obj
+Core/bin
 
-GUI/obj/Debug
-GUI/bin/Debug
+GUI/obj
+GUI/bin
