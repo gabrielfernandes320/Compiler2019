@@ -102,6 +102,14 @@ namespace Core.LexicalAnalysis
                     strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
 
                     this.currentChar = GetNextChar(charsToAnalyze);
+
+                    // Validade if number contains decimal separator
+                    nextChar = PreviewNextChar(charsToAnalyze);
+
+                    if (char.IsDigit(nextChar) && this.currentChar.Equals('.'))
+                    {
+                        throw new LexicalException("(" + strToConcate + this.currentChar + nextChar + "...): Números não podem conter ponto flutuante");
+                    }
                 }
 
                 // Validate if extracted number is the range –32767, 32767
