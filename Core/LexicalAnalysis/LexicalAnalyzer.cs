@@ -69,7 +69,7 @@ namespace Core.LexicalAnalysis
                 if (!hasAnyValidToken)
                 {
                     // Validate if current char is invalid
-                    if (!char.IsWhiteSpace(this.currentChar) && !this.currentChar.Equals("\r") && !this.currentChar.Equals("\n"))
+                    if (!char.IsWhiteSpace(this.currentChar) && !this.currentChar.Equals('\r') && !this.currentChar.Equals('\n'))
                     {
                         // TODO: Ativar essa validação quando todas as procedures estiverem terminadas
                         // throw new LexicalException("O caracter " + this.currentChar + " não é permitido");
@@ -84,11 +84,19 @@ namespace Core.LexicalAnalysis
 
         private Token ExtractDigitsProcedure(Stack<char> charsToAnalyze)
         {
-            // TODO: Criar uma lógica que reconheça o sinal negativo antes de um número
+            string strToConcate = "";
+            char nextChar = PreviewNextChar(charsToAnalyze);
+
+            // Negative number signal
+            if (this.currentChar.Equals('-') && char.IsDigit(nextChar))
+            {
+                strToConcate = this.currentChar.ToString();
+
+                this.currentChar = GetNextChar(charsToAnalyze);
+            }
+
             if (char.IsDigit(this.currentChar))
             {
-                string strToConcate = "";
-
                 while (char.IsDigit(this.currentChar))
                 {
                     strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
@@ -96,8 +104,12 @@ namespace Core.LexicalAnalysis
                     this.currentChar = GetNextChar(charsToAnalyze);
                 }
 
-                // TODO: Validar se o número extraído está dentro do intervalo –32767 a 32767
-                //throw new LexicalException("O número " + strToConcate + " está fora do intervalo permitido –32767 a 32767");
+                // Validate if extracted number is the range –32767, 32767
+                int parsedNumber = int.Parse(strToConcate);
+                if (parsedNumber.CompareTo(-32767) == -1 || parsedNumber.CompareTo(32767) == 1)
+                {
+                    throw new LexicalException("O número " + strToConcate + " está fora do intervalo permitido -32767 a 32767");
+                }
 
                 return new Token
                 {
@@ -156,6 +168,11 @@ namespace Core.LexicalAnalysis
             }
 
             return stk.Pop();
+        }
+
+        private char PreviewNextChar(Stack<char> stk, int position = 0)
+        {
+            return stk.ElementAtOrDefault(position);
         }
     }
 }
