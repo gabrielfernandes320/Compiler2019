@@ -41,10 +41,10 @@ namespace Core.LexicalAnalysis
                 // Procedure Digits
                 procedureQueue.Enqueue(ExtractDigitsProcedure(charsToAnalyze));
 
-                // Procedure Operators
-                procedureQueue.Enqueue(ExtractOperatorsProcedure(charsToAnalyze));
+                // Procedure Operators (Signals: +, >, >=...)
+                procedureQueue.Enqueue(ExtractSignalOperatorsProcedure(charsToAnalyze));
 
-                // Procedure Alphanumeric (Extract literal or reserved words)
+                // Procedure Alphanumeric (Extract literal, reserved words and alphanumeric operators)
                 procedureQueue.Enqueue(ExtractAlphanumericProcedure(charsToAnalyze));
 
                 // Procedure Literals
@@ -121,24 +121,52 @@ namespace Core.LexicalAnalysis
             return null;
         }
 
-        private Token ExtractOperatorsProcedure(Stack<char> charsToAnalyze)
+        private Token ExtractSignalOperatorsProcedure(Stack<char> charsToAnalyze)
+        {
+            if (!char.IsLetterOrDigit(this.currentChar))
+            {
+                char nextChar = PreviewNextChar(charsToAnalyze);
+
+                // Check for operators with two chars
+                string composedOperator = this.currentChar.ToString() + nextChar.ToString();
+                Token extractedOperator = ExtractOperator(charsToAnalyze, composedOperator);
+
+                if (extractedOperator != null)
+                {
+                    // Foward two chars since was analyze the current and the next positions
+                    this.currentChar = GetNextChar(charsToAnalyze);
+                    this.currentChar = GetNextChar(charsToAnalyze);
+
+                    return extractedOperator;
+                }
+
+                // Check for operators with one char
+                extractedOperator = ExtractOperator(charsToAnalyze, this.currentChar.ToString());
+
+                if (extractedOperator != null)
+                {
+                    this.currentChar = GetNextChar(charsToAnalyze);
+
+                    return extractedOperator;
+                }
+            }
+
+            return null;
+        }
+
+        private Token ExtractOperator(Stack<char> charsToAnalyze, string expectedOperator)
         {
             OperatorsDictionary operatorsDictionaty = new OperatorsDictionary();
 
-            // TODO: Criar uma lógica para distinguir os operadores de um caracter, dos operadores com mais de uma caracter
-            if (operatorsDictionaty.operators.ContainsKey(this.currentChar.ToString()))
+            if (operatorsDictionaty.operators.ContainsKey(expectedOperator))
             {
-                string strToConcate = this.currentChar.ToString();
-
                 OperatorEnum operatorEnum;
-                operatorsDictionaty.operators.TryGetValue(this.currentChar.ToString(), out operatorEnum);
+                operatorsDictionaty.operators.TryGetValue(expectedOperator, out operatorEnum);
 
-                this.currentChar = GetNextChar(charsToAnalyze);
-
-                return  new Token
+                return new Token
                 {
                     Type = operatorEnum,
-                    Value = strToConcate
+                    Value = expectedOperator
                 };
             }
 
@@ -147,6 +175,11 @@ namespace Core.LexicalAnalysis
 
         private Token ExtractAlphanumericProcedure(Stack<char> charsToAnalyze)
         {
+            // TODO: Ao extrair a palavra, verificar se a mesma é:
+            // alphanumeric operators
+            // reserved words
+            // extract literal
+
             return null;
         }
 
