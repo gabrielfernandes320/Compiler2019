@@ -44,7 +44,7 @@ namespace Core.LexicalAnalysis
                 // Procedure Operators (Signals: +, >, >=...)
                 procedureQueue.Enqueue(ExtractSignalOperatorsProcedure(charsToAnalyze));
 
-                // Procedure Alphanumeric (Extract literal, reserved words and alphanumeric operators)
+                // Procedure Alphanumeric (Extract identifier, reserved words and alphanumeric operators)
                 procedureQueue.Enqueue(ExtractAlphanumericProcedure(charsToAnalyze));
 
                 // Procedure Literals
@@ -189,10 +189,15 @@ namespace Core.LexicalAnalysis
                 }
 
 
-                // Otherwise is Literal
+                // Otherwise is Identifier
+                if (strToConcate.Count() > 30)
+                {
+                    throw new LexicalException("O identificador " + strToConcate + " possui mais que os 30 caracteres limite");
+                }
+
                 return new Token
                 {
-                    Type = LiteralEnum.Alphanumeric,
+                    Type = IdentifierEnum.Identifier,
                     Value = strToConcate
                 };
             }
@@ -202,6 +207,35 @@ namespace Core.LexicalAnalysis
 
         private Token ExtractLiteralProcedure(Stack<char> charsToAnalyze)
         {
+            if (this.currentChar.Equals('\''))
+            {
+                string strToConcate = "'";
+
+                this.currentChar = GetNextChar(charsToAnalyze);
+
+                while (!this.currentChar.Equals('\''))
+                {
+                    strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
+
+                    this.currentChar = GetNextChar(charsToAnalyze);
+                }
+
+                strToConcate = string.Concat(strToConcate, "'");
+
+                this.currentChar = GetNextChar(charsToAnalyze);
+
+                if (strToConcate.Count() > 257) // 257 -> 255 + limitators
+                {
+                    throw new LexicalException("O literal " + strToConcate + " possui mais que os 255 caracteres limite");
+                }
+
+                return new Token
+                {
+                    Type = LiteralEnum.Literal,
+                    Value = strToConcate
+                };
+            }
+
             return null;
         }
 
