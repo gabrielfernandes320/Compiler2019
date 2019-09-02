@@ -20,7 +20,7 @@ namespace Core.Dictionary
              { ",", SpecialSymbolEnum.Coma },
              { ";", SpecialSymbolEnum.SemiColon },
              { ".", SpecialSymbolEnum.Point },
-             { ":", SpecialSymbolEnum.DoublePoints },
+             { "..", SpecialSymbolEnum.DoublePoints },
              { "$", SpecialSymbolEnum.DollarSign },
         };
     }

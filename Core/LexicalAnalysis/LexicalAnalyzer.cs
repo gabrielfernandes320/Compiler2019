@@ -38,6 +38,12 @@ namespace Core.LexicalAnalysis
                  * Quando um procedimento encontrar um token, é responsabilidade dele avançar o caracter a ser analizado
                  */
 
+                // Procedure Comments
+                ClearCommentProcedure(charsToAnalyze);
+
+                // Procedure Literals
+                procedureQueue.Enqueue(ExtractLiteralProcedure(charsToAnalyze));
+
                 // Procedure Digits
                 procedureQueue.Enqueue(ExtractDigitsProcedure(charsToAnalyze));
 
@@ -46,9 +52,6 @@ namespace Core.LexicalAnalysis
 
                 // Procedure Alphanumeric (Extract identifier, reserved words and alphanumeric operators)
                 procedureQueue.Enqueue(ExtractAlphanumericProcedure(charsToAnalyze));
-
-                // Procedure Literals
-                procedureQueue.Enqueue(ExtractLiteralProcedure(charsToAnalyze));
 
                 // Procedure Special Symbols
                 procedureQueue.Enqueue(ExtractSpecialSymbolProcedure(charsToAnalyze));
@@ -80,6 +83,30 @@ namespace Core.LexicalAnalysis
             }
 
             return tokenStack;
+        }
+
+        private void ClearCommentProcedure(Stack<char> charsToAnalyze)
+        {
+            char nextChar = PreviewNextChar(charsToAnalyze);
+
+            if (this.currentChar.Equals('(') && nextChar.Equals('*'))
+            {
+                string strToConcate = "(";
+
+                this.currentChar = GetNextChar(charsToAnalyze);
+
+                while (!(this.currentChar.Equals('*') && PreviewNextChar(charsToAnalyze).Equals(')')))
+                {
+                    strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
+
+                    this.currentChar = GetNextChar(charsToAnalyze);
+                }
+
+                strToConcate = string.Concat(strToConcate, "*)");
+
+                this.currentChar = GetNextChar(charsToAnalyze);
+                this.currentChar = GetNextChar(charsToAnalyze);
+            }
         }
 
         private Token ExtractDigitsProcedure(Stack<char> charsToAnalyze)
@@ -249,6 +276,44 @@ namespace Core.LexicalAnalysis
 
         private Token ExtractSpecialSymbolProcedure(Stack<char> charsToAnalyze)
         {
+            // To avoid conflict with open comment symbol "(*", call method to clear comment
+            ClearCommentProcedure(charsToAnalyze);
+
+            // Ignore white space
+            if (!char.IsWhiteSpace(this.currentChar))
+            {
+                char nextChar = PreviewNextChar(charsToAnalyze);
+
+                Token extractedSymbol;
+
+                // Ignore white space
+                if (!char.IsWhiteSpace(nextChar))
+                {
+                    // Check for symbols with two chars
+                    string composedSymbol = this.currentChar.ToString() + nextChar.ToString();
+                    extractedSymbol = GetSpecialSymbolToken(composedSymbol);
+
+                    if (extractedSymbol != null)
+                    {
+                        // Foward two chars since was analyze the current and the next positions
+                        this.currentChar = GetNextChar(charsToAnalyze);
+                        this.currentChar = GetNextChar(charsToAnalyze);
+
+                        return extractedSymbol;
+                    }
+                }
+
+                // Check for symbols with one char
+                extractedSymbol = GetSpecialSymbolToken(this.currentChar.ToString());
+
+                if (extractedSymbol != null)
+                {
+                    this.currentChar = GetNextChar(charsToAnalyze);
+
+                    return extractedSymbol;
+                }
+            }
+
             return null;
         }
 
@@ -281,6 +346,25 @@ namespace Core.LexicalAnalysis
                 {
                     Type = (ReservedWordEnum)System.Enum.Parse(typeof(ReservedWordEnum), expectedOperator, true),
                     Value = expectedOperator
+                };
+            }
+
+            return null;
+        }
+
+        private Token GetSpecialSymbolToken(string expectedSymbol)
+        {
+            SpecialSymbolsDictionary symbolsDictionaty = new SpecialSymbolsDictionary();
+
+            if (symbolsDictionaty.symbols.ContainsKey(expectedSymbol.ToLower()))
+            {
+                SpecialSymbolEnum symbolEnum;
+                symbolsDictionaty.symbols.TryGetValue(expectedSymbol.ToLower(), out symbolEnum);
+
+                return new Token
+                {
+                    Type = symbolEnum,
+                    Value = expectedSymbol
                 };
             }
 
