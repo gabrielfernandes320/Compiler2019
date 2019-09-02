@@ -16,6 +16,14 @@ namespace Core.LexicalAnalysis
         // Control the position in the analyze
         char currentChar;
 
+        // Constants
+        private const char NEW_LINE = '\n';
+        private const char APOSTROPHE = '\'';
+        private const char PARENTHESES_INI = '(';
+        private const char PARENTHESES_END = ')';
+        private const char ASTERISK = '*';
+        private const char MINUS = '-';
+
         public LexicalAnalyzer(string textToAnalyze)
         {
             this.textToAnalyze = textToAnalyze;
@@ -27,7 +35,7 @@ namespace Core.LexicalAnalysis
 
             Stack<char> charsToAnalyze = new Stack<char>(textToAnalyze.ToCharArray().Reverse());
 
-            this.currentChar = GetNextChar(charsToAnalyze);
+            currentChar = GetNextChar(charsToAnalyze);
 
             while (charsToAnalyze.Count != 0)
             {
@@ -35,7 +43,7 @@ namespace Core.LexicalAnalysis
 
                 /*
                  * Atenção!
-                 * Quando um procedimento encontrar um token, é responsabilidade dele avançar o caracter a ser analizado
+                 * Quando um procedimento encontrar um token, é responsabilidade dele avançar para o próximo caracter a ser analizado
                  */
 
                 // Procedure Comments
@@ -71,14 +79,9 @@ namespace Core.LexicalAnalysis
                 // If all procedure do not returns a valid toke
                 if (!hasAnyValidToken)
                 {
-                    // Validate if current char is invalid
-                    if (!char.IsWhiteSpace(this.currentChar) && !this.currentChar.Equals('\r') && !this.currentChar.Equals('\n'))
-                    {
-                        // TODO: Ativar essa validação quando todas as procedures estiverem terminadas
-                        // throw new LexicalException("O caracter " + this.currentChar + " não é permitido");
-                    }
+                    // TODO: Talvez implementar aqui validator para caracteres inválidos
 
-                    this.currentChar = GetNextChar(charsToAnalyze);
+                    currentChar = GetNextChar(charsToAnalyze);
                 }
             }
 
@@ -89,23 +92,17 @@ namespace Core.LexicalAnalysis
         {
             char nextChar = PreviewNextChar(charsToAnalyze);
 
-            if (this.currentChar.Equals('(') && nextChar.Equals('*'))
+            if (currentChar.Equals(PARENTHESES_INI) && nextChar.Equals(ASTERISK))
             {
-                string strToConcate = "(";
+                currentChar = GetNextChar(charsToAnalyze);
 
-                this.currentChar = GetNextChar(charsToAnalyze);
-
-                while (!(this.currentChar.Equals('*') && PreviewNextChar(charsToAnalyze).Equals(')')))
+                while (!(currentChar.Equals(ASTERISK) && PreviewNextChar(charsToAnalyze).Equals(PARENTHESES_END)))
                 {
-                    strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
-
-                    this.currentChar = GetNextChar(charsToAnalyze);
+                    currentChar = GetNextChar(charsToAnalyze);
                 }
 
-                strToConcate = string.Concat(strToConcate, "*)");
-
-                this.currentChar = GetNextChar(charsToAnalyze);
-                this.currentChar = GetNextChar(charsToAnalyze);
+                currentChar = GetNextChar(charsToAnalyze);
+                currentChar = GetNextChar(charsToAnalyze);
             }
         }
 
@@ -115,27 +112,27 @@ namespace Core.LexicalAnalysis
             char nextChar = PreviewNextChar(charsToAnalyze);
 
             // Negative number signal
-            if (this.currentChar.Equals('-') && char.IsDigit(nextChar))
+            if (currentChar.Equals(MINUS) && char.IsDigit(nextChar))
             {
-                strToConcate = this.currentChar.ToString();
+                strToConcate = currentChar.ToString();
 
-                this.currentChar = GetNextChar(charsToAnalyze);
+                currentChar = GetNextChar(charsToAnalyze);
             }
 
-            if (char.IsDigit(this.currentChar))
+            if (char.IsDigit(currentChar))
             {
-                while (char.IsDigit(this.currentChar))
+                while (char.IsDigit(currentChar))
                 {
-                    strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
+                    strToConcate = string.Concat(strToConcate, currentChar.ToString());
 
-                    this.currentChar = GetNextChar(charsToAnalyze);
+                    currentChar = GetNextChar(charsToAnalyze);
 
                     // Validade if number contains decimal separator
                     nextChar = PreviewNextChar(charsToAnalyze);
 
-                    if (char.IsDigit(nextChar) && this.currentChar.Equals('.'))
+                    if (char.IsDigit(nextChar) && currentChar.Equals('.'))
                     {
-                        throw new LexicalException("(" + strToConcate + this.currentChar + nextChar + "...): Números não podem conter ponto flutuante");
+                        throw new LexicalException("(" + strToConcate + currentChar + nextChar + "...): Números não podem conter ponto flutuante");
                     }
                 }
 
@@ -159,7 +156,7 @@ namespace Core.LexicalAnalysis
         private Token ExtractSignalOperatorsProcedure(Stack<char> charsToAnalyze)
         {
             // Ignore letters, digits and white space
-            if (!char.IsLetterOrDigit(this.currentChar) && !char.IsWhiteSpace(this.currentChar))
+            if (!char.IsLetterOrDigit(currentChar) && !char.IsWhiteSpace(currentChar))
             {
                 char nextChar = PreviewNextChar(charsToAnalyze);
                 Token extractedOperator;
@@ -168,25 +165,25 @@ namespace Core.LexicalAnalysis
                 if (!char.IsLetterOrDigit(nextChar) && !char.IsWhiteSpace(nextChar))
                 {
                     // Check for operators with two chars
-                    string composedOperator = this.currentChar.ToString() + nextChar.ToString();
+                    string composedOperator = currentChar.ToString() + nextChar.ToString();
                     extractedOperator = GetOperatorToken(composedOperator);
 
                     if (extractedOperator != null)
                     {
                         // Foward two chars since was analyze the current and the next positions
-                        this.currentChar = GetNextChar(charsToAnalyze);
-                        this.currentChar = GetNextChar(charsToAnalyze);
+                        currentChar = GetNextChar(charsToAnalyze);
+                        currentChar = GetNextChar(charsToAnalyze);
 
                         return extractedOperator;
                     }
                 }
 
                 // Check for operators with one char
-                extractedOperator = GetOperatorToken(this.currentChar.ToString());
+                extractedOperator = GetOperatorToken(currentChar.ToString());
 
                 if (extractedOperator != null)
                 {
-                    this.currentChar = GetNextChar(charsToAnalyze);
+                    currentChar = GetNextChar(charsToAnalyze);
 
                     return extractedOperator;
                 }
@@ -197,15 +194,15 @@ namespace Core.LexicalAnalysis
 
         private Token ExtractAlphanumericProcedure(Stack<char> charsToAnalyze)
         {
-            if (char.IsLetter(this.currentChar))
+            if (char.IsLetter(currentChar))
             {
                 string strToConcate = "";
 
-                while (char.IsLetterOrDigit(this.currentChar))
+                while (char.IsLetterOrDigit(currentChar))
                 {
-                    strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
+                    strToConcate = string.Concat(strToConcate, currentChar.ToString());
 
-                    this.currentChar = GetNextChar(charsToAnalyze);
+                    currentChar = GetNextChar(charsToAnalyze);
                 }
 
                 // Verify if extracted string contains in...
@@ -242,22 +239,30 @@ namespace Core.LexicalAnalysis
 
         private Token ExtractLiteralProcedure(Stack<char> charsToAnalyze)
         {
-            if (this.currentChar.Equals('\''))
+            // On found an apostrophe
+            if (currentChar.Equals(APOSTROPHE))
             {
-                string strToConcate = "'";
+                string strToConcate = char.ToString(APOSTROPHE);
 
-                this.currentChar = GetNextChar(charsToAnalyze);
+                currentChar = GetNextChar(charsToAnalyze);
 
-                while (!this.currentChar.Equals('\''))
+                // Continues until found final apostrophe
+                while (!currentChar.Equals(APOSTROPHE))
                 {
-                    strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
+                    // If a newline was found, must throw a exception
+                    if (currentChar.Equals(NEW_LINE))
+                    {
+                        throw new LexicalException("Não é permitido quebra de linha em literais: " + strToConcate);
+                    }
 
-                    this.currentChar = GetNextChar(charsToAnalyze);
+                    strToConcate = string.Concat(strToConcate, currentChar.ToString());
+
+                    currentChar = GetNextChar(charsToAnalyze);
                 }
 
-                strToConcate = string.Concat(strToConcate, "'");
+                strToConcate = string.Concat(strToConcate, char.ToString(APOSTROPHE));
 
-                this.currentChar = GetNextChar(charsToAnalyze);
+                currentChar = GetNextChar(charsToAnalyze);
 
                 if (strToConcate.Count() > 257) // 257 -> 255 + limitators
                 {
@@ -280,7 +285,7 @@ namespace Core.LexicalAnalysis
             ClearCommentProcedure(charsToAnalyze);
 
             // Ignore white space
-            if (!char.IsWhiteSpace(this.currentChar))
+            if (!char.IsWhiteSpace(currentChar))
             {
                 char nextChar = PreviewNextChar(charsToAnalyze);
 
@@ -290,25 +295,25 @@ namespace Core.LexicalAnalysis
                 if (!char.IsWhiteSpace(nextChar))
                 {
                     // Check for symbols with two chars
-                    string composedSymbol = this.currentChar.ToString() + nextChar.ToString();
+                    string composedSymbol = currentChar.ToString() + nextChar.ToString();
                     extractedSymbol = GetSpecialSymbolToken(composedSymbol);
 
                     if (extractedSymbol != null)
                     {
                         // Foward two chars since was analyze the current and the next positions
-                        this.currentChar = GetNextChar(charsToAnalyze);
-                        this.currentChar = GetNextChar(charsToAnalyze);
+                        currentChar = GetNextChar(charsToAnalyze);
+                        currentChar = GetNextChar(charsToAnalyze);
 
                         return extractedSymbol;
                     }
                 }
 
                 // Check for symbols with one char
-                extractedSymbol = GetSpecialSymbolToken(this.currentChar.ToString());
+                extractedSymbol = GetSpecialSymbolToken(currentChar.ToString());
 
                 if (extractedSymbol != null)
                 {
-                    this.currentChar = GetNextChar(charsToAnalyze);
+                    currentChar = GetNextChar(charsToAnalyze);
 
                     return extractedSymbol;
                 }
@@ -338,14 +343,14 @@ namespace Core.LexicalAnalysis
 
         private Token GetReservedWordToken(string expectedOperator)
         {
-            bool exists = System.Enum.IsDefined(typeof(ReservedWordEnum), expectedOperator);
+            bool exists = System.Enum.TryParse<ReservedWordEnum>(expectedOperator, true, out _);
 
             if (exists)
             {
                 return new Token
                 {
                     Type = (ReservedWordEnum)System.Enum.Parse(typeof(ReservedWordEnum), expectedOperator, true),
-                    Value = expectedOperator
+                    Value = expectedOperator.ToUpper()
                 };
             }
 
