@@ -123,25 +123,31 @@ namespace Core.LexicalAnalysis
 
         private Token ExtractSignalOperatorsProcedure(Stack<char> charsToAnalyze)
         {
-            if (!char.IsLetterOrDigit(this.currentChar))
+            // Ignore letters, digits and white space
+            if (!char.IsLetterOrDigit(this.currentChar) && !char.IsWhiteSpace(this.currentChar))
             {
                 char nextChar = PreviewNextChar(charsToAnalyze);
+                Token extractedOperator;
 
-                // Check for operators with two chars
-                string composedOperator = this.currentChar.ToString() + nextChar.ToString();
-                Token extractedOperator = ExtractOperator(charsToAnalyze, composedOperator);
-
-                if (extractedOperator != null)
+                // Ignore letters, digits and white space
+                if (!char.IsLetterOrDigit(nextChar) && !char.IsWhiteSpace(nextChar))
                 {
-                    // Foward two chars since was analyze the current and the next positions
-                    this.currentChar = GetNextChar(charsToAnalyze);
-                    this.currentChar = GetNextChar(charsToAnalyze);
+                    // Check for operators with two chars
+                    string composedOperator = this.currentChar.ToString() + nextChar.ToString();
+                    extractedOperator = GetOperatorToken(composedOperator);
 
-                    return extractedOperator;
+                    if (extractedOperator != null)
+                    {
+                        // Foward two chars since was analyze the current and the next positions
+                        this.currentChar = GetNextChar(charsToAnalyze);
+                        this.currentChar = GetNextChar(charsToAnalyze);
+
+                        return extractedOperator;
+                    }
                 }
 
                 // Check for operators with one char
-                extractedOperator = ExtractOperator(charsToAnalyze, this.currentChar.ToString());
+                extractedOperator = GetOperatorToken(this.currentChar.ToString());
 
                 if (extractedOperator != null)
                 {
@@ -149,25 +155,6 @@ namespace Core.LexicalAnalysis
 
                     return extractedOperator;
                 }
-            }
-
-            return null;
-        }
-
-        private Token ExtractOperator(Stack<char> charsToAnalyze, string expectedOperator)
-        {
-            OperatorsDictionary operatorsDictionaty = new OperatorsDictionary();
-
-            if (operatorsDictionaty.operators.ContainsKey(expectedOperator))
-            {
-                OperatorEnum operatorEnum;
-                operatorsDictionaty.operators.TryGetValue(expectedOperator, out operatorEnum);
-
-                return new Token
-                {
-                    Type = operatorEnum,
-                    Value = expectedOperator
-                };
             }
 
             return null;
@@ -175,10 +162,40 @@ namespace Core.LexicalAnalysis
 
         private Token ExtractAlphanumericProcedure(Stack<char> charsToAnalyze)
         {
-            // TODO: Ao extrair a palavra, verificar se a mesma é:
-            // alphanumeric operators
-            // reserved words
-            // extract literal
+            if (char.IsLetter(this.currentChar))
+            {
+                string strToConcate = "";
+
+                while (char.IsLetterOrDigit(this.currentChar))
+                {
+                    strToConcate = string.Concat(strToConcate, this.currentChar.ToString());
+
+                    this.currentChar = GetNextChar(charsToAnalyze);
+                }
+
+                // Verify if extracted string contains in...
+                // Operators
+                Token extractedOperator = GetOperatorToken(strToConcate);
+                if (extractedOperator != null)
+                {
+                    return extractedOperator;
+                }
+
+                // Reserved Words
+                Token extractedReservedWord = GetReservedWordToken(strToConcate);
+                if (extractedReservedWord != null)
+                {
+                    return extractedReservedWord;
+                }
+
+
+                // Otherwise is Literal
+                return new Token
+                {
+                    Type = LiteralEnum.Alphanumeric,
+                    Value = strToConcate
+                };
+            }
 
             return null;
         }
@@ -190,6 +207,41 @@ namespace Core.LexicalAnalysis
 
         private Token ExtractSpecialSymbolProcedure(Stack<char> charsToAnalyze)
         {
+            return null;
+        }
+
+        private Token GetOperatorToken(string expectedOperator)
+        {
+            OperatorsDictionary operatorsDictionaty = new OperatorsDictionary();
+
+            if (operatorsDictionaty.operators.ContainsKey(expectedOperator.ToLower()))
+            {
+                OperatorEnum operatorEnum;
+                operatorsDictionaty.operators.TryGetValue(expectedOperator.ToLower(), out operatorEnum);
+
+                return new Token
+                {
+                    Type = operatorEnum,
+                    Value = expectedOperator
+                };
+            }
+
+            return null;
+        }
+
+        private Token GetReservedWordToken(string expectedOperator)
+        {
+            bool exists = System.Enum.IsDefined(typeof(ReservedWordEnum), expectedOperator);
+
+            if (exists)
+            {
+                return new Token
+                {
+                    Type = (ReservedWordEnum)System.Enum.Parse(typeof(ReservedWordEnum), expectedOperator, true),
+                    Value = expectedOperator
+                };
+            }
+
             return null;
         }
 

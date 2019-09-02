@@ -2,6 +2,6 @@
 {
     public enum LiteralEnum
     {
-        Character = 48
+        Alphanumeric = 48
     }
 }

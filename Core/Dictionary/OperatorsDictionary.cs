@@ -9,9 +9,9 @@ namespace Core.Dictionary
     {
         public IDictionary<string, OperatorEnum> operators = new Dictionary<string, OperatorEnum>
         {
-             { "And", OperatorEnum.And },
-             { "Not", OperatorEnum.Not },
-             { "Or", OperatorEnum.Or },
+             { "and", OperatorEnum.And },
+             { "not", OperatorEnum.Not },
+             { "or", OperatorEnum.Or },
              { "+", OperatorEnum.Plus  },
              { "-", OperatorEnum.Minus },
              { "*", OperatorEnum.Mult },
