@@ -125,14 +125,21 @@ namespace Core.LexicalAnalysis
                 {
                     strToConcate = string.Concat(strToConcate, currentChar.ToString());
 
-                    currentChar = GetNextChar(charsToAnalyze);
-
-                    // Validade if number contains decimal separator
                     nextChar = PreviewNextChar(charsToAnalyze);
 
+                    // Validade if number can be beginning of an identificator
+                    if (char.IsLetter(nextChar))
+                    {
+                        throw new LexicalException("Identificadores não podem iniciar com números: " + strToConcate + nextChar + "...");
+                    }
+
+                    currentChar = GetNextChar(charsToAnalyze);
+                    nextChar = PreviewNextChar(charsToAnalyze);
+
+                    // Validade if number contains decimal separator
                     if (char.IsDigit(nextChar) && currentChar.Equals('.'))
                     {
-                        throw new LexicalException("(" + strToConcate + currentChar + nextChar + "...): Números não podem conter ponto flutuante");
+                        throw new LexicalException("Números não podem conter ponto flutuante: " + strToConcate + currentChar + nextChar + "...");
                     }
                 }
 
