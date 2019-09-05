@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Core
 {
@@ -14,5 +15,7 @@ namespace Core
         }
 
         public string Value { get; set; }
+
+        public CharWrapper StartChar { get; set; }
     }
 }

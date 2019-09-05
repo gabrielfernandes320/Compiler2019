@@ -20,12 +20,17 @@ namespace GUI
 
         private void BtnAccept_Click(object sender, System.EventArgs e)
         {
+            // Clear tokens list
+            dgTokens.DataSource = null;
+
+            // Save text of editor do file
             string pathToRead = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/test.txt";
             fileHandler.WriteFile(rtbSourceCode.Lines);
-            // rtbSourceCode.Clear();
 
             // Get text to lexical analysis
-            string textToAnalyze = fileHandler.GetText();
+            string[] textToAnalyze = rtbSourceCode.Lines;
+
+            // rtbSourceCode.Clear();
 
             try
             {
