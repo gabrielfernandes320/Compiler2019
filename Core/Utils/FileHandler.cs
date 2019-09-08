@@ -1,13 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace Core.Utils
 {
     public class FileHandler
     {
-        private string path = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/test.txt";
-
-        public void WriteFile(string[] textToSwrite)
+        public void WriteFile(string[] textToSwrite, string path)
         {
             File.Delete(path);
             using (StreamWriter sw = File.CreateText(path))
@@ -19,9 +16,9 @@ namespace Core.Utils
             }
         }
 
-        public string GetText()
+        public string GetText(string path)
         {
-            return File.ReadAllText(this.path);
+            return File.ReadAllText(path);
         }
     }
 }
