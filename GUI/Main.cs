@@ -104,7 +104,7 @@ namespace GUI
                 // Generate tokens list
                 IList<Token> tokensList = new List<Token>(lexicalAnalyzer.ExtractTokens());
 
-                // Set extracted token reordered list to form
+                // Set extracted tokens to grid
                 dgTokens.DataSource = ParseTokensToGrid(tokensList);
             }
             catch (LexicalException error)
@@ -150,6 +150,21 @@ namespace GUI
             toolTip.SetToolTip(this.fileNameLabel, currentFileNamePath);
 
             toolTip.Show(currentFileNamePath, this.fileNameLabel);
+        }
+
+        private void dataGridRowFocusEvent(object sender, DataGridViewCellEventArgs e)
+        {
+            int line = int.Parse(dgTokens.Rows[e.RowIndex].Cells[0].FormattedValue.ToString());
+
+            Line sourceCodeLine = sourceCode.Lines.ElementAtOrDefault(line - 1);
+
+            // Select line in the source code
+            sourceCode.SetSelection(sourceCodeLine.EndPosition, sourceCodeLine.Position);
+        }
+
+        private void dataGridFocusLeaveEvent(object sender, EventArgs e)
+        {
+            dgTokens.ClearSelection();
         }
     }
 }

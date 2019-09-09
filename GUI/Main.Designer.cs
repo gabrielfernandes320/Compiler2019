@@ -139,10 +139,12 @@
             // 
             this.dgTokens.AllowUserToAddRows = false;
             this.dgTokens.AllowUserToDeleteRows = false;
+            this.dgTokens.AllowUserToResizeRows = false;
             this.dgTokens.AutoGenerateColumns = false;
             this.dgTokens.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgTokens.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgTokens.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgTokens.CausesValidation = false;
             this.dgTokens.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgTokens.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgTokens.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -153,13 +155,17 @@
             this.dgTokens.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgTokens.Location = new System.Drawing.Point(678, 31);
             this.dgTokens.Margin = new System.Windows.Forms.Padding(0);
+            this.dgTokens.MultiSelect = false;
             this.dgTokens.Name = "dgTokens";
             this.dgTokens.ReadOnly = true;
             this.dgTokens.RowHeadersVisible = false;
             this.dgTokens.RowTemplate.ReadOnly = true;
             this.dgTokens.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgTokens.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgTokens.Size = new System.Drawing.Size(226, 570);
             this.dgTokens.TabIndex = 2;
+            this.dgTokens.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridRowFocusEvent);
+            this.dgTokens.Leave += new System.EventHandler(this.dataGridFocusLeaveEvent);
             // 
             // Line
             // 
