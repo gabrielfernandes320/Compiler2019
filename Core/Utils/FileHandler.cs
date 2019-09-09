@@ -11,7 +11,7 @@ namespace Core.Utils
             {
                 foreach (var line in textToSwrite)
                 {
-                    sw.WriteLine(line);
+                    sw.Write(line);
                 }
             }
         }

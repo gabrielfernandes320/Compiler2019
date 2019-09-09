@@ -7,6 +7,7 @@ using Core.LexicalAnalysis;
 using System.Linq;
 using Core.Exceptions;
 using GUI.DataGrid;
+using ScintillaNET;
 
 namespace GUI
 {
@@ -25,6 +26,9 @@ namespace GUI
             
             // Set initial filename label
             fileNameLabel.Text = NEW_FILENAME;
+
+            // Set margin to show line numbers
+            sourceCode.Margins[0].Width = 34;
         }
 
         private void NewFileAction(object sender, EventArgs e)
@@ -33,7 +37,9 @@ namespace GUI
             dgTokens.DataSource = null;
 
             // Clear source code
-            rtbSourceCode.Clear();
+            sourceCode.ClearAll();
+
+            currentFileNamePath = NEW_FILENAME;
 
             // Change filename label
             fileNameLabel.Text = NEW_FILENAME;
@@ -45,7 +51,7 @@ namespace GUI
             dgTokens.DataSource = null;
 
             // Clear source code
-            rtbSourceCode.Clear();
+            sourceCode.ClearAll();
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Linguagem Subset Pascal|*.lms";
@@ -60,7 +66,7 @@ namespace GUI
                 fileNameLabel.Text = openFileDialog.SafeFileName;
 
                 // Read content from file
-                rtbSourceCode.Text = fileHandler.GetText(openFileDialog.FileName);
+                sourceCode.Text = fileHandler.GetText(openFileDialog.FileName);
             }
         }
 
@@ -78,7 +84,7 @@ namespace GUI
                 currentFileNamePath = saveFileDialog.FileName;
 
                 // Save text of editor to file
-                fileHandler.WriteFile(rtbSourceCode.Lines, saveFileDialog.FileName);
+                fileHandler.WriteFile(ConvertSourceCodeLinesToArray(sourceCode.Lines), saveFileDialog.FileName);
             }
         }
 
@@ -88,7 +94,7 @@ namespace GUI
             dgTokens.DataSource = null;
 
             // Get text to lexical analysis
-            string[] textToAnalyze = rtbSourceCode.Lines;
+            string[] textToAnalyze = ConvertSourceCodeLinesToArray(sourceCode.Lines);
 
             try
             {
@@ -107,15 +113,22 @@ namespace GUI
             }
         }
 
+        private string[] ConvertSourceCodeLinesToArray(LineCollection sourceCodeLines)
+        {
+            return sourceCodeLines
+                .Select(y => y.Text)
+                .ToArray();
+        }
+
         private IList<DataGridLineItem> ParseTokensToGrid(IList<Token> tokensList)
         {
             return tokensList
                 .Reverse()
-                .Select(e =>new DataGridLineItem
+                .Select(y =>new DataGridLineItem
                 {
-                    Line = e.StartChar.Line.ToString(),
-                    Code = e.Code.ToString(),
-                    Value = e.Value
+                    Line = y.StartChar.Line.ToString(),
+                    Code = y.Code.ToString(),
+                    Value = y.Value
                 })
                 .ToList();
         }
@@ -137,11 +150,6 @@ namespace GUI
             toolTip.SetToolTip(this.fileNameLabel, currentFileNamePath);
 
             toolTip.Show(currentFileNamePath, this.fileNameLabel);
-        }
-
-        private void DgTokens_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }

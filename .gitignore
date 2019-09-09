@@ -32,6 +32,7 @@ project.lock.json
 
 # Visual Studio Code
 .vscode/
+packages/
 
 Core/obj
 Core/bin

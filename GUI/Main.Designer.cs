@@ -39,19 +39,19 @@
             this.menuItem_compile_compile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_help = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_help_about = new System.Windows.Forms.ToolStripMenuItem();
-            this.rtbSourceCode = new System.Windows.Forms.RichTextBox();
             this.dgTokens = new System.Windows.Forms.DataGridView();
-            this.mainTableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.tokenLabel = new System.Windows.Forms.Label();
-            this.fileNameLabel = new System.Windows.Forms.Label();
             this.Line = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bsTokens = new System.Windows.Forms.BindingSource(this.components);
+            this.mainTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.tokenLabel = new System.Windows.Forms.Label();
+            this.fileNameLabel = new System.Windows.Forms.Label();
+            this.sourceCode = new EasyScintilla.SimpleEditor();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).BeginInit();
-            this.mainTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).BeginInit();
+            this.mainTableLayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -135,18 +135,6 @@
             this.menuItem_help_about.Text = "Sobre Compiler 2019";
             this.menuItem_help_about.Click += new System.EventHandler(this.AboutAction);
             // 
-            // rtbSourceCode
-            // 
-            this.rtbSourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbSourceCode.HideSelection = false;
-            this.rtbSourceCode.Location = new System.Drawing.Point(4, 31);
-            this.rtbSourceCode.Margin = new System.Windows.Forms.Padding(0);
-            this.rtbSourceCode.MinimumSize = new System.Drawing.Size(100, 200);
-            this.rtbSourceCode.Name = "rtbSourceCode";
-            this.rtbSourceCode.Size = new System.Drawing.Size(674, 570);
-            this.rtbSourceCode.TabIndex = 3;
-            this.rtbSourceCode.Text = "";
-            // 
             // dgTokens
             // 
             this.dgTokens.AllowUserToAddRows = false;
@@ -172,51 +160,6 @@
             this.dgTokens.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgTokens.Size = new System.Drawing.Size(226, 570);
             this.dgTokens.TabIndex = 2;
-            this.dgTokens.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgTokens_CellContentClick);
-            // 
-            // mainTableLayout
-            // 
-            this.mainTableLayout.ColumnCount = 2;
-            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.88987F));
-            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.11013F));
-            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mainTableLayout.Controls.Add(this.tokenLabel, 1, 0);
-            this.mainTableLayout.Controls.Add(this.dgTokens, 1, 1);
-            this.mainTableLayout.Controls.Add(this.rtbSourceCode, 0, 1);
-            this.mainTableLayout.Controls.Add(this.fileNameLabel, 0, 0);
-            this.mainTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainTableLayout.Location = new System.Drawing.Point(0, 24);
-            this.mainTableLayout.Name = "mainTableLayout";
-            this.mainTableLayout.Padding = new System.Windows.Forms.Padding(4, 0, 4, 4);
-            this.mainTableLayout.RowCount = 2;
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.15807F));
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 94.84193F));
-            this.mainTableLayout.Size = new System.Drawing.Size(908, 605);
-            this.mainTableLayout.TabIndex = 5;
-            // 
-            // tokenLabel
-            // 
-            this.tokenLabel.AutoSize = true;
-            this.tokenLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tokenLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tokenLabel.Location = new System.Drawing.Point(678, 12);
-            this.tokenLabel.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
-            this.tokenLabel.Name = "tokenLabel";
-            this.tokenLabel.Size = new System.Drawing.Size(226, 19);
-            this.tokenLabel.TabIndex = 5;
-            this.tokenLabel.Text = "Tokens";
-            // 
-            // fileNameLabel
-            // 
-            this.fileNameLabel.AccessibleDescription = "";
-            this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(4, 12);
-            this.fileNameLabel.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
-            this.fileNameLabel.Name = "fileNameLabel";
-            this.fileNameLabel.Size = new System.Drawing.Size(94, 13);
-            this.fileNameLabel.TabIndex = 4;
-            this.fileNameLabel.Text = "dinamic_file_name";
-            this.fileNameLabel.MouseHover += new System.EventHandler(this.fileNameLabelMouseOverAction);
             // 
             // Line
             // 
@@ -251,6 +194,64 @@
             // 
             this.bsTokens.DataSource = typeof(GUI.DataGrid.DataGridLineItem);
             // 
+            // mainTableLayout
+            // 
+            this.mainTableLayout.ColumnCount = 2;
+            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.88987F));
+            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.11013F));
+            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.mainTableLayout.Controls.Add(this.tokenLabel, 1, 0);
+            this.mainTableLayout.Controls.Add(this.dgTokens, 1, 1);
+            this.mainTableLayout.Controls.Add(this.fileNameLabel, 0, 0);
+            this.mainTableLayout.Controls.Add(this.sourceCode, 0, 1);
+            this.mainTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainTableLayout.Location = new System.Drawing.Point(0, 24);
+            this.mainTableLayout.Name = "mainTableLayout";
+            this.mainTableLayout.Padding = new System.Windows.Forms.Padding(4, 0, 4, 4);
+            this.mainTableLayout.RowCount = 2;
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.15807F));
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 94.84193F));
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.mainTableLayout.Size = new System.Drawing.Size(908, 605);
+            this.mainTableLayout.TabIndex = 5;
+            // 
+            // tokenLabel
+            // 
+            this.tokenLabel.AutoSize = true;
+            this.tokenLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tokenLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tokenLabel.Location = new System.Drawing.Point(678, 12);
+            this.tokenLabel.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
+            this.tokenLabel.Name = "tokenLabel";
+            this.tokenLabel.Size = new System.Drawing.Size(226, 19);
+            this.tokenLabel.TabIndex = 5;
+            this.tokenLabel.Text = "Tokens";
+            // 
+            // fileNameLabel
+            // 
+            this.fileNameLabel.AccessibleDescription = "";
+            this.fileNameLabel.AutoSize = true;
+            this.fileNameLabel.Location = new System.Drawing.Point(4, 12);
+            this.fileNameLabel.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
+            this.fileNameLabel.Name = "fileNameLabel";
+            this.fileNameLabel.Size = new System.Drawing.Size(94, 13);
+            this.fileNameLabel.TabIndex = 4;
+            this.fileNameLabel.Text = "dinamic_file_name";
+            this.fileNameLabel.MouseHover += new System.EventHandler(this.fileNameLabelMouseOverAction);
+            // 
+            // sourceCode
+            // 
+            this.sourceCode.AutoCAutoHide = false;
+            this.sourceCode.AutoCCancelAtStart = false;
+            this.sourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sourceCode.IndentationGuides = ScintillaNET.IndentView.LookBoth;
+            this.sourceCode.Location = new System.Drawing.Point(7, 34);
+            this.sourceCode.Name = "sourceCode";
+            this.sourceCode.ScrollWidth = 100;
+            this.sourceCode.Size = new System.Drawing.Size(668, 564);
+            this.sourceCode.Styler = null;
+            this.sourceCode.TabIndex = 6;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -266,9 +267,9 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).EndInit();
             this.mainTableLayout.ResumeLayout(false);
             this.mainTableLayout.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,7 +287,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuItem_compile_compile;
         private System.Windows.Forms.ToolStripMenuItem menuItem_help;
         private System.Windows.Forms.ToolStripMenuItem menuItem_help_about;
-        private System.Windows.Forms.RichTextBox rtbSourceCode;
         private System.Windows.Forms.DataGridView dgTokens;
         private System.Windows.Forms.TableLayoutPanel mainTableLayout;
         private System.Windows.Forms.Label fileNameLabel;
@@ -294,6 +294,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Line;
         private System.Windows.Forms.DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
+        private EasyScintilla.SimpleEditor sourceCode;
     }
 }
 
