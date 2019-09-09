@@ -79,7 +79,10 @@ namespace Core.LexicalAnalysis
                 // If all procedure do not returns a valid toke
                 if (!hasAnyValidToken)
                 {
-                    // TODO: Talvez implementar aqui validator para caracteres inválidos
+                    if (!char.IsWhiteSpace(currentItem.Char) && currentItem.Char != '\n')
+                    {
+                        throw new LexicalException(GetLineColumnText(currentItem) + ": " + currentItem.ToString() + " não é reconhecido como um caracter válido");
+                    }
 
                     currentItem = GetNextItem(items);
                 }
@@ -221,6 +224,12 @@ namespace Core.LexicalAnalysis
                     currentItem = GetNextItem(items);
                 }
 
+                // Validate if the extracted value is delimited by a valid delimiter
+                if (!IsValidDelimiter(currentItem, PreviewNextItem(items)))
+                {
+                    throw new LexicalException(GetLineColumnText(startItem) + ": Identificador " + strToConcate + currentItem + PreviewNextItem(items) + " é inválido");
+                }
+
                 // Verify if extracted string contains in...
                 // Operators
                 Token extractedOperator = GetOperatorToken(strToConcate);
@@ -252,7 +261,7 @@ namespace Core.LexicalAnalysis
                     Type = IdentifierEnum.Identifier,
                     Value = strToConcate,
                     StartChar = startItem
-            };
+                };
             }
 
             return null;
@@ -405,12 +414,50 @@ namespace Core.LexicalAnalysis
             return null;
         }
 
+        private bool IsValidDelimiter(CharWrapper item, CharWrapper nextItem)
+        {
+            // To be considered valid, the item must be...
+            // white space
+            if (char.IsWhiteSpace(item.Char))
+            {
+                return true;
+            }
+
+            // new line
+            if (item.Char == '\n')
+            {
+                return true;
+            }
+
+            // a operator
+            if (GetOperatorToken(item.ToString()) != null || GetOperatorToken(item.ToString() + nextItem.ToString()) != null)
+            {
+                return true;
+            }
+
+            // special symbol
+            if (GetSpecialSymbolToken(item.ToString()) != null || GetSpecialSymbolToken(item.ToString() + nextItem.ToString()) != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private Stack<CharWrapper> CreateItemsStack(string[] textToAnalyze)
         {
             Stack<CharWrapper> items = new Stack<CharWrapper>();
 
             for (int i = textToAnalyze.Length - 1; i >= 0; i--)
             {
+                // Create new line character
+                items.Push(new CharWrapper
+                {
+                    Char = '\n',
+                    Line = i + 1,
+                    Position = -1
+                });
+
                 for (int j = textToAnalyze[i].Length - 1; j >= 0; j--)
                 {
                     items.Push(new CharWrapper
@@ -418,7 +465,7 @@ namespace Core.LexicalAnalysis
                         Char = textToAnalyze[i][j],
                         Line = i + 1,
                         Position = j + 1
-                    }); ;
+                    });
                 }
             }
 
