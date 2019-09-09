@@ -159,7 +159,10 @@ namespace GUI
             Line sourceCodeLine = sourceCode.Lines.ElementAtOrDefault(line - 1);
 
             // Select line in the source code
-            sourceCode.SetSelection(sourceCodeLine.EndPosition, sourceCodeLine.Position);
+            if (sourceCodeLine != null)
+            {
+                sourceCode.SetSelection(sourceCodeLine.EndPosition, sourceCodeLine.Position);
+            }
         }
 
         private void dataGridFocusLeaveEvent(object sender, EventArgs e)

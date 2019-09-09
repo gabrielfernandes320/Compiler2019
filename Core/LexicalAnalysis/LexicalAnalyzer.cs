@@ -23,6 +23,7 @@ namespace Core.LexicalAnalysis
         private const char ASTERISK = '*';
         private const char MINUS = '-';
         private const char NEW_LINE = '\n';
+        private const char UNDERLINE = '_';
 
         public LexicalAnalyzer(string[] textToAnalyze)
         {
@@ -99,11 +100,17 @@ namespace Core.LexicalAnalysis
 
             if (currentItem.Char.Equals(PARENTHESES_INI) && nextItem.Char.Equals(ASTERISK))
             {
+                CharWrapper startItem = currentItem;
                 currentItem = GetNextItem(items);
 
                 while (!(currentItem.Char.Equals(ASTERISK) && PreviewNextItem(items).Char.Equals(PARENTHESES_END)))
                 {
                     currentItem = GetNextItem(items);
+
+                    if (items.Count == 0)
+                    {
+                        throw new LexicalException(GetLineColumnText(startItem) + ": Comentário iniciado mas não fechado");
+                    }
                 }
 
                 currentItem = GetNextItem(items);
@@ -219,7 +226,8 @@ namespace Core.LexicalAnalysis
                 string strToConcate = "";
                 CharWrapper startItem = currentItem;
 
-                while (char.IsLetterOrDigit(currentItem.Char))
+                // Consider underline as alphanumeric here, since is used to identifier
+                while (char.IsLetterOrDigit(currentItem.Char) || currentItem.Char == UNDERLINE)
                 {
                     strToConcate = string.Concat(strToConcate, currentItem.ToString());
 
@@ -250,7 +258,6 @@ namespace Core.LexicalAnalysis
 
                     return extractedReservedWord;
                 }
-
 
                 // Otherwise is Identifier
                 if (strToConcate.Count() > 30)
