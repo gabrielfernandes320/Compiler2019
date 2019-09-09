@@ -22,6 +22,7 @@ namespace Core.LexicalAnalysis
         private const char PARENTHESES_END = ')';
         private const char ASTERISK = '*';
         private const char MINUS = '-';
+        private const char NEW_LINE = '\n';
 
         public LexicalAnalyzer(string[] textToAnalyze)
         {
@@ -79,7 +80,8 @@ namespace Core.LexicalAnalysis
                 // If all procedure do not returns a valid toke
                 if (!hasAnyValidToken)
                 {
-                    if (!char.IsWhiteSpace(currentItem.Char) && currentItem.Char != '\n')
+                    // If character is not recognized by a procedure and is not a white space or new line
+                    if (!char.IsWhiteSpace(currentItem.Char) && currentItem.Char != NEW_LINE)
                     {
                         throw new LexicalException(GetLineColumnText(currentItem) + ": " + currentItem.ToString() + " não é reconhecido como um caracter válido");
                     }
@@ -424,7 +426,7 @@ namespace Core.LexicalAnalysis
             }
 
             // new line
-            if (item.Char == '\n')
+            if (item.Char == NEW_LINE)
             {
                 return true;
             }
@@ -453,7 +455,7 @@ namespace Core.LexicalAnalysis
                 // Create new line character
                 items.Push(new CharWrapper
                 {
-                    Char = '\n',
+                    Char = NEW_LINE,
                     Line = i + 1,
                     Position = -1
                 });

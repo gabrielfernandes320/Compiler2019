@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.bsTokens = new System.Windows.Forms.BindingSource(this.components);
-            this.tokenBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.tokenBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuItem_file = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_file_new = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,34 +41,18 @@
             this.menuItem_help_about = new System.Windows.Forms.ToolStripMenuItem();
             this.rtbSourceCode = new System.Windows.Forms.RichTextBox();
             this.dgTokens = new System.Windows.Forms.DataGridView();
-            this.codeHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueHeader = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.startCharDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.tokenLabel = new System.Windows.Forms.Label();
             this.fileNameLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tokenBindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tokenBindingSource)).BeginInit();
+            this.Line = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bsTokens = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).BeginInit();
             this.mainTableLayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).BeginInit();
             this.SuspendLayout();
-            // 
-            // bsTokens
-            // 
-            this.bsTokens.DataSource = typeof(Core.Token);
-            // 
-            // tokenBindingSource1
-            // 
-            this.tokenBindingSource1.DataSource = typeof(Core.Token);
-            // 
-            // tokenBindingSource
-            // 
-            this.tokenBindingSource.DataSource = typeof(Core.Token);
             // 
             // menuStrip1
             // 
@@ -83,7 +64,7 @@
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(908, 24);
             this.menuStrip1.TabIndex = 4;
-            this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.Text = "mainMenu";
             // 
             // menuItem_file
             // 
@@ -98,21 +79,21 @@
             // menuItem_file_new
             // 
             this.menuItem_file_new.Name = "menuItem_file_new";
-            this.menuItem_file_new.Size = new System.Drawing.Size(180, 22);
+            this.menuItem_file_new.Size = new System.Drawing.Size(105, 22);
             this.menuItem_file_new.Text = "Novo";
             this.menuItem_file_new.Click += new System.EventHandler(this.NewFileAction);
             // 
             // menuItem_file_open
             // 
             this.menuItem_file_open.Name = "menuItem_file_open";
-            this.menuItem_file_open.Size = new System.Drawing.Size(180, 22);
+            this.menuItem_file_open.Size = new System.Drawing.Size(105, 22);
             this.menuItem_file_open.Text = "Abrir";
             this.menuItem_file_open.Click += new System.EventHandler(this.OpenFileAction);
             // 
             // menuItem_file_save
             // 
             this.menuItem_file_save.Name = "menuItem_file_save";
-            this.menuItem_file_save.Size = new System.Drawing.Size(180, 22);
+            this.menuItem_file_save.Size = new System.Drawing.Size(105, 22);
             this.menuItem_file_save.Text = "Salvar";
             this.menuItem_file_save.Click += new System.EventHandler(this.SaveFileAction);
             // 
@@ -177,12 +158,9 @@
             this.dgTokens.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgTokens.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgTokens.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.codeHeader,
-            this.valueHeader,
-            this.typeDataGridViewTextBoxColumn,
+            this.Line,
             this.codeDataGridViewTextBoxColumn,
-            this.valueDataGridViewTextBoxColumn,
-            this.startCharDataGridViewTextBoxColumn});
+            this.valueDataGridViewTextBoxColumn});
             this.dgTokens.DataSource = this.bsTokens;
             this.dgTokens.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgTokens.Location = new System.Drawing.Point(678, 31);
@@ -190,54 +168,11 @@
             this.dgTokens.Name = "dgTokens";
             this.dgTokens.ReadOnly = true;
             this.dgTokens.RowHeadersVisible = false;
+            this.dgTokens.RowTemplate.ReadOnly = true;
+            this.dgTokens.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgTokens.Size = new System.Drawing.Size(226, 570);
             this.dgTokens.TabIndex = 2;
-            // 
-            // codeHeader
-            // 
-            this.codeHeader.DataPropertyName = "Code";
-            this.codeHeader.HeaderText = "Código";
-            this.codeHeader.Name = "codeHeader";
-            this.codeHeader.ReadOnly = true;
-            // 
-            // valueHeader
-            // 
-            this.valueHeader.DataPropertyName = "Value";
-            this.valueHeader.HeaderText = "Valor";
-            this.valueHeader.Name = "valueHeader";
-            this.valueHeader.ReadOnly = true;
-            // 
-            // typeDataGridViewTextBoxColumn
-            // 
-            this.typeDataGridViewTextBoxColumn.DataPropertyName = "Type";
-            this.typeDataGridViewTextBoxColumn.HeaderText = "Type";
-            this.typeDataGridViewTextBoxColumn.Name = "typeDataGridViewTextBoxColumn";
-            this.typeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.typeDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // codeDataGridViewTextBoxColumn
-            // 
-            this.codeDataGridViewTextBoxColumn.DataPropertyName = "Code";
-            this.codeDataGridViewTextBoxColumn.HeaderText = "Code";
-            this.codeDataGridViewTextBoxColumn.Name = "codeDataGridViewTextBoxColumn";
-            this.codeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.codeDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // valueDataGridViewTextBoxColumn
-            // 
-            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-            this.valueDataGridViewTextBoxColumn.HeaderText = "Value";
-            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-            this.valueDataGridViewTextBoxColumn.ReadOnly = true;
-            this.valueDataGridViewTextBoxColumn.Visible = false;
-            // 
-            // startCharDataGridViewTextBoxColumn
-            // 
-            this.startCharDataGridViewTextBoxColumn.DataPropertyName = "StartChar";
-            this.startCharDataGridViewTextBoxColumn.HeaderText = "StartChar";
-            this.startCharDataGridViewTextBoxColumn.Name = "startCharDataGridViewTextBoxColumn";
-            this.startCharDataGridViewTextBoxColumn.ReadOnly = true;
-            this.startCharDataGridViewTextBoxColumn.Visible = false;
+            this.dgTokens.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgTokens_CellContentClick);
             // 
             // mainTableLayout
             // 
@@ -283,6 +218,39 @@
             this.fileNameLabel.Text = "dinamic_file_name";
             this.fileNameLabel.MouseHover += new System.EventHandler(this.fileNameLabelMouseOverAction);
             // 
+            // Line
+            // 
+            this.Line.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Line.DataPropertyName = "Line";
+            this.Line.FillWeight = 47F;
+            this.Line.HeaderText = "Linha";
+            this.Line.MaxInputLength = 5;
+            this.Line.Name = "Line";
+            this.Line.ReadOnly = true;
+            this.Line.Width = 47;
+            // 
+            // codeDataGridViewTextBoxColumn
+            // 
+            this.codeDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.codeDataGridViewTextBoxColumn.DataPropertyName = "Code";
+            this.codeDataGridViewTextBoxColumn.FillWeight = 47F;
+            this.codeDataGridViewTextBoxColumn.HeaderText = "Código";
+            this.codeDataGridViewTextBoxColumn.Name = "codeDataGridViewTextBoxColumn";
+            this.codeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.codeDataGridViewTextBoxColumn.Width = 47;
+            // 
+            // valueDataGridViewTextBoxColumn
+            // 
+            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
+            this.valueDataGridViewTextBoxColumn.FillWeight = 110.2238F;
+            this.valueDataGridViewTextBoxColumn.HeaderText = "Valor";
+            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
+            this.valueDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // bsTokens
+            // 
+            this.bsTokens.DataSource = typeof(GUI.DataGrid.DataGridLineItem);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -295,23 +263,19 @@
             this.Name = "Main";
             this.Text = "Compiler 2019";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tokenBindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tokenBindingSource)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).EndInit();
             this.mainTableLayout.ResumeLayout(false);
             this.mainTableLayout.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.BindingSource tokenBindingSource;
         private System.Windows.Forms.BindingSource bsTokens;
-        private System.Windows.Forms.BindingSource tokenBindingSource1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuItem_file;
         private System.Windows.Forms.ToolStripMenuItem menuItem_file_new;
@@ -327,12 +291,9 @@
         private System.Windows.Forms.TableLayoutPanel mainTableLayout;
         private System.Windows.Forms.Label fileNameLabel;
         private System.Windows.Forms.Label tokenLabel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn codeHeader;
-        private System.Windows.Forms.DataGridViewTextBoxColumn valueHeader;
-        private System.Windows.Forms.DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Line;
         private System.Windows.Forms.DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn startCharDataGridViewTextBoxColumn;
     }
 }
 

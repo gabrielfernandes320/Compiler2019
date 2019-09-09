@@ -6,6 +6,7 @@ using Core.Utils;
 using Core.LexicalAnalysis;
 using System.Linq;
 using Core.Exceptions;
+using GUI.DataGrid;
 
 namespace GUI
 {
@@ -98,18 +99,25 @@ namespace GUI
                 IList<Token> tokensList = new List<Token>(lexicalAnalyzer.ExtractTokens());
 
                 // Set extracted token reordered list to form
-                dgTokens.DataSource = tokensList.Reverse().ToList();
-
-                // Debug
-                /*foreach (Token token in tokensList)
-                {
-                    Console.WriteLine(token.Code);
-                }*/
+                dgTokens.DataSource = ParseTokensToGrid(tokensList);
             }
             catch (LexicalException error)
             {
                 MessageBox.Show(error.Message);
             }
+        }
+
+        private IList<DataGridLineItem> ParseTokensToGrid(IList<Token> tokensList)
+        {
+            return tokensList
+                .Reverse()
+                .Select(e =>new DataGridLineItem
+                {
+                    Line = e.StartChar.Line.ToString(),
+                    Code = e.Code.ToString(),
+                    Value = e.Value
+                })
+                .ToList();
         }
 
         private void CompileCodeAction(object sender, EventArgs e)
@@ -129,6 +137,11 @@ namespace GUI
             toolTip.SetToolTip(this.fileNameLabel, currentFileNamePath);
 
             toolTip.Show(currentFileNamePath, this.fileNameLabel);
+        }
+
+        private void DgTokens_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
