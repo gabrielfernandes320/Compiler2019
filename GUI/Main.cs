@@ -169,5 +169,10 @@ namespace GUI
         {
             dgTokens.ClearSelection();
         }
+
+        private void MainTableLayout_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

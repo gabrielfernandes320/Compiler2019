@@ -41,17 +41,22 @@
             this.menuItem_help_about = new System.Windows.Forms.ToolStripMenuItem();
             this.dgTokens = new System.Windows.Forms.DataGridView();
             this.Line = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mainTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.analyzeLabel = new System.Windows.Forms.Label();
+            this.tokensLabel = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.sourceCode = new EasyScintilla.SimpleEditor();
+            this.fileNameLabel = new System.Windows.Forms.Label();
             this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bsTokens = new System.Windows.Forms.BindingSource(this.components);
-            this.mainTableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.tokenLabel = new System.Windows.Forms.Label();
-            this.fileNameLabel = new System.Windows.Forms.Label();
-            this.sourceCode = new EasyScintilla.SimpleEditor();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).BeginInit();
             this.mainTableLayout.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -142,6 +147,7 @@
             this.dgTokens.AllowUserToResizeRows = false;
             this.dgTokens.AutoGenerateColumns = false;
             this.dgTokens.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgTokens.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dgTokens.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgTokens.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgTokens.CausesValidation = false;
@@ -153,7 +159,7 @@
             this.valueDataGridViewTextBoxColumn});
             this.dgTokens.DataSource = this.bsTokens;
             this.dgTokens.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgTokens.Location = new System.Drawing.Point(678, 31);
+            this.dgTokens.Location = new System.Drawing.Point(0, 286);
             this.dgTokens.Margin = new System.Windows.Forms.Padding(0);
             this.dgTokens.MultiSelect = false;
             this.dgTokens.Name = "dgTokens";
@@ -162,7 +168,7 @@
             this.dgTokens.RowTemplate.ReadOnly = true;
             this.dgTokens.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgTokens.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgTokens.Size = new System.Drawing.Size(226, 570);
+            this.dgTokens.Size = new System.Drawing.Size(220, 309);
             this.dgTokens.TabIndex = 2;
             this.dgTokens.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridRowFocusEvent);
             this.dgTokens.Leave += new System.EventHandler(this.dataGridFocusLeaveEvent);
@@ -177,6 +183,112 @@
             this.Line.Name = "Line";
             this.Line.ReadOnly = true;
             this.Line.Width = 47;
+            // 
+            // mainTableLayout
+            // 
+            this.mainTableLayout.ColumnCount = 2;
+            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.88987F));
+            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.11013F));
+            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.mainTableLayout.Controls.Add(this.tableLayoutPanel1, 1, 0);
+            this.mainTableLayout.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.mainTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainTableLayout.Location = new System.Drawing.Point(0, 24);
+            this.mainTableLayout.Name = "mainTableLayout";
+            this.mainTableLayout.Padding = new System.Windows.Forms.Padding(4, 0, 4, 4);
+            this.mainTableLayout.RowCount = 1;
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 46.75541F));
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 53.24459F));
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 601F));
+            this.mainTableLayout.Size = new System.Drawing.Size(908, 605);
+            this.mainTableLayout.TabIndex = 5;
+            this.mainTableLayout.Paint += new System.Windows.Forms.PaintEventHandler(this.MainTableLayout_Paint);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.dgTokens, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.analyzeLabel, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tokensLabel, 0, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(681, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.469055F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.53094F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 308F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(220, 595);
+            this.tableLayoutPanel1.TabIndex = 7;
+            // 
+            // analyzeLabel
+            // 
+            this.analyzeLabel.AutoSize = true;
+            this.analyzeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.analyzeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.analyzeLabel.Location = new System.Drawing.Point(3, 0);
+            this.analyzeLabel.Name = "analyzeLabel";
+            this.analyzeLabel.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
+            this.analyzeLabel.Size = new System.Drawing.Size(214, 22);
+            this.analyzeLabel.TabIndex = 3;
+            this.analyzeLabel.Text = "Análise";
+            // 
+            // tokensLabel
+            // 
+            this.tokensLabel.AutoSize = true;
+            this.tokensLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tokensLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tokensLabel.Location = new System.Drawing.Point(3, 260);
+            this.tokensLabel.Name = "tokensLabel";
+            this.tokensLabel.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.tokensLabel.Size = new System.Drawing.Size(214, 26);
+            this.tokensLabel.TabIndex = 4;
+            this.tokensLabel.Text = "Tokens";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.sourceCode, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.fileNameLabel, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(7, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.714286F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 94.28571F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 109F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(668, 595);
+            this.tableLayoutPanel2.TabIndex = 8;
+            // 
+            // sourceCode
+            // 
+            this.sourceCode.AutoCAutoHide = false;
+            this.sourceCode.AutoCCancelAtStart = false;
+            this.sourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sourceCode.IndentationGuides = ScintillaNET.IndentView.LookBoth;
+            this.sourceCode.Location = new System.Drawing.Point(3, 29);
+            this.sourceCode.Name = "sourceCode";
+            this.sourceCode.ScrollWidth = 100;
+            this.sourceCode.Size = new System.Drawing.Size(662, 426);
+            this.sourceCode.Styler = null;
+            this.sourceCode.TabIndex = 6;
+            // 
+            // fileNameLabel
+            // 
+            this.fileNameLabel.AccessibleDescription = "";
+            this.fileNameLabel.AutoSize = true;
+            this.fileNameLabel.Location = new System.Drawing.Point(0, 12);
+            this.fileNameLabel.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
+            this.fileNameLabel.Name = "fileNameLabel";
+            this.fileNameLabel.Size = new System.Drawing.Size(94, 13);
+            this.fileNameLabel.TabIndex = 4;
+            this.fileNameLabel.Text = "dinamic_file_name";
+            this.fileNameLabel.MouseHover += new System.EventHandler(this.fileNameLabelMouseOverAction);
             // 
             // codeDataGridViewTextBoxColumn
             // 
@@ -200,64 +312,6 @@
             // 
             this.bsTokens.DataSource = typeof(GUI.DataGrid.DataGridLineItem);
             // 
-            // mainTableLayout
-            // 
-            this.mainTableLayout.ColumnCount = 2;
-            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.88987F));
-            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.11013F));
-            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mainTableLayout.Controls.Add(this.tokenLabel, 1, 0);
-            this.mainTableLayout.Controls.Add(this.dgTokens, 1, 1);
-            this.mainTableLayout.Controls.Add(this.fileNameLabel, 0, 0);
-            this.mainTableLayout.Controls.Add(this.sourceCode, 0, 1);
-            this.mainTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainTableLayout.Location = new System.Drawing.Point(0, 24);
-            this.mainTableLayout.Name = "mainTableLayout";
-            this.mainTableLayout.Padding = new System.Windows.Forms.Padding(4, 0, 4, 4);
-            this.mainTableLayout.RowCount = 2;
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.15807F));
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 94.84193F));
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.mainTableLayout.Size = new System.Drawing.Size(908, 605);
-            this.mainTableLayout.TabIndex = 5;
-            // 
-            // tokenLabel
-            // 
-            this.tokenLabel.AutoSize = true;
-            this.tokenLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tokenLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tokenLabel.Location = new System.Drawing.Point(678, 12);
-            this.tokenLabel.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
-            this.tokenLabel.Name = "tokenLabel";
-            this.tokenLabel.Size = new System.Drawing.Size(226, 19);
-            this.tokenLabel.TabIndex = 5;
-            this.tokenLabel.Text = "Tokens";
-            // 
-            // fileNameLabel
-            // 
-            this.fileNameLabel.AccessibleDescription = "";
-            this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(4, 12);
-            this.fileNameLabel.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
-            this.fileNameLabel.Name = "fileNameLabel";
-            this.fileNameLabel.Size = new System.Drawing.Size(94, 13);
-            this.fileNameLabel.TabIndex = 4;
-            this.fileNameLabel.Text = "dinamic_file_name";
-            this.fileNameLabel.MouseHover += new System.EventHandler(this.fileNameLabelMouseOverAction);
-            // 
-            // sourceCode
-            // 
-            this.sourceCode.AutoCAutoHide = false;
-            this.sourceCode.AutoCCancelAtStart = false;
-            this.sourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sourceCode.IndentationGuides = ScintillaNET.IndentView.LookBoth;
-            this.sourceCode.Location = new System.Drawing.Point(7, 34);
-            this.sourceCode.Name = "sourceCode";
-            this.sourceCode.ScrollWidth = 100;
-            this.sourceCode.Size = new System.Drawing.Size(668, 564);
-            this.sourceCode.Styler = null;
-            this.sourceCode.TabIndex = 6;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -273,9 +327,12 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).EndInit();
             this.mainTableLayout.ResumeLayout(false);
-            this.mainTableLayout.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,11 +353,14 @@
         private System.Windows.Forms.DataGridView dgTokens;
         private System.Windows.Forms.TableLayoutPanel mainTableLayout;
         private System.Windows.Forms.Label fileNameLabel;
-        private System.Windows.Forms.Label tokenLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn Line;
         private System.Windows.Forms.DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
         private EasyScintilla.SimpleEditor sourceCode;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label analyzeLabel;
+        private System.Windows.Forms.Label tokensLabel;
     }
 }
 
