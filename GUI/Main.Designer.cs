@@ -48,14 +48,18 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.sourceCode = new EasyScintilla.SimpleEditor();
             this.fileNameLabel = new System.Windows.Forms.Label();
+            this.tbConsole = new System.Windows.Forms.RichTextBox();
+            this.dgAnalyzer = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bsTokens = new System.Windows.Forms.BindingSource(this.components);
             this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bsTokens = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).BeginInit();
             this.mainTableLayout.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgAnalyzer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).BeginInit();
             this.SuspendLayout();
             // 
@@ -209,9 +213,10 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.dgTokens, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.analyzeLabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tokensLabel, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.dgAnalyzer, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.dgTokens, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(681, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -220,6 +225,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.53094F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 308F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(220, 595);
             this.tableLayoutPanel1.TabIndex = 7;
             // 
@@ -254,16 +260,18 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.sourceCode, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.fileNameLabel, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.tbConsole, 0, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(7, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowCount = 3;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.714286F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 94.28571F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 109F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(668, 595);
             this.tableLayoutPanel2.TabIndex = 8;
+            this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.TableLayoutPanel2_Paint);
             // 
             // sourceCode
             // 
@@ -271,12 +279,13 @@
             this.sourceCode.AutoCCancelAtStart = false;
             this.sourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sourceCode.IndentationGuides = ScintillaNET.IndentView.LookBoth;
-            this.sourceCode.Location = new System.Drawing.Point(3, 29);
+            this.sourceCode.Location = new System.Drawing.Point(3, 30);
             this.sourceCode.Name = "sourceCode";
             this.sourceCode.ScrollWidth = 100;
-            this.sourceCode.Size = new System.Drawing.Size(662, 426);
+            this.sourceCode.Size = new System.Drawing.Size(662, 452);
             this.sourceCode.Styler = null;
             this.sourceCode.TabIndex = 6;
+            this.sourceCode.Click += new System.EventHandler(this.SourceCode_Click);
             // 
             // fileNameLabel
             // 
@@ -289,6 +298,58 @@
             this.fileNameLabel.TabIndex = 4;
             this.fileNameLabel.Text = "dinamic_file_name";
             this.fileNameLabel.MouseHover += new System.EventHandler(this.fileNameLabelMouseOverAction);
+            // 
+            // tbConsole
+            // 
+            this.tbConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbConsole.Location = new System.Drawing.Point(3, 488);
+            this.tbConsole.Name = "tbConsole";
+            this.tbConsole.Size = new System.Drawing.Size(662, 104);
+            this.tbConsole.TabIndex = 7;
+            this.tbConsole.Text = "";
+            this.tbConsole.TextChanged += new System.EventHandler(this.TbConsole_TextChanged);
+            // 
+            // dgAnalyzer
+            // 
+            this.dgAnalyzer.AllowUserToAddRows = false;
+            this.dgAnalyzer.AllowUserToDeleteRows = false;
+            this.dgAnalyzer.AllowUserToResizeRows = false;
+            this.dgAnalyzer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgAnalyzer.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            this.dgAnalyzer.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgAnalyzer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgAnalyzer.CausesValidation = false;
+            this.dgAnalyzer.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgAnalyzer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgAnalyzer.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1});
+            this.dgAnalyzer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgAnalyzer.Location = new System.Drawing.Point(0, 22);
+            this.dgAnalyzer.Margin = new System.Windows.Forms.Padding(0);
+            this.dgAnalyzer.MultiSelect = false;
+            this.dgAnalyzer.Name = "dgAnalyzer";
+            this.dgAnalyzer.ReadOnly = true;
+            this.dgAnalyzer.RowHeadersVisible = false;
+            this.dgAnalyzer.RowTemplate.ReadOnly = true;
+            this.dgAnalyzer.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgAnalyzer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgAnalyzer.Size = new System.Drawing.Size(220, 238);
+            this.dgAnalyzer.TabIndex = 5;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "Line";
+            this.dataGridViewTextBoxColumn1.FillWeight = 47F;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Linha";
+            this.dataGridViewTextBoxColumn1.MaxInputLength = 5;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 47;
+            // 
+            // bsTokens
+            // 
+            this.bsTokens.DataSource = typeof(GUI.DataGrid.DataGridLineItem);
             // 
             // codeDataGridViewTextBoxColumn
             // 
@@ -307,10 +368,6 @@
             this.valueDataGridViewTextBoxColumn.HeaderText = "Valor";
             this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
             this.valueDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // bsTokens
-            // 
-            this.bsTokens.DataSource = typeof(GUI.DataGrid.DataGridLineItem);
             // 
             // Main
             // 
@@ -332,6 +389,7 @@
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgAnalyzer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -361,6 +419,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label analyzeLabel;
         private System.Windows.Forms.Label tokensLabel;
+        private System.Windows.Forms.RichTextBox tbConsole;
+        private System.Windows.Forms.DataGridView dgAnalyzer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
     }
 }
 

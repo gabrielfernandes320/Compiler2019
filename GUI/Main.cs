@@ -109,7 +109,8 @@ namespace GUI
             }
             catch (LexicalException error)
             {
-                MessageBox.Show(error.Message);
+                //MessageBox.Show(error.Message);
+                tbConsole.Text = error.Message;
             }
         }
 
@@ -171,6 +172,21 @@ namespace GUI
         }
 
         private void MainTableLayout_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void TableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void SourceCode_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TbConsole_TextChanged(object sender, EventArgs e)
         {
 
         }

@@ -1,10 +1,10 @@
 ﻿using Core.Dictionary;
 using Core.Enum;
 using Core.Exceptions;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace Core.LexicalAnalysis
 {
@@ -85,6 +85,7 @@ namespace Core.LexicalAnalysis
                     if (!char.IsWhiteSpace(currentItem.Char) && currentItem.Char != NEW_LINE)
                     {
                         throw new LexicalException(GetLineColumnText(currentItem) + ": " + currentItem.ToString() + " não é reconhecido como um caracter válido");
+                        
                     }
 
                     currentItem = GetNextItem(items);
@@ -110,6 +111,7 @@ namespace Core.LexicalAnalysis
                     if (items.Count == 0)
                     {
                         throw new LexicalException(GetLineColumnText(startItem) + ": Comentário iniciado mas não fechado");
+                        
                     }
                 }
 
