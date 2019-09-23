@@ -90,6 +90,8 @@ namespace GUI
 
         private void AnalyzeCodeAction(object sender, EventArgs e)
         {
+            tbConsole.Text = "Preparando...\n";
+
             // Clear tokens list before run
             dgTokens.DataSource = null;
 
@@ -98,6 +100,8 @@ namespace GUI
 
             try
             {
+                tbConsole.AppendText("Analizando...\n");
+
                 // Initialize lexical analyzer
                 LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(textToAnalyze);
 
@@ -106,11 +110,16 @@ namespace GUI
 
                 // Set extracted tokens to grid
                 dgTokens.DataSource = ParseTokensToGrid(tokensList);
+
+                tbConsole.AppendText("Concluído\n");
             }
             catch (LexicalException error)
             {
-                //MessageBox.Show(error.Message);
-                tbConsole.Text = error.Message;
+                tbConsole.AppendText("ERRO! ");
+
+                tbConsole.AppendText(error.Message + "\n");
+
+                MessageBox.Show("Houve um erro analizar código fonte\n");
             }
         }
 
@@ -169,26 +178,6 @@ namespace GUI
         private void dataGridFocusLeaveEvent(object sender, EventArgs e)
         {
             dgTokens.ClearSelection();
-        }
-
-        private void MainTableLayout_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void TableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void SourceCode_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TbConsole_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
