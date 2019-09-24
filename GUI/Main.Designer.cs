@@ -124,6 +124,7 @@
             // 
             // menuItem_compile_compile
             // 
+            this.menuItem_compile_compile.Enabled = false;
             this.menuItem_compile_compile.Name = "menuItem_compile_compile";
             this.menuItem_compile_compile.Size = new System.Drawing.Size(198, 22);
             this.menuItem_compile_compile.Text = "Compilar Código Fonte";

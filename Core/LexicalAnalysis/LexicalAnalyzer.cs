@@ -84,7 +84,7 @@ namespace Core.LexicalAnalysis
                     // If character is not recognized by a procedure and is not a white space or new line
                     if (!char.IsWhiteSpace(currentItem.Char) && currentItem.Char != NEW_LINE)
                     {
-                        throw new LexicalException(GetLineColumnText(currentItem) + ": " + currentItem.ToString() + " não é reconhecido como um caracter válido");
+                        throw new LexicalException(GetLineColumnText(currentItem) + ": " + currentItem.ToString() + " não é reconhecido como um caracter válido", currentItem.Line);
                         
                     }
 
@@ -110,8 +110,7 @@ namespace Core.LexicalAnalysis
 
                     if (items.Count == 0)
                     {
-                        throw new LexicalException(GetLineColumnText(startItem) + ": Comentário iniciado mas não fechado");
-                        
+                        throw new LexicalException(GetLineColumnText(startItem) + ": Comentário iniciado mas não fechado", startItem.Line);
                     }
                 }
 
@@ -147,7 +146,7 @@ namespace Core.LexicalAnalysis
                     // Validade if number can be beginning of an identificator
                     if (char.IsLetter(nextItem.Char))
                     {
-                        throw new LexicalException(GetLineColumnText(startItem) + ": Identificadores não podem iniciar com números: " + strToConcate + nextItem + "...");
+                        throw new LexicalException(GetLineColumnText(startItem) + ": Identificadores não podem iniciar com números: " + strToConcate + nextItem + "...", startItem.Line);
                     }
 
                     currentItem = GetNextItem(items);
@@ -156,7 +155,7 @@ namespace Core.LexicalAnalysis
                     // Validade if number contains decimal separator
                     if (char.IsDigit(nextItem.Char) && currentItem.Char.Equals('.'))
                     {
-                        throw new LexicalException(GetLineColumnText(startItem) + ": Números não podem conter ponto flutuante: " + strToConcate + currentItem + nextItem + "...");
+                        throw new LexicalException(GetLineColumnText(startItem) + ": Números não podem conter ponto flutuante: " + strToConcate + currentItem + nextItem + "...", startItem.Line);
                     }
                 }
 
@@ -164,7 +163,7 @@ namespace Core.LexicalAnalysis
                 int parsedNumber = int.Parse(strToConcate);
                 if (parsedNumber.CompareTo(-32767) == -1 || parsedNumber.CompareTo(32767) == 1)
                 {
-                    throw new LexicalException(GetLineColumnText(startItem) + ": O número " + strToConcate + " está fora do intervalo permitido -32767 a 32767");
+                    throw new LexicalException(GetLineColumnText(startItem) + ": O número " + strToConcate + " está fora do intervalo permitido -32767 a 32767", startItem.Line);
                 }
 
                 return new Token
@@ -239,7 +238,7 @@ namespace Core.LexicalAnalysis
                 // Validate if the extracted value is delimited by a valid delimiter
                 if (!IsValidDelimiter(currentItem, PreviewNextItem(items)))
                 {
-                    throw new LexicalException(GetLineColumnText(startItem) + ": Identificador " + strToConcate + currentItem + PreviewNextItem(items) + " é inválido");
+                    throw new LexicalException(GetLineColumnText(startItem) + ": Identificador " + strToConcate + currentItem + PreviewNextItem(items) + " é inválido", startItem.Line);
                 }
 
                 // Verify if extracted string contains in...
@@ -264,7 +263,7 @@ namespace Core.LexicalAnalysis
                 // Otherwise is Identifier
                 if (strToConcate.Count() > 30)
                 {
-                    throw new LexicalException(GetLineColumnText(startItem) + ": O identificador " + strToConcate + " possui mais que os 30 caracteres limite");
+                    throw new LexicalException(GetLineColumnText(startItem) + ": O identificador " + strToConcate + " possui mais que os 30 caracteres limite", startItem.Line);
                 }
 
                 return new Token
@@ -294,7 +293,7 @@ namespace Core.LexicalAnalysis
                     // If a newline was found, must throw a exception
                     if (currentItem.Line != startItem.Line)
                     {
-                        throw new LexicalException(GetLineColumnText(startItem) + ": Não é permitido quebra de linha em literais: " + strToConcate);
+                        throw new LexicalException(GetLineColumnText(startItem) + ": Não é permitido quebra de linha em literais: " + strToConcate, startItem.Line);
                     }
 
                     strToConcate = string.Concat(strToConcate, currentItem.ToString());
@@ -308,7 +307,7 @@ namespace Core.LexicalAnalysis
 
                 if (strToConcate.Count() > 257) // 257 -> 255 + apostrophe
                 {
-                    throw new LexicalException(GetLineColumnText(startItem) + ": O literal " + strToConcate + " possui mais que os 255 caracteres limite");
+                    throw new LexicalException(GetLineColumnText(startItem) + ": O literal " + strToConcate + " possui mais que os 255 caracteres limite", startItem.Line);
                 }
 
                 return new Token

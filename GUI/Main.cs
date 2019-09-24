@@ -8,6 +8,7 @@ using System.Linq;
 using Core.Exceptions;
 using GUI.DataGrid;
 using ScintillaNET;
+using System.Drawing;
 
 namespace GUI
 {
@@ -100,7 +101,7 @@ namespace GUI
 
             try
             {
-                tbConsole.AppendText("Analizando...\n");
+                tbConsole.AppendText("Executando análise léxica...\n");
 
                 // Initialize lexical analyzer
                 LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(textToAnalyze);
@@ -111,15 +112,32 @@ namespace GUI
                 // Set extracted tokens to grid
                 dgTokens.DataSource = ParseTokensToGrid(tokensList);
 
-                tbConsole.AppendText("Concluído\n");
+                tbConsole.AppendText("Análise léxica concluída\n");
             }
             catch (LexicalException error)
             {
+                // Set error to console
                 tbConsole.AppendText("ERRO! ");
 
                 tbConsole.AppendText(error.Message + "\n");
 
-                MessageBox.Show("Houve um erro analizar código fonte\n");
+                // Select error in the textbox
+                SelectErrorLine(error.GetLine());
+
+                // Show error dialog
+                MessageBox.Show("Houve um erro ao analizar código fonte\n");
+            }
+        }
+
+        private void SelectErrorLine(int lineNumber)
+        {
+
+            Line sourceCodeLine = sourceCode.Lines.ElementAtOrDefault(lineNumber - 1);
+
+            // Select line in the source code
+            if (sourceCodeLine != null)
+            {
+                sourceCode.SetSelection(sourceCodeLine.EndPosition, sourceCodeLine.Position);
             }
         }
 
