@@ -8,7 +8,7 @@ namespace Core
     {
         public IDictionary<(int, int), string> ParsingTable = new Dictionary<(int, int), string>
         {
-
+            { (1,1), new List<string>(){ "a","b"} },
         };
 
         }
