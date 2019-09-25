@@ -1,10 +1,8 @@
-﻿using Core.Dictionary;
-using Core.Enum;
+﻿using Core.Enum;
 using Core.Exceptions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 
 namespace Core.LexicalAnalysis
 {
@@ -370,12 +368,11 @@ namespace Core.LexicalAnalysis
 
         private Token GetOperatorToken(string expectedOperator)
         {
-            OperatorsDictionary operatorsDictionaty = new OperatorsDictionary();
-
-            if (operatorsDictionaty.operators.ContainsKey(expectedOperator.ToLower()))
+            IDictionary<string, OperatorEnum> operators = OperatorsDictionary.Get();
+            if (operators.ContainsKey(expectedOperator.ToLower()))
             {
                 OperatorEnum operatorEnum;
-                operatorsDictionaty.operators.TryGetValue(expectedOperator.ToLower(), out operatorEnum);
+                operators.TryGetValue(expectedOperator.ToLower(), out operatorEnum);
 
                 return new Token
                 {
@@ -405,14 +402,14 @@ namespace Core.LexicalAnalysis
 
         private Token GetSpecialSymbolToken(string expectedSymbol)
         {
-            SpecialSymbolsDictionary symbolsDictionaty = new SpecialSymbolsDictionary();
+            IDictionary<string, SpecialSymbolEnum> specialSymbols = SpecialSymbolsDictionary.Get();
 
-            if (symbolsDictionaty.symbols.ContainsKey(expectedSymbol.ToLower()))
+            if (specialSymbols.ContainsKey(expectedSymbol.ToLower()))
             {
                 // TODO: Create a validation to check if open brackets and parentheses was closed
 
                 SpecialSymbolEnum symbolEnum;
-                symbolsDictionaty.symbols.TryGetValue(expectedSymbol.ToLower(), out symbolEnum);
+                specialSymbols.TryGetValue(expectedSymbol.ToLower(), out symbolEnum);
 
                 return new Token
                 {

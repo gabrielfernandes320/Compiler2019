@@ -1,14 +1,11 @@
 ﻿using Core.Enum;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-
-namespace Core.Dictionary
+namespace Core.LexicalAnalysis
 {
-    class SpecialSymbolsDictionary
+    public static class SpecialSymbolsDictionary
     {
-        public IDictionary<string, SpecialSymbolEnum> symbols = new Dictionary<string, SpecialSymbolEnum>
+        private static readonly IDictionary<string, SpecialSymbolEnum> specialSymbols = new Dictionary<string, SpecialSymbolEnum>
         {
              { ":", SpecialSymbolEnum.Colon },
              { "=", SpecialSymbolEnum.Comparation },
@@ -23,5 +20,10 @@ namespace Core.Dictionary
              { "..", SpecialSymbolEnum.DoublePoints },
              { "$", SpecialSymbolEnum.DollarSign },
         };
+
+        public static IDictionary<string, SpecialSymbolEnum> Get()
+        {
+            return specialSymbols;
+        }
     }
 }
