@@ -28,9 +28,9 @@ namespace Core.LexicalAnalysis
             this.textToAnalyze = textToAnalyze;
         }
 
-        public Stack<Token> ExtractTokens()
+        public IList<Token> Start()
         {
-            Stack<Token> tokenStack = new Stack<Token>();
+            IList<Token> tokensList = new List<Token>();
 
             // Create a stack of CharWrapper to analyze
             Stack<CharWrapper> items = CreateItemsStack(textToAnalyze);
@@ -72,7 +72,7 @@ namespace Core.LexicalAnalysis
                     {
                         hasAnyValidToken = true;
 
-                        tokenStack.Push(procedure);
+                        tokensList.Add(procedure);
                     }
                 }
 
@@ -90,7 +90,7 @@ namespace Core.LexicalAnalysis
                 }
             }
 
-            return tokenStack;
+            return tokensList;
         }
 
         private void ClearCommentProcedure(Stack<CharWrapper> items)

@@ -9,6 +9,7 @@ using Core.Exceptions;
 using GUI.DataGrid;
 using ScintillaNET;
 using System.Drawing;
+using Core.SyntacticalAnalyzer;
 
 namespace GUI
 {
@@ -101,18 +102,24 @@ namespace GUI
 
             try
             {
+                // LEXICAL ANALISIS
                 tbConsole.AppendText("Executando análise léxica...\n");
 
                 // Initialize lexical analyzer
                 LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(textToAnalyze);
-
-                // Generate tokens list
-                IList<Token> tokensList = new List<Token>(lexicalAnalyzer.ExtractTokens());
+                IList<Token> extractedTokens = lexicalAnalyzer.Start();
 
                 // Set extracted tokens to grid
-                dgTokens.DataSource = ParseTokensToGrid(tokensList);
+                dgTokens.DataSource = ParseTokensToGrid(extractedTokens);
 
                 tbConsole.AppendText("Análise léxica concluída\n");
+
+                // SINTACTICAL ANALISIS
+                tbConsole.AppendText("Executando análise sintática...\n");
+
+                SyntacticalAnalyzer syntacticalAnalyzer = new SyntacticalAnalyzer(extractedTokens);
+
+                syntacticalAnalyzer.Start();
             }
             catch (LexicalException error)
             {
@@ -125,7 +132,20 @@ namespace GUI
                 SelectErrorLine(error.GetLine());
 
                 // Show error dialog
-                MessageBox.Show("Houve um erro ao analizar código fonte\n");
+                MessageBox.Show("Houve um erro ao efetuar a análise léxica do código fonte\n");
+            }
+            catch (SyntacticalException error)
+            {
+                // Set error to console
+                tbConsole.AppendText("ERRO! ");
+
+                tbConsole.AppendText(error.Message + "\n");
+
+                // Select error in the textbox
+                SelectErrorLine(error.GetLine());
+
+                // Show error dialog
+                MessageBox.Show("Houve um erro ao efetuar a análise sintática do código fonte\n");
             }
         }
 
@@ -151,7 +171,6 @@ namespace GUI
         private IList<DataGridLineItem> ParseTokensToGrid(IList<Token> tokensList)
         {
             return tokensList
-                .Reverse()
                 .Select(y =>new DataGridLineItem
                 {
                     Line = y.StartChar.Line.ToString(),
