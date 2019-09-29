@@ -1,10 +1,10 @@
-﻿namespace Core.Enum
+﻿namespace Core.Enums
 {
        public enum ReservedWordEnum
        {
             Program = 1,
             Label = 2,
-            Cons = 3,
+            Const = 3,
             Var = 4,
             Procedure = 5,
             Begin = 6,
@@ -22,7 +22,7 @@
             Repeat = 18,
             Until = 19,
             Readln = 20,
-            Writeln =21 ,
+            Writeln = 21 ,
             For = 27,
             To = 28,
             Case = 29

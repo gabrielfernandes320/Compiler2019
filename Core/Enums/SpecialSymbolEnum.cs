@@ -1,4 +1,4 @@
-﻿namespace Core.Enum
+﻿namespace Core.Enums
 {
     public enum SpecialSymbolEnum
     {
@@ -21,7 +21,7 @@
         /// <summary>
         /// := 
         /// </summary>
-        Equal = 38,
+        Definition = 38,
         /// <summary>
         /// :
         /// </summary>
@@ -29,7 +29,7 @@
         /// <summary>
         /// =
         /// </summary>
-        Comparation = 40,
+        Equal = 40,
         /// <summary>
         /// ,
         /// </summary>
@@ -43,7 +43,7 @@
         /// </summary>
         Point = 49,
         /// <summary>
-        /// :
+        /// ..
         /// </summary>
         DoublePoints = 50,
         /// <summary>

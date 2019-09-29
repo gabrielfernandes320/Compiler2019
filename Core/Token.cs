@@ -5,7 +5,7 @@ namespace Core
 {
     public class Token
     {
-        public System.Enum Type { get; set; }
+        public Enum Type { get; set; }
 
         public int Code {
             get

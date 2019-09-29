@@ -1,5 +1,6 @@
-﻿using Core.Enum;
+﻿using Core.Enums;
 using Core.Exceptions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,6 @@ namespace Core.LexicalAnalysis
                     if (!char.IsWhiteSpace(currentItem.Char) && currentItem.Char != NEW_LINE)
                     {
                         throw new LexicalException(GetLineColumnText(currentItem) + ": " + currentItem.ToString() + " não é reconhecido como um caracter válido", currentItem.Line);
-                        
                     }
 
                     currentItem = GetNextItem(items);
@@ -386,13 +386,13 @@ namespace Core.LexicalAnalysis
 
         private Token GetReservedWordToken(string expectedOperator)
         {
-            bool exists = System.Enum.TryParse<ReservedWordEnum>(expectedOperator, true, out _);
+            bool exists = Enum.TryParse<ReservedWordEnum>(expectedOperator, true, out _);
 
             if (exists)
             {
                 return new Token
                 {
-                    Type = (ReservedWordEnum)System.Enum.Parse(typeof(ReservedWordEnum), expectedOperator, true),
+                    Type = (ReservedWordEnum)Enum.Parse(typeof(ReservedWordEnum), expectedOperator, true),
                     Value = expectedOperator.ToUpper()
                 };
             }

@@ -1,4 +1,4 @@
-﻿using Core.Enum;
+﻿using Core.Enums;
 using System.Collections.Generic;
 
 namespace Core.LexicalAnalysis
@@ -8,8 +8,8 @@ namespace Core.LexicalAnalysis
         private static readonly IDictionary<string, SpecialSymbolEnum> specialSymbols = new Dictionary<string, SpecialSymbolEnum>
         {
              { ":", SpecialSymbolEnum.Colon },
-             { "=", SpecialSymbolEnum.Comparation },
-             { ":=", SpecialSymbolEnum.Equal },
+             { "=", SpecialSymbolEnum.Equal },
+             { ":=", SpecialSymbolEnum.Definition },
              { "[", SpecialSymbolEnum.LeftBracket },
              { "(", SpecialSymbolEnum.LeftParentheses },
              { "]", SpecialSymbolEnum.RightBracket },

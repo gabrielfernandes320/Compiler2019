@@ -10,6 +10,7 @@ using GUI.DataGrid;
 using ScintillaNET;
 using System.Drawing;
 using Core.SyntacticalAnalyzer;
+using System.Threading.Tasks;
 
 namespace GUI
 {
@@ -114,12 +115,14 @@ namespace GUI
 
                 tbConsole.AppendText("Análise léxica concluída\n");
 
-                // SINTACTICAL ANALISIS
+                // SYNTACTICAL ANALISIS
                 tbConsole.AppendText("Executando análise sintática...\n");
 
                 SyntacticalAnalyzer syntacticalAnalyzer = new SyntacticalAnalyzer(extractedTokens);
 
                 syntacticalAnalyzer.Start();
+
+                tbConsole.AppendText("Análise sintática concluída\n");
             }
             catch (LexicalException error)
             {
