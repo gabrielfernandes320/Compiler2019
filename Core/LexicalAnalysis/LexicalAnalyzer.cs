@@ -4,17 +4,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Extensions;
 
 namespace Core.LexicalAnalysis
 {
     public class LexicalAnalyzer
     {
-        // Text to be analyzed (Each item corresponds to line)
-        private string[] textToAnalyze;
-
-        // Control the position in the analyze
-        CharWrapper currentItem;
-
         // Constants
         private const char APOSTROPHE = '\'';
         private const char PARENTHESES_INI = '(';
@@ -23,6 +18,16 @@ namespace Core.LexicalAnalysis
         private const char MINUS = '-';
         private const char NEW_LINE = '\n';
         private const char UNDERLINE = '_';
+
+        // Text to be analyzed (Each item corresponds to line)
+        private readonly string[] textToAnalyze;
+
+        // Control the position in the analyze
+        private CharWrapper currentItem;
+
+        // Controls open brackets/parentheses
+        private readonly Stack<CharWrapper> openBrackets = new Stack<CharWrapper>();
+        private readonly Stack<CharWrapper> openParentheses = new Stack<CharWrapper>();
 
         public LexicalAnalyzer(string[] textToAnalyze)
         {
@@ -88,6 +93,17 @@ namespace Core.LexicalAnalysis
 
                     currentItem = GetNextItem(items);
                 }
+            }
+
+            // Before return validate if has unclosed brackets or parentheses
+            if (openBrackets.Count > 0)
+            {
+                throw new LexicalException(GetLineColumnText(openBrackets.Peek()) + ": Colchetes não foi fechado", openBrackets.Peek().Line);
+            }
+
+            if (openParentheses.Count > 0)
+            {
+                throw new LexicalException(GetLineColumnText(openParentheses.Peek()) + ": Parênteses não foi fechado", openParentheses.Peek().Line);
             }
 
             return tokensList;
@@ -355,6 +371,43 @@ namespace Core.LexicalAnalysis
 
                 if (extractedSymbol != null)
                 {
+                    // If symbol is a open brackets
+                    if (extractedSymbol.Type.GetValue<int>() == SpecialSymbolEnum.LeftBracket.GetValue<int>())
+                    {
+                        openBrackets.Push(currentItem);
+                    }
+
+                    // If symbol is a close brackets
+                    if (extractedSymbol.Type.GetValue<int>() == SpecialSymbolEnum.RightBracket.GetValue<int>())
+                    {
+                        try
+                        {
+                            openBrackets.Pop();
+                        } catch (InvalidOperationException)
+                        {
+                            throw new LexicalException(GetLineColumnText(currentItem) + ": Não é possível fechar um colchetes que não foi aberto", currentItem.Line);
+                        }
+                    }
+
+                    // If symbol is a open parentheses
+                    if (extractedSymbol.Type.GetValue<int>() == SpecialSymbolEnum.LeftParentheses.GetValue<int>())
+                    {
+                        openParentheses.Push(currentItem);
+                    }
+                    
+                    // If symbol is a close parentheses
+                    if (extractedSymbol.Type.GetValue<int>() == SpecialSymbolEnum.RightParentheses.GetValue<int>())
+                    {
+                        try
+                        {
+                            openParentheses.Pop();
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            throw new LexicalException(GetLineColumnText(currentItem) + ": Não é possível fechar um parênteses que não foi aberto", currentItem.Line);
+                        }
+                    }
+
                     extractedSymbol.StartChar = currentItem;
 
                     currentItem = GetNextItem(items);
@@ -406,8 +459,6 @@ namespace Core.LexicalAnalysis
 
             if (specialSymbols.ContainsKey(expectedSymbol.ToLower()))
             {
-                // TODO: Create a validation to check if open brackets and parentheses was closed
-
                 SpecialSymbolEnum symbolEnum;
                 specialSymbols.TryGetValue(expectedSymbol.ToLower(), out symbolEnum);
 
