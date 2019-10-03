@@ -74,6 +74,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Core.SyntacticalAnalysis.DerivedItem.datasource" />
     <None Include="Properties\DataSources\Core.Token.datasource" />
     <None Include="Properties\DataSources\GUI.DataGrid.DataGridLineItem.datasource" />
     <None Include="Properties\Settings.settings">

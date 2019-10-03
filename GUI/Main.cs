@@ -8,8 +8,9 @@ using System.Linq;
 using Core.Exceptions;
 using GUI.DataGrid;
 using ScintillaNET;
-using System.Drawing;
-using Core.SyntacticalAnalyzer;
+using Core.SyntacticalAnalysis;
+using Core.Enums;
+using Core.Extensions;
 using System.Threading.Tasks;
 
 namespace GUI
@@ -114,15 +115,52 @@ namespace GUI
                 dgTokens.DataSource = ParseTokensToGrid(extractedTokens);
 
                 tbConsole.AppendText("Análise léxica concluída\n");
-
+                
                 // SYNTACTICAL ANALISIS
                 tbConsole.AppendText("Executando análise sintática...\n");
 
                 SyntacticalAnalyzer syntacticalAnalyzer = new SyntacticalAnalyzer(extractedTokens);
 
-                syntacticalAnalyzer.Start();
+                ////int lastSelectedLine = 0;
+
+                foreach (SyntacticalAnalysisProcessing processing in syntacticalAnalyzer.Start())
+                {
+                    // Console.WriteLine(processing.TokensStack.Count + ", " + processing.ExpansionStack.Count);
+                    Console.WriteLine(processing.LineNumber);
+
+                    // Select last processed line
+                    ////if (processing.LineNumber != lastSelectedLine)
+                    ////{
+                    ////    lastSelectedLine = processing.LineNumber;
+
+                    //SelectLine(processing.LineNumber);
+                    ////}
+
+                    // Set expansions to analyzer data source
+                    dgAnalyzer.DataSource = processing.ExpansionStack.ToList();
+
+                    ////if (processing.RemovedToken != null)
+                    ////{
+                    ////extractedTokens.RemoveAt(0);
+
+                    ////dgTokens.DataSource = ParseTokensToGrid(extractedTokens);
+                    ////}
+
+                    ////Task.Delay(100).Wait();
+                    ////Task.Delay(100).Wait();
+                    ///
+                    //DataGridViewRow j = dgTokens.Rows[0];
+                    //DataGridViewRowCollection f = dgTokens.Rows;
+
+                    //f.RemoveAt(j.Index);
+
+                    //Task.Delay(1).Wait();
+                }
+
+                //syntacticalAnalyzer.Start();
 
                 tbConsole.AppendText("Análise sintática concluída\n");
+                
             }
             catch (LexicalException error)
             {
@@ -132,7 +170,7 @@ namespace GUI
                 tbConsole.AppendText(error.Message + "\n");
 
                 // Select error in the textbox
-                SelectErrorLine(error.GetLine());
+                SelectLine(error.GetLine());
 
                 // Show error dialog
                 MessageBox.Show("Houve um erro ao efetuar a análise léxica do código fonte\n");
@@ -145,14 +183,14 @@ namespace GUI
                 tbConsole.AppendText(error.Message + "\n");
 
                 // Select error in the textbox
-                SelectErrorLine(error.GetLine());
+                SelectLine(error.GetLine());
 
                 // Show error dialog
                 MessageBox.Show("Houve um erro ao efetuar a análise sintática do código fonte\n");
             }
         }
 
-        private void SelectErrorLine(int lineNumber)
+        private void SelectLine(int lineNumber)
         {
 
             Line sourceCodeLine = sourceCode.Lines.ElementAtOrDefault(lineNumber - 1);

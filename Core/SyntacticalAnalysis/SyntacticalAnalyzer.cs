@@ -1,34 +1,33 @@
 ﻿using Core.Enums;
 using Core.Exceptions;
 using Core.Extensions;
-using Core.SyntacticalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Core.SyntacticalAnalyzer
+namespace Core.SyntacticalAnalysis
 {
     public class SyntacticalAnalyzer
     {
         private readonly IDictionary<NonTerminalEnum, IDictionary<Enum, IList<Enum>>> parsingMatrix;
         private Stack<Token> tokensStack = new Stack<Token>();
-        private Stack<Enum> expansionStack = new Stack<Enum>();
+        private Stack<DerivedItem> expansionStack = new Stack<DerivedItem>();
 
         public SyntacticalAnalyzer(IList<Token> tokens)
         {
             parsingMatrix = ParsingMatrixDictionary.Get();
             tokensStack = CreateTokensStack(tokens);
 
-            expansionStack.Push(NonTerminalEnum.PROGRAMA);
+            expansionStack.Push(CreateDerivedItem(NonTerminalEnum.PROGRAMA));
         }
 
-        public void Start()
+        public IEnumerable<SyntacticalAnalysisProcessing> Start()
         {
             while (expansionStack.Count > 0)
             {
                 Token currentToken = tokensStack.Peek();
 
-                Enum x = expansionStack.Peek(); // X
+                Enum x = expansionStack.Peek().Enumeration; // X
                 Enum a = currentToken.Type; // a
 
                 bool isNonTerminal = x.OfType<NonTerminalEnum>();
@@ -52,9 +51,16 @@ namespace Core.SyntacticalAnalyzer
                             {
                                 foreach (Enum enumeration in parsingItemsFromX[a].Reverse())
                                 {
-                                    expansionStack.Push(enumeration);
+                                    expansionStack.Push(CreateDerivedItem(enumeration));
                                 }
                             }
+
+                            yield return new SyntacticalAnalysisProcessing
+                            {
+                                RemovedToken = null,
+                                ExpansionStack = expansionStack,
+                                LineNumber = currentToken.StartChar.Line
+                            };
                         } else
                         {
                             throw new SyntacticalException(GetLineColumnText(currentToken.StartChar) + ": Sintaxe inválida. Não foi possível encontrar [" + x + ", " + a + " (" + x.GetValue<int>() + ", " + a.GetValue<int>() + ")] na tabela de parsing", currentToken.StartChar.Line);
@@ -71,7 +77,14 @@ namespace Core.SyntacticalAnalyzer
                     {
                         // Remove both from stack
                         expansionStack.Pop();
-                        tokensStack.Pop();
+                        Token removedToken = tokensStack.Pop();
+
+                        yield return new SyntacticalAnalysisProcessing
+                        {
+                            RemovedToken = removedToken,
+                            ExpansionStack = expansionStack,
+                            LineNumber = currentToken.StartChar.Line
+                        };
                     } else
                     {
                         // Throw a error
@@ -79,6 +92,16 @@ namespace Core.SyntacticalAnalyzer
                     }
                 }
             }
+        }
+
+        private DerivedItem CreateDerivedItem(Enum enumeration)
+        {
+            return new DerivedItem
+            {
+                Enumeration = enumeration,
+                Code = enumeration.GetValue<int>(),
+                Value = enumeration.ToString()
+            };
         }
 
         private Stack<Token> CreateTokensStack(IList<Token> tokens)

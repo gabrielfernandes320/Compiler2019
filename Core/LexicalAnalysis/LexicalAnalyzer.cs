@@ -174,12 +174,18 @@ namespace Core.LexicalAnalysis
                 }
 
                 // Validate if extracted number is the range –32767, 32767
-                int parsedNumber = int.Parse(strToConcate);
-                if (parsedNumber.CompareTo(-32767) == -1 || parsedNumber.CompareTo(32767) == 1)
+                try
+                {
+                    int parsedNumber = int.Parse(strToConcate);
+                    if (parsedNumber.CompareTo(-32767) == -1 || parsedNumber.CompareTo(32767) == 1)
+                    {
+                        throw new LexicalException(GetLineColumnText(startItem) + ": O número " + strToConcate + " está fora do intervalo permitido -32767 a 32767", startItem.Line);
+                    }
+                } catch (OverflowException error)
                 {
                     throw new LexicalException(GetLineColumnText(startItem) + ": O número " + strToConcate + " está fora do intervalo permitido -32767 a 32767", startItem.Line);
                 }
-
+                
                 return new Token
                 {
                     Type = NumberEnum.Integer,
