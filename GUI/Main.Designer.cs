@@ -40,8 +40,6 @@
             this.menuItem_help = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_help_about = new System.Windows.Forms.ToolStripMenuItem();
             this.dgTokens = new System.Windows.Forms.DataGridView();
-            this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Line = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bsTokens = new System.Windows.Forms.BindingSource(this.components);
             this.mainTableLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -57,6 +55,8 @@
             this.tbConsole = new System.Windows.Forms.RichTextBox();
             this.fileNameLabel = new System.Windows.Forms.Label();
             this.tokenBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.valueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.codeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).BeginInit();
@@ -181,25 +181,7 @@
             this.dgTokens.Size = new System.Drawing.Size(220, 309);
             this.dgTokens.TabIndex = 2;
             this.dgTokens.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridRowFocusEvent);
-            this.dgTokens.Leave += new System.EventHandler(this.dataGridFocusLeaveEvent);
-            // 
-            // codeDataGridViewTextBoxColumn
-            // 
-            this.codeDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.codeDataGridViewTextBoxColumn.DataPropertyName = "Code";
-            this.codeDataGridViewTextBoxColumn.FillWeight = 47F;
-            this.codeDataGridViewTextBoxColumn.HeaderText = "Código";
-            this.codeDataGridViewTextBoxColumn.Name = "codeDataGridViewTextBoxColumn";
-            this.codeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.codeDataGridViewTextBoxColumn.Width = 47;
-            // 
-            // valueDataGridViewTextBoxColumn
-            // 
-            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
-            this.valueDataGridViewTextBoxColumn.FillWeight = 110.2238F;
-            this.valueDataGridViewTextBoxColumn.HeaderText = "Valor";
-            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
-            this.valueDataGridViewTextBoxColumn.ReadOnly = true;
+            //this.dgTokens.Leave += new System.EventHandler(this.dataGridFocusLeaveEvent);
             // 
             // Line
             // 
@@ -211,10 +193,6 @@
             this.Line.Name = "Line";
             this.Line.ReadOnly = true;
             this.Line.Width = 47;
-            // 
-            // bsTokens
-            // 
-            this.bsTokens.DataSource = typeof(GUI.DataGrid.DataGridLineItem);
             // 
             // mainTableLayout
             // 
@@ -386,6 +364,24 @@
             // 
             this.tokenBindingSource.DataSource = typeof(Core.Token);
             // 
+            // valueDataGridViewTextBoxColumn
+            // 
+            this.valueDataGridViewTextBoxColumn.DataPropertyName = "Value";
+            this.valueDataGridViewTextBoxColumn.FillWeight = 110.2238F;
+            this.valueDataGridViewTextBoxColumn.HeaderText = "Valor";
+            this.valueDataGridViewTextBoxColumn.Name = "valueDataGridViewTextBoxColumn";
+            this.valueDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // codeDataGridViewTextBoxColumn
+            // 
+            this.codeDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.codeDataGridViewTextBoxColumn.DataPropertyName = "Code";
+            this.codeDataGridViewTextBoxColumn.FillWeight = 47F;
+            this.codeDataGridViewTextBoxColumn.HeaderText = "Código";
+            this.codeDataGridViewTextBoxColumn.Name = "codeDataGridViewTextBoxColumn";
+            this.codeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.codeDataGridViewTextBoxColumn.Width = 47;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -431,8 +427,6 @@
         private System.Windows.Forms.TableLayoutPanel mainTableLayout;
         private System.Windows.Forms.Label fileNameLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn Line;
-        private System.Windows.Forms.DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
         private EasyScintilla.SimpleEditor sourceCode;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -444,6 +438,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn1;
         private System.Windows.Forms.BindingSource tokenBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
     }
 }
 

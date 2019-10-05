@@ -23,7 +23,7 @@ namespace Core.SyntacticalAnalysis
 
         public IEnumerable<SyntacticalAnalysisProcessing> Start()
         {
-            while (expansionStack.Count > 0)
+            while (expansionStack.Count > 0 && tokensStack.Count > 0)
             {
                 Token currentToken = tokensStack.Peek();
 

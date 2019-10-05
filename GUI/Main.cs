@@ -6,11 +6,9 @@ using Core.Utils;
 using Core.LexicalAnalysis;
 using System.Linq;
 using Core.Exceptions;
-using GUI.DataGrid;
 using ScintillaNET;
 using Core.SyntacticalAnalysis;
-using Core.Enums;
-using Core.Extensions;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace GUI
@@ -96,8 +94,9 @@ namespace GUI
         {
             tbConsole.Text = "Preparando...\n";
 
-            // Clear tokens list before run
-            dgTokens.DataSource = null;
+            DataTable tokensDataTable = CreateTokensDataTable();
+
+            dgTokens.DataSource = tokensDataTable;
 
             // Get text to lexical analysis
             string[] textToAnalyze = ConvertSourceCodeLinesToArray(sourceCode.Lines);
@@ -111,8 +110,8 @@ namespace GUI
                 LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(textToAnalyze);
                 IList<Token> extractedTokens = lexicalAnalyzer.Start();
 
-                // Set extracted tokens to grid
-                dgTokens.DataSource = ParseTokensToGrid(extractedTokens);
+                // Add extracted tokens to data table
+                AddExtractedTokensToDataTable(tokensDataTable, extractedTokens);
 
                 tbConsole.AppendText("Análise léxica concluída\n");
                 
@@ -121,40 +120,28 @@ namespace GUI
 
                 SyntacticalAnalyzer syntacticalAnalyzer = new SyntacticalAnalyzer(extractedTokens);
 
-                ////int lastSelectedLine = 0;
-
+                int lastSelectedLine = 0;
                 foreach (SyntacticalAnalysisProcessing processing in syntacticalAnalyzer.Start())
                 {
-                    // Console.WriteLine(processing.TokensStack.Count + ", " + processing.ExpansionStack.Count);
-                    Console.WriteLine(processing.LineNumber);
+                    // Console.WriteLine(processing.LineNumber + "...." + tokensDataTable.Rows.Count);
+
+                    if (processing.RemovedToken != null && tokensDataTable.Rows.Count > 0)
+                    {
+                       tokensDataTable.Rows.RemoveAt(0);
+                    }
 
                     // Select last processed line
-                    ////if (processing.LineNumber != lastSelectedLine)
-                    ////{
-                    ////    lastSelectedLine = processing.LineNumber;
+                    if (processing.LineNumber != lastSelectedLine)
+                    {
+                        lastSelectedLine = processing.LineNumber;
 
-                    //SelectLine(processing.LineNumber);
-                    ////}
+                        SelectLine(processing.LineNumber);
+                    }
 
                     // Set expansions to analyzer data source
                     dgAnalyzer.DataSource = processing.ExpansionStack.ToList();
 
-                    ////if (processing.RemovedToken != null)
-                    ////{
-                    ////extractedTokens.RemoveAt(0);
-
-                    ////dgTokens.DataSource = ParseTokensToGrid(extractedTokens);
-                    ////}
-
-                    ////Task.Delay(100).Wait();
-                    ////Task.Delay(100).Wait();
-                    ///
-                    //DataGridViewRow j = dgTokens.Rows[0];
-                    //DataGridViewRowCollection f = dgTokens.Rows;
-
-                    //f.RemoveAt(j.Index);
-
-                    //Task.Delay(1).Wait();
+                    Task.Delay(500).Wait();
                 }
 
                 //syntacticalAnalyzer.Start();
@@ -190,6 +177,30 @@ namespace GUI
             }
         }
 
+        private DataTable CreateTokensDataTable()
+        {
+            DataTable tokensDataTable = new DataTable("tokens");
+
+            DataColumn column;
+
+            column = new DataColumn();
+            column.ColumnName = "code";
+            column.ReadOnly = true;
+            tokensDataTable.Columns.Add(column);
+
+            column = new DataColumn();
+            column.ColumnName = "value";
+            column.ReadOnly = true;
+            tokensDataTable.Columns.Add(column);
+
+            column = new DataColumn();
+            column.ColumnName = "line";
+            column.ReadOnly = true;
+            tokensDataTable.Columns.Add(column);
+
+            return tokensDataTable;
+        }
+
         private void SelectLine(int lineNumber)
         {
 
@@ -209,16 +220,18 @@ namespace GUI
                 .ToArray();
         }
 
-        private IList<DataGridLineItem> ParseTokensToGrid(IList<Token> tokensList)
+        private void AddExtractedTokensToDataTable(DataTable dataTable, IList<Token> tokensList)
         {
-            return tokensList
-                .Select(y =>new DataGridLineItem
-                {
-                    Line = y.StartChar.Line.ToString(),
-                    Code = y.Code.ToString(),
-                    Value = y.Value
-                })
-                .ToList();
+            DataRow row;
+
+            foreach (Token y in tokensList)
+            {
+                row = dataTable.NewRow();
+                row["line"] = y.StartChar.Line.ToString();
+                row["code"] = y.Code.ToString();
+                row["value"] = y.Value;
+                dataTable.Rows.Add(row);
+            }
         }
 
         private void CompileCodeAction(object sender, EventArgs e)
@@ -242,20 +255,27 @@ namespace GUI
 
         private void dataGridRowFocusEvent(object sender, DataGridViewCellEventArgs e)
         {
-            int line = int.Parse(dgTokens.Rows[e.RowIndex].Cells[0].FormattedValue.ToString());
-
-            Line sourceCodeLine = sourceCode.Lines.ElementAtOrDefault(line - 1);
-
-            // Select line in the source code
-            if (sourceCodeLine != null)
+            try
             {
-                sourceCode.SetSelection(sourceCodeLine.EndPosition, sourceCodeLine.Position);
+                int line = int.Parse(dgTokens.Rows[e.RowIndex].Cells[0].FormattedValue.ToString());
+
+                Line sourceCodeLine = sourceCode.Lines.ElementAtOrDefault(line - 1);
+
+                // Select line in the source code
+                if (sourceCodeLine != null)
+                {
+                    sourceCode.SetSelection(sourceCodeLine.EndPosition, sourceCodeLine.Position);
+                }
+            } catch (Exception error)
+            {
+                // Internal error
+                Console.WriteLine(error.Message);
             }
         }
 
-        private void dataGridFocusLeaveEvent(object sender, EventArgs e)
-        {
-            dgTokens.ClearSelection();
-        }
+        //private void dataGridFocusLeaveEvent(object sender, EventArgs e)
+        //{
+        //    dgTokens.ClearSelection();
+        //}
     }
 }
