@@ -355,6 +355,7 @@
             this.continueDebugButton.TabIndex = 6;
             this.continueDebugButton.Text = "Próximo";
             this.continueDebugButton.UseVisualStyleBackColor = true;
+            this.continueDebugButton.Visible = false;
             this.continueDebugButton.Click += new System.EventHandler(this.ContinueAnalyzeAction);
             // 
             // stopDebugButton
@@ -371,6 +372,7 @@
             this.stopDebugButton.Text = "Parar";
             this.stopDebugButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.stopDebugButton.UseVisualStyleBackColor = false;
+            this.stopDebugButton.Visible = false;
             this.stopDebugButton.Click += new System.EventHandler(this.StopAnalyzeAction);
             // 
             // resumeDebugButton
@@ -385,6 +387,7 @@
             this.resumeDebugButton.TabIndex = 8;
             this.resumeDebugButton.Text = "Resumir";
             this.resumeDebugButton.UseVisualStyleBackColor = true;
+            this.resumeDebugButton.Visible = false;
             this.resumeDebugButton.Click += new System.EventHandler(this.ResumeAnalyzeAction);
             // 
             // tableLayoutPanel2

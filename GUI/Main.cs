@@ -113,9 +113,8 @@ namespace GUI
             analyzePaused = false;
 
             // Enable stop button
+            stopDebugButton.Visible = true;
             stopDebugButton.Enabled = true;
-            resumeDebugButton.Enabled = true;
-            continueDebugButton.Enabled = true;
 
             // Initialize tokens data table
             DataTable tokensDataTable = CreateTokensDataTable();
@@ -133,8 +132,21 @@ namespace GUI
                 LexicalAnalyzer lexicalAnalyzer = new LexicalAnalyzer(textToAnalyze);
                 IList<Token> extractedTokens = lexicalAnalyzer.Start();
 
-                // Add extracted tokens to data table
-                AddExtractedTokensToDataTable(tokensDataTable, extractedTokens);
+                if (debugMode)
+                {
+                    // Enable debug control buttons
+                    resumeDebugButton.Visible = true;
+                    resumeDebugButton.Enabled = true;
+                    continueDebugButton.Visible = true;
+                    continueDebugButton.Enabled = true;
+
+
+                    // Add extracted tokens to data table
+                    _ = Task.Run(() =>
+                    {
+                        AddExtractedTokensToDataTable(tokensDataTable, extractedTokens);
+                    });
+                }
 
                 tbConsole.AppendText("Análise léxica concluída\n");
 
@@ -145,13 +157,10 @@ namespace GUI
 
                 foreach (SyntacticalAnalysisProcessing processing in syntacticalAnalyzer.Start())
                 {
-                    if (processing.RemovedToken != null && tokensDataTable.Rows.Count > 0)
+                    if (debugMode && processing.RemovedToken != null && tokensDataTable.Rows.Count > 0)
                     {
                        tokensDataTable.Rows.RemoveAt(0);
                     }
-
-                    // Set expansions to analyzer data source
-                    dgAnalyzer.DataSource = processing.ExpansionStack.ToList();
 
                     // Stop analyze
                     if (analyzeStopped)
@@ -164,8 +173,14 @@ namespace GUI
                     // Controls debug mode
                     if (debugMode)
                     {
-                        // Select last processed line
-                        SelectLine(processing.LineNumber);
+                        // Set expansions to analyzer data source
+                        dgAnalyzer.DataSource = processing.ExpansionStack.ToList();
+
+                        if (!analyzeResumed)
+                        {
+                            // Select last processed line
+                            SelectLine(processing.LineNumber);
+                        }
 
                         // Wait until continue debug action
                         while (analyzePaused)
@@ -183,6 +198,9 @@ namespace GUI
                         if (!analyzeResumed)
                         {
                             analyzePaused = true;
+                        } else
+                        {
+                            await Task.Delay(1);
                         }
                     }
                 }
@@ -217,9 +235,7 @@ namespace GUI
             }
 
             // Disabled buttons
-            stopDebugButton.Enabled = false;
-            resumeDebugButton.Enabled = false;
-            continueDebugButton.Enabled = false;
+            ResetDebugControlButtons();
         }
 
         private void StopAnalyze()
@@ -228,12 +244,17 @@ namespace GUI
             dgAnalyzer.DataSource = null;
             dgTokens.DataSource = null;
 
-            // Disabled buttons
-            stopDebugButton.Enabled = false;
-            resumeDebugButton.Enabled = false;
-            continueDebugButton.Enabled = false;
-
             tbConsole.AppendText("Análise abortada pelo usuário\n");
+        }
+
+        private void ResetDebugControlButtons()
+        {
+            stopDebugButton.Visible = false;
+            stopDebugButton.Enabled = false;
+            resumeDebugButton.Visible = false;
+            resumeDebugButton.Enabled = false;
+            continueDebugButton.Visible = false;
+            continueDebugButton.Enabled = false;
         }
 
         private DataTable CreateTokensDataTable()
@@ -342,6 +363,9 @@ namespace GUI
         {
             // Close analyze
             analyzeStopped = true;
+
+            // Disabled buttons
+            ResetDebugControlButtons();
         }
 
         private void ResumeAnalyzeAction(object sender, EventArgs e)
@@ -349,6 +373,9 @@ namespace GUI
             // Skip steps
             analyzeResumed = true;
             analyzePaused = false;
+
+            // Disable continue button
+            continueDebugButton.Enabled = false;
         }
     }
 }
