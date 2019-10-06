@@ -21,7 +21,9 @@ namespace GUI
         private readonly FileHandler fileHandler = new FileHandler();
         private ToolTip toolTip = new ToolTip();
 
-        private volatile bool debugPaused;
+        private volatile bool analyzePaused;
+        private volatile bool analyzeStopped;
+        private volatile bool analyzeResumed;
 
         public Main()
         {
@@ -105,8 +107,18 @@ namespace GUI
         {
             tbConsole.Text = "Preparando...\n";
 
-            DataTable tokensDataTable = CreateTokensDataTable();
+            // Reset analyze controls
+            analyzeStopped = false;
+            analyzeResumed = false;
+            analyzePaused = false;
 
+            // Enable stop button
+            stopDebugButton.Enabled = true;
+            resumeDebugButton.Enabled = true;
+            continueDebugButton.Enabled = true;
+
+            // Initialize tokens data table
+            DataTable tokensDataTable = CreateTokensDataTable();
             dgTokens.DataSource = tokensDataTable;
 
             // Get text to lexical analysis
@@ -125,7 +137,7 @@ namespace GUI
                 AddExtractedTokensToDataTable(tokensDataTable, extractedTokens);
 
                 tbConsole.AppendText("Análise léxica concluída\n");
-                
+
                 // SYNTACTICAL ANALISIS
                 tbConsole.AppendText("Executando análise sintática...\n");
 
@@ -133,8 +145,6 @@ namespace GUI
 
                 foreach (SyntacticalAnalysisProcessing processing in syntacticalAnalyzer.Start())
                 {
-                    // Console.WriteLine(processing.LineNumber + "...." + tokensDataTable.Rows.Count);
-
                     if (processing.RemovedToken != null && tokensDataTable.Rows.Count > 0)
                     {
                        tokensDataTable.Rows.RemoveAt(0);
@@ -143,19 +153,37 @@ namespace GUI
                     // Set expansions to analyzer data source
                     dgAnalyzer.DataSource = processing.ExpansionStack.ToList();
 
+                    // Stop analyze
+                    if (analyzeStopped)
+                    {
+                        StopAnalyze();
+
+                        return;
+                    }
+
+                    // Controls debug mode
                     if (debugMode)
                     {
                         // Select last processed line
                         SelectLine(processing.LineNumber);
 
                         // Wait until continue debug action
-                        while (debugPaused)
+                        while (analyzePaused)
                         {
+                            if (analyzeStopped)
+                            {
+                                StopAnalyze();
+
+                                return;
+                            }
+
                             await Task.Delay(500);
                         }
 
-                        // Pause debug after iteration
-                        debugPaused = true;
+                        if (!analyzeResumed)
+                        {
+                            analyzePaused = true;
+                        }
                     }
                 }
 
@@ -187,6 +215,25 @@ namespace GUI
                 // Show error dialog
                 MessageBox.Show("Houve um erro ao efetuar a análise sintática do código fonte\n");
             }
+
+            // Disabled buttons
+            stopDebugButton.Enabled = false;
+            resumeDebugButton.Enabled = false;
+            continueDebugButton.Enabled = false;
+        }
+
+        private void StopAnalyze()
+        {
+            // Reset data grids
+            dgAnalyzer.DataSource = null;
+            dgTokens.DataSource = null;
+
+            // Disabled buttons
+            stopDebugButton.Enabled = false;
+            resumeDebugButton.Enabled = false;
+            continueDebugButton.Enabled = false;
+
+            tbConsole.AppendText("Análise abortada pelo usuário\n");
         }
 
         private DataTable CreateTokensDataTable()
@@ -280,15 +327,28 @@ namespace GUI
             }
         }
 
-        private void ContinueDebugAction(object sender, EventArgs e)
-        {
-            // Resume debug to next step
-            debugPaused = false;
-        }
-
-        private void dataGridFocusLeaveEvent(object sender, EventArgs e)
+        private void DataGridFocusLeaveEvent(object sender, EventArgs e)
         {
             dgTokens.ClearSelection();
+        }
+
+        private void ContinueAnalyzeAction(object sender, EventArgs e)
+        {
+            // Go to next step
+            analyzePaused = false;
+        }
+
+        private void StopAnalyzeAction(object sender, EventArgs e)
+        {
+            // Close analyze
+            analyzeStopped = true;
+        }
+
+        private void ResumeAnalyzeAction(object sender, EventArgs e)
+        {
+            // Skip steps
+            analyzeResumed = true;
+            analyzePaused = false;
         }
     }
 }

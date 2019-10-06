@@ -40,6 +40,9 @@
             this.menuItem_help = new System.Windows.Forms.ToolStripMenuItem();
             this.menuItem_help_about = new System.Windows.Forms.ToolStripMenuItem();
             this.dgTokens = new System.Windows.Forms.DataGridView();
+            this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Line = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bsTokens = new System.Windows.Forms.BindingSource(this.components);
             this.mainTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -49,15 +52,15 @@
             this.codeDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.derivedItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.ContinueDebugButton = new System.Windows.Forms.Button();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.continueDebugButton = new System.Windows.Forms.Button();
+            this.stopDebugButton = new System.Windows.Forms.Button();
+            this.resumeDebugButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.sourceCode = new EasyScintilla.SimpleEditor();
             this.tbConsole = new System.Windows.Forms.RichTextBox();
             this.fileNameLabel = new System.Windows.Forms.Label();
             this.tokenBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Line = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTokens)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsTokens)).BeginInit();
@@ -65,6 +68,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgAnalyzer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.derivedItemBindingSource)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tokenBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -169,7 +173,7 @@
             this.Line});
             this.dgTokens.DataSource = this.bsTokens;
             this.dgTokens.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgTokens.Location = new System.Drawing.Point(0, 286);
+            this.dgTokens.Location = new System.Drawing.Point(0, 341);
             this.dgTokens.Margin = new System.Windows.Forms.Padding(0);
             this.dgTokens.MultiSelect = false;
             this.dgTokens.Name = "dgTokens";
@@ -178,190 +182,9 @@
             this.dgTokens.RowTemplate.ReadOnly = true;
             this.dgTokens.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgTokens.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgTokens.Size = new System.Drawing.Size(220, 309);
+            this.dgTokens.Size = new System.Drawing.Size(269, 254);
             this.dgTokens.TabIndex = 2;
             this.dgTokens.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridRowFocusEvent);
-            // 
-            // mainTableLayout
-            // 
-            this.mainTableLayout.ColumnCount = 2;
-            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.88987F));
-            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.11013F));
-            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mainTableLayout.Controls.Add(this.tableLayoutPanel1, 1, 0);
-            this.mainTableLayout.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.mainTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainTableLayout.Location = new System.Drawing.Point(0, 24);
-            this.mainTableLayout.Name = "mainTableLayout";
-            this.mainTableLayout.Padding = new System.Windows.Forms.Padding(4, 0, 4, 4);
-            this.mainTableLayout.RowCount = 1;
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 46.75541F));
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 53.24459F));
-            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 601F));
-            this.mainTableLayout.Size = new System.Drawing.Size(908, 605);
-            this.mainTableLayout.TabIndex = 5;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.analyzeLabel, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tokensLabel, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.dgAnalyzer, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.dgTokens, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.ContinueDebugButton, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(681, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.469056F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.53094F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 308F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(220, 595);
-            this.tableLayoutPanel1.TabIndex = 7;
-            // 
-            // analyzeLabel
-            // 
-            this.analyzeLabel.AutoSize = true;
-            this.analyzeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.analyzeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.analyzeLabel.Location = new System.Drawing.Point(3, 30);
-            this.analyzeLabel.Name = "analyzeLabel";
-            this.analyzeLabel.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.analyzeLabel.Size = new System.Drawing.Size(214, 19);
-            this.analyzeLabel.TabIndex = 3;
-            this.analyzeLabel.Text = "Análise";
-            // 
-            // tokensLabel
-            // 
-            this.tokensLabel.AutoSize = true;
-            this.tokensLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tokensLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tokensLabel.Location = new System.Drawing.Point(3, 260);
-            this.tokensLabel.Name = "tokensLabel";
-            this.tokensLabel.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.tokensLabel.Size = new System.Drawing.Size(214, 26);
-            this.tokensLabel.TabIndex = 4;
-            this.tokensLabel.Text = "Tokens";
-            // 
-            // dgAnalyzer
-            // 
-            this.dgAnalyzer.AllowUserToAddRows = false;
-            this.dgAnalyzer.AllowUserToDeleteRows = false;
-            this.dgAnalyzer.AllowUserToResizeRows = false;
-            this.dgAnalyzer.AutoGenerateColumns = false;
-            this.dgAnalyzer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgAnalyzer.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            this.dgAnalyzer.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dgAnalyzer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dgAnalyzer.CausesValidation = false;
-            this.dgAnalyzer.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dgAnalyzer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgAnalyzer.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.codeDataGridViewTextBoxColumn1,
-            this.valueDataGridViewTextBoxColumn1});
-            this.dgAnalyzer.DataSource = this.derivedItemBindingSource;
-            this.dgAnalyzer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgAnalyzer.Enabled = false;
-            this.dgAnalyzer.Location = new System.Drawing.Point(0, 49);
-            this.dgAnalyzer.Margin = new System.Windows.Forms.Padding(0);
-            this.dgAnalyzer.MultiSelect = false;
-            this.dgAnalyzer.Name = "dgAnalyzer";
-            this.dgAnalyzer.ReadOnly = true;
-            this.dgAnalyzer.RowHeadersVisible = false;
-            this.dgAnalyzer.RowTemplate.ReadOnly = true;
-            this.dgAnalyzer.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgAnalyzer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgAnalyzer.Size = new System.Drawing.Size(220, 211);
-            this.dgAnalyzer.TabIndex = 5;
-            // 
-            // codeDataGridViewTextBoxColumn1
-            // 
-            this.codeDataGridViewTextBoxColumn1.DataPropertyName = "Code";
-            this.codeDataGridViewTextBoxColumn1.HeaderText = "Code";
-            this.codeDataGridViewTextBoxColumn1.Name = "codeDataGridViewTextBoxColumn1";
-            this.codeDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // valueDataGridViewTextBoxColumn1
-            // 
-            this.valueDataGridViewTextBoxColumn1.DataPropertyName = "Value";
-            this.valueDataGridViewTextBoxColumn1.HeaderText = "Value";
-            this.valueDataGridViewTextBoxColumn1.Name = "valueDataGridViewTextBoxColumn1";
-            this.valueDataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // derivedItemBindingSource
-            // 
-            this.derivedItemBindingSource.DataSource = typeof(Core.SyntacticalAnalysis.DerivedItem);
-            // 
-            // ContinueDebugButton
-            // 
-            this.ContinueDebugButton.Location = new System.Drawing.Point(3, 3);
-            this.ContinueDebugButton.Name = "ContinueDebugButton";
-            this.ContinueDebugButton.Size = new System.Drawing.Size(75, 23);
-            this.ContinueDebugButton.TabIndex = 6;
-            this.ContinueDebugButton.Text = "Continuar";
-            this.ContinueDebugButton.UseVisualStyleBackColor = true;
-            this.ContinueDebugButton.Click += new System.EventHandler(this.ContinueDebugAction);
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.sourceCode, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.tbConsole, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.fileNameLabel, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(7, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.917526F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 96.08247F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 109F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(668, 595);
-            this.tableLayoutPanel2.TabIndex = 8;
-            // 
-            // sourceCode
-            // 
-            this.sourceCode.AutoCAutoHide = false;
-            this.sourceCode.AutoCCancelAtStart = false;
-            this.sourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sourceCode.IndentationGuides = ScintillaNET.IndentView.LookBoth;
-            this.sourceCode.Location = new System.Drawing.Point(3, 22);
-            this.sourceCode.Name = "sourceCode";
-            this.sourceCode.ScrollWidth = 100;
-            this.sourceCode.Size = new System.Drawing.Size(662, 460);
-            this.sourceCode.Styler = null;
-            this.sourceCode.TabIndex = 6;
-            // 
-            // tbConsole
-            // 
-            this.tbConsole.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbConsole.Location = new System.Drawing.Point(3, 488);
-            this.tbConsole.Name = "tbConsole";
-            this.tbConsole.Size = new System.Drawing.Size(662, 104);
-            this.tbConsole.TabIndex = 7;
-            this.tbConsole.Text = "";
-            // 
-            // fileNameLabel
-            // 
-            this.fileNameLabel.AccessibleDescription = "";
-            this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fileNameLabel.Location = new System.Drawing.Point(0, 5);
-            this.fileNameLabel.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.fileNameLabel.Name = "fileNameLabel";
-            this.fileNameLabel.Size = new System.Drawing.Size(668, 14);
-            this.fileNameLabel.TabIndex = 4;
-            this.fileNameLabel.Text = "dinamic_file_name";
-            this.fileNameLabel.MouseHover += new System.EventHandler(this.FileNameLabelMouseOverAction);
-            // 
-            // tokenBindingSource
-            // 
-            this.tokenBindingSource.DataSource = typeof(Core.Token);
             // 
             // Code
             // 
@@ -394,6 +217,232 @@
             this.Line.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Line.Width = 47;
             // 
+            // mainTableLayout
+            // 
+            this.mainTableLayout.ColumnCount = 2;
+            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 275F));
+            this.mainTableLayout.Controls.Add(this.tableLayoutPanel1, 1, 0);
+            this.mainTableLayout.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.mainTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainTableLayout.Location = new System.Drawing.Point(0, 24);
+            this.mainTableLayout.Name = "mainTableLayout";
+            this.mainTableLayout.Padding = new System.Windows.Forms.Padding(4, 0, 4, 4);
+            this.mainTableLayout.RowCount = 1;
+            this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainTableLayout.Size = new System.Drawing.Size(908, 605);
+            this.mainTableLayout.TabIndex = 5;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.analyzeLabel, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tokensLabel, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.dgAnalyzer, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.dgTokens, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(632, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(269, 595);
+            this.tableLayoutPanel1.TabIndex = 7;
+            // 
+            // analyzeLabel
+            // 
+            this.analyzeLabel.AutoSize = true;
+            this.analyzeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.analyzeLabel.Location = new System.Drawing.Point(3, 35);
+            this.analyzeLabel.Name = "analyzeLabel";
+            this.analyzeLabel.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
+            this.analyzeLabel.Size = new System.Drawing.Size(48, 20);
+            this.analyzeLabel.TabIndex = 8;
+            this.analyzeLabel.Text = "Análise";
+            // 
+            // tokensLabel
+            // 
+            this.tokensLabel.AutoSize = true;
+            this.tokensLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tokensLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tokensLabel.Location = new System.Drawing.Point(3, 315);
+            this.tokensLabel.Name = "tokensLabel";
+            this.tokensLabel.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.tokensLabel.Size = new System.Drawing.Size(263, 26);
+            this.tokensLabel.TabIndex = 4;
+            this.tokensLabel.Text = "Tokens";
+            // 
+            // dgAnalyzer
+            // 
+            this.dgAnalyzer.AllowUserToAddRows = false;
+            this.dgAnalyzer.AllowUserToDeleteRows = false;
+            this.dgAnalyzer.AllowUserToResizeRows = false;
+            this.dgAnalyzer.AutoGenerateColumns = false;
+            this.dgAnalyzer.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgAnalyzer.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            this.dgAnalyzer.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgAnalyzer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgAnalyzer.CausesValidation = false;
+            this.dgAnalyzer.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dgAnalyzer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgAnalyzer.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.codeDataGridViewTextBoxColumn1,
+            this.valueDataGridViewTextBoxColumn1});
+            this.dgAnalyzer.DataSource = this.derivedItemBindingSource;
+            this.dgAnalyzer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgAnalyzer.Enabled = false;
+            this.dgAnalyzer.Location = new System.Drawing.Point(0, 61);
+            this.dgAnalyzer.Margin = new System.Windows.Forms.Padding(0);
+            this.dgAnalyzer.MultiSelect = false;
+            this.dgAnalyzer.Name = "dgAnalyzer";
+            this.dgAnalyzer.ReadOnly = true;
+            this.dgAnalyzer.RowHeadersVisible = false;
+            this.dgAnalyzer.RowTemplate.ReadOnly = true;
+            this.dgAnalyzer.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgAnalyzer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgAnalyzer.Size = new System.Drawing.Size(269, 254);
+            this.dgAnalyzer.TabIndex = 5;
+            // 
+            // codeDataGridViewTextBoxColumn1
+            // 
+            this.codeDataGridViewTextBoxColumn1.DataPropertyName = "Code";
+            this.codeDataGridViewTextBoxColumn1.HeaderText = "Code";
+            this.codeDataGridViewTextBoxColumn1.Name = "codeDataGridViewTextBoxColumn1";
+            this.codeDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // valueDataGridViewTextBoxColumn1
+            // 
+            this.valueDataGridViewTextBoxColumn1.DataPropertyName = "Value";
+            this.valueDataGridViewTextBoxColumn1.HeaderText = "Value";
+            this.valueDataGridViewTextBoxColumn1.Name = "valueDataGridViewTextBoxColumn1";
+            this.valueDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // derivedItemBindingSource
+            // 
+            this.derivedItemBindingSource.DataSource = typeof(Core.SyntacticalAnalysis.DerivedItem);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel3.Controls.Add(this.continueDebugButton, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.stopDebugButton, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.resumeDebugButton, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(263, 29);
+            this.tableLayoutPanel3.TabIndex = 7;
+            // 
+            // continueDebugButton
+            // 
+            this.continueDebugButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.continueDebugButton.Enabled = false;
+            this.continueDebugButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.continueDebugButton.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.continueDebugButton.Location = new System.Drawing.Point(3, 3);
+            this.continueDebugButton.Name = "continueDebugButton";
+            this.continueDebugButton.Size = new System.Drawing.Size(81, 23);
+            this.continueDebugButton.TabIndex = 6;
+            this.continueDebugButton.Text = "Próximo";
+            this.continueDebugButton.UseVisualStyleBackColor = true;
+            this.continueDebugButton.Click += new System.EventHandler(this.ContinueAnalyzeAction);
+            // 
+            // stopDebugButton
+            // 
+            this.stopDebugButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.stopDebugButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stopDebugButton.Enabled = false;
+            this.stopDebugButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.stopDebugButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.stopDebugButton.Location = new System.Drawing.Point(177, 3);
+            this.stopDebugButton.Name = "stopDebugButton";
+            this.stopDebugButton.Size = new System.Drawing.Size(83, 23);
+            this.stopDebugButton.TabIndex = 7;
+            this.stopDebugButton.Text = "Parar";
+            this.stopDebugButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.stopDebugButton.UseVisualStyleBackColor = false;
+            this.stopDebugButton.Click += new System.EventHandler(this.StopAnalyzeAction);
+            // 
+            // resumeDebugButton
+            // 
+            this.resumeDebugButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resumeDebugButton.Enabled = false;
+            this.resumeDebugButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.resumeDebugButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.resumeDebugButton.Location = new System.Drawing.Point(90, 3);
+            this.resumeDebugButton.Name = "resumeDebugButton";
+            this.resumeDebugButton.Size = new System.Drawing.Size(81, 23);
+            this.resumeDebugButton.TabIndex = 8;
+            this.resumeDebugButton.Text = "Resumir";
+            this.resumeDebugButton.UseVisualStyleBackColor = true;
+            this.resumeDebugButton.Click += new System.EventHandler(this.ResumeAnalyzeAction);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.sourceCode, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.tbConsole, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.fileNameLabel, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(7, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 109F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(619, 595);
+            this.tableLayoutPanel2.TabIndex = 8;
+            // 
+            // sourceCode
+            // 
+            this.sourceCode.AutoCAutoHide = false;
+            this.sourceCode.AutoCCancelAtStart = false;
+            this.sourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sourceCode.IndentationGuides = ScintillaNET.IndentView.LookBoth;
+            this.sourceCode.Location = new System.Drawing.Point(3, 38);
+            this.sourceCode.Name = "sourceCode";
+            this.sourceCode.ScrollWidth = 100;
+            this.sourceCode.Size = new System.Drawing.Size(613, 445);
+            this.sourceCode.Styler = null;
+            this.sourceCode.TabIndex = 6;
+            // 
+            // tbConsole
+            // 
+            this.tbConsole.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbConsole.Location = new System.Drawing.Point(3, 489);
+            this.tbConsole.Name = "tbConsole";
+            this.tbConsole.Size = new System.Drawing.Size(613, 103);
+            this.tbConsole.TabIndex = 7;
+            this.tbConsole.Text = "";
+            // 
+            // fileNameLabel
+            // 
+            this.fileNameLabel.AccessibleDescription = "";
+            this.fileNameLabel.AutoSize = true;
+            this.fileNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileNameLabel.Location = new System.Drawing.Point(0, 12);
+            this.fileNameLabel.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
+            this.fileNameLabel.Name = "fileNameLabel";
+            this.fileNameLabel.Size = new System.Drawing.Size(619, 23);
+            this.fileNameLabel.TabIndex = 4;
+            this.fileNameLabel.Text = "dinamic_file_name";
+            this.fileNameLabel.MouseHover += new System.EventHandler(this.FileNameLabelMouseOverAction);
+            // 
+            // tokenBindingSource
+            // 
+            this.tokenBindingSource.DataSource = typeof(Core.Token);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -415,6 +464,7 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgAnalyzer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.derivedItemBindingSource)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tokenBindingSource)).EndInit();
@@ -441,7 +491,6 @@
         private EasyScintilla.SimpleEditor sourceCode;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label analyzeLabel;
         private System.Windows.Forms.Label tokensLabel;
         private System.Windows.Forms.RichTextBox tbConsole;
         private System.Windows.Forms.DataGridView dgAnalyzer;
@@ -451,10 +500,14 @@
         private System.Windows.Forms.BindingSource tokenBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn codeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn;
-        private System.Windows.Forms.Button ContinueDebugButton;
+        private System.Windows.Forms.Button continueDebugButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn Code;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.DataGridViewTextBoxColumn Line;
+        private System.Windows.Forms.Label analyzeLabel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Button stopDebugButton;
+        private System.Windows.Forms.Button resumeDebugButton;
     }
 }
 
