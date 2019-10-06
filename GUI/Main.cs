@@ -16,16 +16,17 @@ namespace GUI
     public partial class Main : Form
     {
         private const string NEW_FILENAME = "novo-arquivo.lms";
-
         private string currentFileNamePath = NEW_FILENAME;
 
         private readonly FileHandler fileHandler = new FileHandler();
         private ToolTip toolTip = new ToolTip();
 
+        private volatile bool debugPaused;
+
         public Main()
         {
             InitializeComponent();
-            
+
             // Set initial filename label
             fileNameLabel.Text = NEW_FILENAME;
 
@@ -92,6 +93,16 @@ namespace GUI
 
         private void AnalyzeCodeAction(object sender, EventArgs e)
         {
+            AnalyzeCode(true);
+        }
+
+        private void CompileCodeAction(object sender, EventArgs e)
+        {
+            AnalyzeCode(false);
+        }
+
+        private async void AnalyzeCode(bool debugMode)
+        {
             tbConsole.Text = "Preparando...\n";
 
             DataTable tokensDataTable = CreateTokensDataTable();
@@ -120,7 +131,6 @@ namespace GUI
 
                 SyntacticalAnalyzer syntacticalAnalyzer = new SyntacticalAnalyzer(extractedTokens);
 
-                int lastSelectedLine = 0;
                 foreach (SyntacticalAnalysisProcessing processing in syntacticalAnalyzer.Start())
                 {
                     // Console.WriteLine(processing.LineNumber + "...." + tokensDataTable.Rows.Count);
@@ -130,24 +140,26 @@ namespace GUI
                        tokensDataTable.Rows.RemoveAt(0);
                     }
 
-                    // Select last processed line
-                    if (processing.LineNumber != lastSelectedLine)
-                    {
-                        lastSelectedLine = processing.LineNumber;
-
-                        SelectLine(processing.LineNumber);
-                    }
-
                     // Set expansions to analyzer data source
                     dgAnalyzer.DataSource = processing.ExpansionStack.ToList();
 
-                    Task.Delay(500).Wait();
+                    if (debugMode)
+                    {
+                        // Select last processed line
+                        SelectLine(processing.LineNumber);
+
+                        // Wait until continue debug action
+                        while (debugPaused)
+                        {
+                            await Task.Delay(500);
+                        }
+
+                        // Pause debug after iteration
+                        debugPaused = true;
+                    }
                 }
 
-                //syntacticalAnalyzer.Start();
-
                 tbConsole.AppendText("Análise sintática concluída\n");
-                
             }
             catch (LexicalException error)
             {
@@ -203,13 +215,12 @@ namespace GUI
 
         private void SelectLine(int lineNumber)
         {
-
             Line sourceCodeLine = sourceCode.Lines.ElementAtOrDefault(lineNumber - 1);
 
             // Select line in the source code
             if (sourceCodeLine != null)
             {
-                sourceCode.SetSelection(sourceCodeLine.EndPosition, sourceCodeLine.Position);
+                sourceCode.SetSelection(sourceCodeLine.Position, sourceCodeLine.EndPosition);
             }
         }
 
@@ -234,17 +245,12 @@ namespace GUI
             }
         }
 
-        private void CompileCodeAction(object sender, EventArgs e)
-        {
-
-        }
-
         private void AboutAction(object sender, EventArgs e)
         {
 
         }
         
-        private void fileNameLabelMouseOverAction(object sender, EventArgs e)
+        private void FileNameLabelMouseOverAction(object sender, EventArgs e)
         {
             toolTip.RemoveAll();
 
@@ -253,18 +259,19 @@ namespace GUI
             toolTip.Show(currentFileNamePath, this.fileNameLabel);
         }
 
-        private void dataGridRowFocusEvent(object sender, DataGridViewCellEventArgs e)
+        private void DataGridRowFocusEvent(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                int line = int.Parse(dgTokens.Rows[e.RowIndex].Cells[0].FormattedValue.ToString());
+                // Cells[2] is the Line number in the datagrid
+                int line = int.Parse(dgTokens.Rows[e.RowIndex].Cells[2].FormattedValue.ToString());
 
                 Line sourceCodeLine = sourceCode.Lines.ElementAtOrDefault(line - 1);
 
                 // Select line in the source code
                 if (sourceCodeLine != null)
                 {
-                    sourceCode.SetSelection(sourceCodeLine.EndPosition, sourceCodeLine.Position);
+                    sourceCode.SetSelection(sourceCodeLine.Position, sourceCodeLine.EndPosition);
                 }
             } catch (Exception error)
             {
@@ -273,9 +280,15 @@ namespace GUI
             }
         }
 
-        //private void dataGridFocusLeaveEvent(object sender, EventArgs e)
-        //{
-        //    dgTokens.ClearSelection();
-        //}
+        private void ContinueDebugAction(object sender, EventArgs e)
+        {
+            // Resume debug to next step
+            debugPaused = false;
+        }
+
+        private void dataGridFocusLeaveEvent(object sender, EventArgs e)
+        {
+            dgTokens.ClearSelection();
+        }
     }
 }
