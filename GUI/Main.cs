@@ -192,7 +192,7 @@ namespace GUI
                                 return;
                             }
 
-                            await Task.Delay(500);
+                            await Task.Delay(250);
                         }
 
                         if (!analyzeResumed)
@@ -200,7 +200,7 @@ namespace GUI
                             analyzePaused = true;
                         } else
                         {
-                            await Task.Delay(1);
+                            await Task.Delay(10);
                         }
                     }
                 }

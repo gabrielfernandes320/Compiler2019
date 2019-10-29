@@ -23,11 +23,19 @@ namespace Core.SyntacticalAnalysis
 
         public IEnumerable<SyntacticalAnalysisProcessing> Start()
         {
-            while (expansionStack.Count > 0 && tokensStack.Count > 0)
+            //while (expansionStack.Count > 0 && tokensStack.Count > 0)
+            while (expansionStack.Count > 0)
             {
+                Enum x = expansionStack.Peek().Enumeration; // X
+
+                // If tokens is empty
+                if (tokensStack.Count <= 0)
+                {
+                    throw new SyntacticalException("Sintaxe inválida. Não foi possível encontrar[" + x + "(" + x.GetValue<int>() + ")] na tabela de tokens");
+                }
+
                 Token currentToken = tokensStack.Peek();
 
-                Enum x = expansionStack.Peek().Enumeration; // X
                 Enum a = currentToken.Type; // a
 
                 bool isNonTerminal = x.OfType<NonTerminalEnum>();
@@ -85,7 +93,8 @@ namespace Core.SyntacticalAnalysis
                             ExpansionStack = expansionStack,
                             LineNumber = currentToken.StartChar.Line
                         };
-                    } else
+                    }
+                    else
                     {
                         // Throw a error
                         throw new SyntacticalException(GetLineColumnText(currentToken.StartChar) + ": Sintaxe inválida. O token esperado era " + x + " (" + x.GetValue<int>() + "), porém o valor encontrado foi " + a + " (" + a.GetValue<int>() + ")", currentToken.StartChar.Line);
