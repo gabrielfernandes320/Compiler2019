@@ -6,7 +6,11 @@ namespace Core.SemanticAnalysis
 {
     public class SemanticAnalyzer
     {
+
+
         public List<Identifier> identifiersList = new List<Identifier>();
+
+        public SemanticAnalyzer(){}
 
         public bool Insert(Identifier identifier)
         {
@@ -36,6 +40,14 @@ namespace Core.SemanticAnalysis
         public void ClearByLevel(int level)
         {
             identifiersList.RemoveAll(x => x.Level == level);
+        }
+
+        private Identifier CreateIdentifier(Token token)
+        {
+            return new Identifier
+            {
+               // Criar logica para criar Identifier
+            };
         }
     }
 }

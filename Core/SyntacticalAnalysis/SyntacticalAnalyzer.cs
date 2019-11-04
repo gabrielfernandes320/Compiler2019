@@ -4,6 +4,7 @@ using Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.SemanticAnalysis;
 
 namespace Core.SyntacticalAnalysis
 {
@@ -12,6 +13,8 @@ namespace Core.SyntacticalAnalysis
         private readonly IDictionary<NonTerminalEnum, IDictionary<Enum, IList<Enum>>> parsingMatrix;
         private Stack<Token> tokensStack = new Stack<Token>();
         private Stack<DerivedItem> expansionStack = new Stack<DerivedItem>();
+        private SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
+        private int currentLevel;
 
         public SyntacticalAnalyzer(IList<Token> tokens)
         {
@@ -35,6 +38,8 @@ namespace Core.SyntacticalAnalysis
                 }
 
                 Token currentToken = tokensStack.Peek();
+                //Set level for semantic analysis
+                SetLevel(currentToken);
 
                 Enum a = currentToken.Type; // a
 
@@ -129,5 +134,27 @@ namespace Core.SyntacticalAnalysis
         {
             return "(Linha: " + charWrapper.Line + ", Coluna: " + charWrapper.Position + ")";
         }
+
+        private void SetLevel(Token token)
+        {
+            switch (token.Value)
+            {
+                case "PROGRAM":
+                    currentLevel = 0;
+                    Console.WriteLine(currentLevel);
+                    break;
+                case "PROCEDURE":
+                    currentLevel = 1;
+                    Console.WriteLine(currentLevel);
+                    break;
+                case "END":
+                    currentLevel = 0;
+                    Console.WriteLine(currentLevel);
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 }
