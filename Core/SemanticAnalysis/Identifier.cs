@@ -11,5 +11,9 @@ namespace Core.SemanticAnalysis
         public string Type { get; set; }
         public int Level { get; set; }
 
+        public static explicit operator Predicate<object>(Identifier v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
