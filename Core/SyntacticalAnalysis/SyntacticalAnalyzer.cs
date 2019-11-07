@@ -89,13 +89,29 @@ namespace Core.SyntacticalAnalysis
                         //Set level for semantic analysis
                         SetLevel(currentToken);
 
-                        //Make a copy of the original stack
-                        var clonedStack = new Stack<Token>(new Stack<Token>(tokensStack));
-                        semanticAnalyzer.CheckToken(clonedStack);
 
                         // Remove both from stack
                         expansionStack.Pop();
                         Token removedToken = tokensStack.Pop();
+
+                        //Make a copy of the original stack
+                        var clonedStack = new Stack<Token>(new Stack<Token>(tokensStack));
+                        Token nextToken = new Token();
+                        if (clonedStack.Count > 0 )
+                        {
+                            nextToken = clonedStack.Peek();
+                        }
+                        
+                        //Check if is variable declaration
+                        if (removedToken.Code == 4 && nextToken.Code == 25)
+                        {
+                            semanticAnalyzer.VariableDeclaration(clonedStack, currentLevel);
+                        }
+                        if (removedToken.Code == (int)ReservedWordEnum.Const && nextToken.Code == (int)IdentifierEnum.Identifier)
+                        {
+                            semanticAnalyzer.VariableDeclaration(clonedStack, currentLevel);
+                        }
+                        //semanticAnalyzer.CheckToken(clonedStack);
 
                         yield return new SyntacticalAnalysisProcessing
                         {

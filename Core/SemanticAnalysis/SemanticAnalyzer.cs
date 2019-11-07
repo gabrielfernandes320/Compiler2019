@@ -1,6 +1,7 @@
 ﻿using Core.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Core.SemanticAnalysis
@@ -20,7 +21,7 @@ namespace Core.SemanticAnalysis
                 return false;
             }
             identifiersList.Add(identifier);
-            return false;
+            return true;
         }
 
         public bool Search(Identifier identifier)
@@ -43,11 +44,14 @@ namespace Core.SemanticAnalysis
             identifiersList.RemoveAll(x => x.Level == level);
         }
 
-        private Identifier CreateIdentifier(Token token)
+        private Identifier CreateIdentifier(String name, string category, string type, int level)
         {
             return new Identifier
             {
-               // Criar logica para criar Identifier
+                Name = name,
+                Category = category,
+                Level = level,
+                Type = type
             };
         }
 
@@ -67,6 +71,47 @@ namespace Core.SemanticAnalysis
                 }
                
             }
+        }
+
+        public void VariableDeclaration(Stack<Token> tokensStack, int currentLevel)
+        {
+            List<Token> tokensList = new List<Token>();
+            List<Identifier> internalIdentifiersList = new List<Identifier>();
+           
+            while(tokensStack.Count > 0)
+            {
+                Token currentToken = tokensStack.Pop();
+                if (currentToken.Code == (int)SpecialSymbolEnum.SemiColon)
+                {
+                    break;
+                }
+                tokensList.Add(currentToken);
+            }
+
+            Enum type = tokensList.Last<Token>().Type;
+
+            foreach (var item in tokensList)
+            {
+                switch (item.Code)
+                {
+                    case 25:
+                        internalIdentifiersList.Add(CreateIdentifier(item.Value, "VAR", "", currentLevel));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            foreach (var item in internalIdentifiersList)
+            {
+                item.Type = type.ToString();
+                if (!Insert(item))
+                {
+                    throw new System.ArgumentException("Variavel ja declarada", "original");
+                }
+            }
+            
+       
         }
     }
 }
