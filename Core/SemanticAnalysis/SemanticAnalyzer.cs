@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -48,6 +49,19 @@ namespace Core.SemanticAnalysis
             {
                // Criar logica para criar Identifier
             };
+        }
+
+        public void CheckToken(Stack<Token> tokensStack)
+        {
+            while (tokensStack.Count > 0)
+            {
+                var id = IdentifierEnum.Identifier;
+                Token currentToken = tokensStack.Pop();
+                if (currentToken.Type == (Enum)IdentifierEnum.Identifier)
+                {
+                    Console.WriteLine("AQUI");
+                }
+            }
         }
     }
 }

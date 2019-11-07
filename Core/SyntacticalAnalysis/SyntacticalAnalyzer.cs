@@ -14,7 +14,7 @@ namespace Core.SyntacticalAnalysis
         private Stack<Token> tokensStack = new Stack<Token>();
         private Stack<DerivedItem> expansionStack = new Stack<DerivedItem>();
         private SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
-        private int currentLevel;
+        private int currentLevel = 0;
 
         public SyntacticalAnalyzer(IList<Token> tokens)
         {
@@ -38,8 +38,6 @@ namespace Core.SyntacticalAnalysis
                 }
 
                 Token currentToken = tokensStack.Peek();
-                //Set level for semantic analysis
-                SetLevel(currentToken);
 
                 Enum a = currentToken.Type; // a
 
@@ -88,6 +86,12 @@ namespace Core.SyntacticalAnalysis
                     // And "X" is equal "a"
                     if (x.GetType() == a.GetType())
                     {
+                        //Set level for semantic analysis
+                        SetLevel(currentToken);
+
+                        List<Token> tokensStackCopy = tokensStack.CopyTo(tokensStackCopy, 0);
+                        semanticAnalyzer.CheckToken(tokensStackCopy);
+
                         // Remove both from stack
                         expansionStack.Pop();
                         Token removedToken = tokensStack.Pop();
@@ -141,15 +145,12 @@ namespace Core.SyntacticalAnalysis
             {
                 case "PROGRAM":
                     currentLevel = 0;
-                    Console.WriteLine(currentLevel);
                     break;
                 case "PROCEDURE":
                     currentLevel = 1;
-                    Console.WriteLine(currentLevel);
                     break;
                 case "END":
                     currentLevel = 0;
-                    Console.WriteLine(currentLevel);
                     break;
                 default:
                     break;
