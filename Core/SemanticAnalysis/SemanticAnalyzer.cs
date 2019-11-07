@@ -57,10 +57,15 @@ namespace Core.SemanticAnalysis
             {
                 var id = IdentifierEnum.Identifier;
                 Token currentToken = tokensStack.Pop();
-                if (currentToken.Type == (Enum)IdentifierEnum.Identifier)
+                Token nextToken = tokensStack.Peek();
+                if (nextToken.Code == 38)
                 {
-                    Console.WriteLine("AQUI");
+                    if (currentToken.Code == 25)
+                    {
+                        Console.WriteLine("AQUI");
+                    }
                 }
+               
             }
         }
     }

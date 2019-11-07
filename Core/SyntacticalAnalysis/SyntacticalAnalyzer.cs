@@ -89,8 +89,9 @@ namespace Core.SyntacticalAnalysis
                         //Set level for semantic analysis
                         SetLevel(currentToken);
 
-                        List<Token> tokensStackCopy = tokensStack.CopyTo(tokensStackCopy, 0);
-                        semanticAnalyzer.CheckToken(tokensStackCopy);
+                        //Make a copy of the original stack
+                        var clonedStack = new Stack<Token>(new Stack<Token>(tokensStack));
+                        semanticAnalyzer.CheckToken(clonedStack);
 
                         // Remove both from stack
                         expansionStack.Pop();
