@@ -1,4 +1,5 @@
 ﻿using Core.Enums;
+using Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,12 +40,24 @@ namespace Core.SemanticAnalysis
             return false;
         }
 
+        public bool SearchWithoutLevel(Identifier identifier)
+        {
+            foreach (var item in identifiersList)
+            {
+                if (identifier.Name == item.Name)
+                {
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public void ClearByLevel(int level)
         {
             identifiersList.RemoveAll(x => x.Level == level);
         }
 
-        private Identifier CreateIdentifier(String name, string category, string type, int level)
+        public Identifier CreateIdentifier(String name, string category, string type, int level)
         {
             return new Identifier
             {
@@ -107,11 +120,12 @@ namespace Core.SemanticAnalysis
                 item.Type = type.ToString();
                 if (!Insert(item))
                 {
-                    throw new System.ArgumentException("Variavel ja declarada", "original");
+                    throw new SemanticException((1) + "Variavel declarada em duplicidade", 1);
                 }
             }
             
        
         }
+
     }
 }

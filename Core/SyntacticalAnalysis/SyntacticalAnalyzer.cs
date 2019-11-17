@@ -107,12 +107,29 @@ namespace Core.SyntacticalAnalysis
                         {
                             semanticAnalyzer.VariableDeclaration(clonedStack, currentLevel);
                         }
+
+                        //Const declaration
                         if (removedToken.Code == (int)ReservedWordEnum.Const && nextToken.Code == (int)IdentifierEnum.Identifier)
                         {
                             semanticAnalyzer.VariableDeclaration(clonedStack, currentLevel);
                         }
-                        //semanticAnalyzer.CheckToken(clonedStack);
 
+                        //Clear in end of procedure
+                        if (removedToken.Code == (int)ReservedWordEnum.End && nextToken.Code == (int)SpecialSymbolEnum.SemiColon)
+                        {
+                            semanticAnalyzer.ClearByLevel(1);
+                        }
+
+                        //Check if var is on the identifiersList
+                        if (removedToken.Code == (int)IdentifierEnum.Identifier && nextToken.Code == (int)SpecialSymbolEnum.Definition)
+                        {
+                            if (!semanticAnalyzer.SearchWithoutLevel(semanticAnalyzer.CreateIdentifier(removedToken.Value, "VAR", "", currentLevel)))
+                            {
+                                throw new SemanticException(GetLineColumnText(removedToken.StartChar) + "Variavel atribuida mas não declarada!", removedToken.StartChar.Line);
+
+                            }
+
+                        };
                         yield return new SyntacticalAnalysisProcessing
                         {
                             RemovedToken = removedToken,
