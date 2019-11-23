@@ -13,12 +13,12 @@ namespace Core.SemanticAnalysis
 
         public List<Identifier> identifiersList = new List<Identifier>();
 
-        public SemanticAnalyzer(){}
+        public SemanticAnalyzer() { }
 
         public bool Insert(Identifier identifier)
         {
             if (Search(identifier))
-            {               
+            {
                 return false;
             }
             identifiersList.Add(identifier);
@@ -46,7 +46,7 @@ namespace Core.SemanticAnalysis
             {
                 if (identifier.Name == item.Name)
                 {
-                        return true;
+                    return true;
                 }
             }
             return false;
@@ -82,7 +82,7 @@ namespace Core.SemanticAnalysis
                         Console.WriteLine("AQUI");
                     }
                 }
-               
+
             }
         }
 
@@ -90,8 +90,8 @@ namespace Core.SemanticAnalysis
         {
             List<Token> tokensList = new List<Token>();
             List<Identifier> internalIdentifiersList = new List<Identifier>();
-           
-            while(tokensStack.Count > 0)
+
+            while (tokensStack.Count > 0)
             {
                 Token currentToken = tokensStack.Pop();
                 if (currentToken.Code == (int)SpecialSymbolEnum.SemiColon)
@@ -123,8 +123,54 @@ namespace Core.SemanticAnalysis
                     throw new SemanticException((1) + "Variavel declarada em duplicidade", 1);
                 }
             }
-            
-       
+        }
+
+        public void LabelDeclaration(Stack<Token> tokensStack, int currentLevel)
+        {
+            List<Token> tokensList = new List<Token>();
+            List<Identifier> internalIdentifiersList = new List<Identifier>();
+
+            while (tokensStack.Count > 0)
+            {
+                Token currentToken = tokensStack.Pop();
+                if (currentToken.Code == (int)SpecialSymbolEnum.SemiColon)
+                {
+                    break;
+                }
+                tokensList.Add(currentToken);
+            }
+
+            Enum type = tokensList.Last<Token>().Type;
+
+            foreach (var item in tokensList)
+            {
+                switch (item.Code)
+                {
+                    case 25:
+                        internalIdentifiersList.Add(CreateIdentifier(item.Value, "LABEL", "", currentLevel));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            foreach (var item in internalIdentifiersList)
+            {
+                item.Type = type.ToString();
+                if (!Insert(item))
+                {
+                    throw new SemanticException((1) + "Rotulo declarado em duplicidade", 1);
+                }
+            }
+        }
+
+        public void ProcedureDeclaration(Token token, int currentLevel)
+        {
+            if (!Insert(CreateIdentifier(token.Value, "PROCEDURE", "", 0)))
+            {
+                throw new SemanticException((1) + "Procedure declarada em duplicidade!", 1);
+            }
+           
         }
 
     }

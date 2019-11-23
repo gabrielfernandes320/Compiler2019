@@ -103,9 +103,15 @@ namespace Core.SyntacticalAnalysis
                         }
                         
                         //Check if is variable declaration
-                        if (removedToken.Code == 4 && nextToken.Code == 25)
+                        if (removedToken.Code == 4 && nextToken.Code == (int)IdentifierEnum.Identifier)
                         {
                             semanticAnalyzer.VariableDeclaration(clonedStack, currentLevel);
+                        }
+
+                        //Check if is procedure declaration
+                        if (removedToken.Code == (int)ReservedWordEnum.Procedure && nextToken.Code == (int)IdentifierEnum.Identifier)
+                        {
+                            semanticAnalyzer.ProcedureDeclaration(nextToken, currentLevel);
                         }
 
                         //Const declaration
@@ -118,6 +124,12 @@ namespace Core.SyntacticalAnalysis
                         if (removedToken.Code == (int)ReservedWordEnum.End && nextToken.Code == (int)SpecialSymbolEnum.SemiColon)
                         {
                             semanticAnalyzer.ClearByLevel(1);
+                        }
+
+                        //Check if is label declaration
+                        if (removedToken.Code == (int)ReservedWordEnum.Label && nextToken.Code == (int)IdentifierEnum.Identifier)
+                        {
+                            semanticAnalyzer.LabelDeclaration(clonedStack, currentLevel);
                         }
 
                         //Check if var is on the identifiersList
