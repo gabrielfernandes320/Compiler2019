@@ -112,12 +112,13 @@ namespace Core.SyntacticalAnalysis
                         if (removedToken.Code == (int)ReservedWordEnum.Procedure && nextToken.Code == (int)IdentifierEnum.Identifier)
                         {
                             semanticAnalyzer.ProcedureDeclaration(nextToken, currentLevel);
+                            //semanticAnalyzer.ProcedureParameterDeclaration(clonedStack, currentLevel);
                         }
 
                         //Const declaration
                         if (removedToken.Code == (int)ReservedWordEnum.Const && nextToken.Code == (int)IdentifierEnum.Identifier)
                         {
-                            semanticAnalyzer.VariableDeclaration(clonedStack, currentLevel);
+                            semanticAnalyzer.ConstDeclaration(clonedStack, currentLevel);
                         }
 
                         //Clear in end of procedure

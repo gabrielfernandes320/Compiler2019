@@ -115,6 +115,7 @@ namespace Core.SemanticAnalysis
                 }
             }
 
+
             foreach (var item in internalIdentifiersList)
             {
                 item.Type = type.ToString();
@@ -124,6 +125,63 @@ namespace Core.SemanticAnalysis
                 }
             }
         }
+
+        public void ConstDeclaration(Stack<Token> tokensStack, int currentLevel)
+        {
+            List<Token> tokensList = new List<Token>();
+            List<Identifier> internalIdentifiersList = new List<Identifier>();
+
+            while (tokensStack.Count > 0)
+            {
+                Token currentToken = tokensStack.Pop();
+                if (currentToken.Code == (int)ReservedWordEnum.Var)
+                {
+                    break;
+                }
+                tokensList.Add(currentToken);
+            }
+
+            Enum type = tokensList.Last<Token>().Type;
+
+            foreach (var item in tokensList)
+            {
+                switch (item.Code)
+                {
+                    case 25:
+                        internalIdentifiersList.Add(CreateIdentifier(item.Value, "VAR", "", currentLevel));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+            foreach (var item in internalIdentifiersList)
+            {
+                item.Type = type.ToString();
+                if (!Insert(item))
+                {
+                    throw new SemanticException((1) + "Constante declarada em duplicidade", 1);
+                }
+            }
+        }
+
+        public void ProcedureParameterDeclaration(Stack<Token> tokensStack, int currentLevel)
+        {
+            List<Token> tokensList = new List<Token>();
+            List<Identifier> internalIdentifiersList = new List<Identifier>();
+
+            while (tokensStack.Count > 0)
+            {
+                Token currentToken = tokensStack.Pop();
+                if (currentToken.Code == (int)IdentifierEnum.Identifier)
+                {
+                    Insert(CreateIdentifier(currentToken.Value, "PARAMETER", "INTEGER", 0));
+                }
+            }
+
+        }
+
 
         public void LabelDeclaration(Stack<Token> tokensStack, int currentLevel)
         {
@@ -172,6 +230,6 @@ namespace Core.SemanticAnalysis
             }
            
         }
-
+        
     }
 }
