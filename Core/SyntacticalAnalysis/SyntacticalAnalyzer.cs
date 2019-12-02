@@ -14,7 +14,7 @@ namespace Core.SyntacticalAnalysis
         private Stack<Token> tokensStack = new Stack<Token>();
         private Stack<DerivedItem> expansionStack = new Stack<DerivedItem>();
         private SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
-        private int currentLevel;
+        private int currentLevel = 0;
 
         public SyntacticalAnalyzer(IList<Token> tokens)
         {
@@ -38,8 +38,6 @@ namespace Core.SyntacticalAnalysis
                 }
 
                 Token currentToken = tokensStack.Peek();
-                //Set level for semantic analysis
-                SetLevel(currentToken);
 
                 Enum a = currentToken.Type; // a
 
@@ -88,10 +86,63 @@ namespace Core.SyntacticalAnalysis
                     // And "X" is equal "a"
                     if (x.GetType() == a.GetType())
                     {
+                        //Set level for semantic analysis
+                        SetLevel(currentToken);
+
+
                         // Remove both from stack
                         expansionStack.Pop();
                         Token removedToken = tokensStack.Pop();
 
+                        //Make a copy of the original stack
+                        var clonedStack = new Stack<Token>(new Stack<Token>(tokensStack));
+                        Token nextToken = new Token();
+                        if (clonedStack.Count > 0 )
+                        {
+                            nextToken = clonedStack.Peek();
+                        }
+                        
+                        //Check if is variable declaration
+                        if (removedToken.Code == 4 && nextToken.Code == (int)IdentifierEnum.Identifier)
+                        {
+                            semanticAnalyzer.VariableDeclaration(clonedStack, currentLevel);
+                        }
+
+                        //Check if is procedure declaration
+                        if (removedToken.Code == (int)ReservedWordEnum.Procedure && nextToken.Code == (int)IdentifierEnum.Identifier)
+                        {
+                            semanticAnalyzer.ProcedureDeclaration(nextToken, currentLevel);
+                            //semanticAnalyzer.ProcedureParameterDeclaration(clonedStack, currentLevel);
+                        }
+
+                        //Const declaration
+                        if (removedToken.Code == (int)ReservedWordEnum.Const && nextToken.Code == (int)IdentifierEnum.Identifier)
+                        {
+                            semanticAnalyzer.ConstDeclaration(clonedStack, currentLevel);
+                        }
+
+                        //Clear in end of procedure
+                        if (removedToken.Code == (int)ReservedWordEnum.End && nextToken.Code == (int)SpecialSymbolEnum.SemiColon)
+                        {
+                            semanticAnalyzer.ClearByLevel(1);
+                        }
+
+                        //Check if is label declaration
+                        if (removedToken.Code == (int)ReservedWordEnum.Label && nextToken.Code == (int)IdentifierEnum.Identifier)
+                        {
+                            semanticAnalyzer.LabelDeclaration(clonedStack, currentLevel);
+                        }
+
+                        //Check if var is on the identifiersList
+                        if (removedToken.Code == (int)IdentifierEnum.Identifier && nextToken.Code == (int)SpecialSymbolEnum.Definition)
+                        {
+                            if (!semanticAnalyzer.SearchWithoutLevel(semanticAnalyzer.CreateIdentifier(removedToken.Value, "VAR", "", currentLevel)))
+                            {
+                                throw new SemanticException(GetLineColumnText(removedToken.StartChar) + "Variavel atribuida mas não declarada!", removedToken.StartChar.Line);
+
+                            }
+
+                        };
                         yield return new SyntacticalAnalysisProcessing
                         {
                             RemovedToken = removedToken,
@@ -141,15 +192,12 @@ namespace Core.SyntacticalAnalysis
             {
                 case "PROGRAM":
                     currentLevel = 0;
-                    Console.WriteLine(currentLevel);
                     break;
                 case "PROCEDURE":
                     currentLevel = 1;
-                    Console.WriteLine(currentLevel);
                     break;
                 case "END":
                     currentLevel = 0;
-                    Console.WriteLine(currentLevel);
                     break;
                 default:
                     break;

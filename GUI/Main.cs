@@ -233,6 +233,19 @@ namespace GUI
                 // Show error dialog
                 MessageBox.Show("Houve um erro ao efetuar a análise sintática do código fonte\n");
             }
+            catch (SemanticException error)
+            {
+                // Set error to console
+                tbConsole.AppendText("ERRO! ");
+
+                tbConsole.AppendText(error.Message + "\n");
+
+                // Select error in the textbox
+                SelectLine(error.GetLine());
+
+                // Show error dialog
+                MessageBox.Show("Houve um erro ao efetuar a análise semantica do código fonte\n");
+            }
 
             // Disabled buttons
             ResetDebugControlButtons();
