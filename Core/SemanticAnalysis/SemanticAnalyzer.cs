@@ -27,7 +27,7 @@ namespace Core.SemanticAnalysis
 
         public bool Search(Identifier identifier)
         {
-            foreach (var item in identifiersList)
+            foreach (Identifier item in identifiersList)
             {
                 if (identifier.Name == item.Name)
                 {
@@ -42,7 +42,7 @@ namespace Core.SemanticAnalysis
 
         public bool SearchWithoutLevel(Identifier identifier)
         {
-            foreach (var item in identifiersList)
+            foreach (Identifier item in identifiersList)
             {
                 if (identifier.Name == item.Name)
                 {
@@ -72,7 +72,6 @@ namespace Core.SemanticAnalysis
         {
             while (tokensStack.Count > 0)
             {
-                var id = IdentifierEnum.Identifier;
                 Token currentToken = tokensStack.Pop();
                 Token nextToken = tokensStack.Peek();
                 if (nextToken.Code == 38)
@@ -103,7 +102,7 @@ namespace Core.SemanticAnalysis
 
             Enum type = tokensList.Last<Token>().Type;
 
-            foreach (var item in tokensList)
+            foreach (Token item in tokensList)
             {
                 switch (item.Code)
                 {
@@ -116,12 +115,12 @@ namespace Core.SemanticAnalysis
             }
 
 
-            foreach (var item in internalIdentifiersList)
+            foreach (Identifier item in internalIdentifiersList)
             {
                 item.Type = type.ToString();
                 if (!Insert(item))
                 {
-                    throw new SemanticException((1) + "Variavel declarada em duplicidade", 1);
+                    throw new SemanticException("Variável declarada em duplicidade", 1);
                 }
             }
         }
@@ -143,7 +142,7 @@ namespace Core.SemanticAnalysis
 
             Enum type = tokensList.Last<Token>().Type;
 
-            foreach (var item in tokensList)
+            foreach (Token item in tokensList)
             {
                 switch (item.Code)
                 {
@@ -156,12 +155,12 @@ namespace Core.SemanticAnalysis
             }
 
 
-            foreach (var item in internalIdentifiersList)
+            foreach (Identifier item in internalIdentifiersList)
             {
                 item.Type = type.ToString();
                 if (!Insert(item))
                 {
-                    throw new SemanticException((1) + "Constante declarada em duplicidade", 1);
+                    throw new SemanticException("Constante declarada em duplicidade", 1);
                 }
             }
         }
@@ -200,7 +199,7 @@ namespace Core.SemanticAnalysis
 
             Enum type = tokensList.Last<Token>().Type;
 
-            foreach (var item in tokensList)
+            foreach (Token item in tokensList)
             {
                 switch (item.Code)
                 {
@@ -212,12 +211,12 @@ namespace Core.SemanticAnalysis
                 }
             }
 
-            foreach (var item in internalIdentifiersList)
+            foreach (Identifier item in internalIdentifiersList)
             {
                 item.Type = type.ToString();
                 if (!Insert(item))
                 {
-                    throw new SemanticException((1) + "Rotulo declarado em duplicidade", 1);
+                    throw new SemanticException("Rotulo declarado em duplicidade", 1);
                 }
             }
         }
@@ -226,7 +225,7 @@ namespace Core.SemanticAnalysis
         {
             if (!Insert(CreateIdentifier(token.Value, "PROCEDURE", "", 0)))
             {
-                throw new SemanticException((1) + "Procedure declarada em duplicidade!", 1);
+                throw new SemanticException("Procedure declarada em duplicidade!", 1);
             }
            
         }

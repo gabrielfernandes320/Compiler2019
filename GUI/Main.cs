@@ -151,7 +151,7 @@ namespace GUI
                 tbConsole.AppendText("Análise léxica concluída\n");
 
                 // SYNTACTICAL ANALISIS
-                tbConsole.AppendText("Executando análise sintática...\n");
+                tbConsole.AppendText("Executando análise sintática/semântica...\n");
 
                 SyntacticalAnalyzer syntacticalAnalyzer = new SyntacticalAnalyzer(extractedTokens);
 
@@ -205,7 +205,9 @@ namespace GUI
                     }
                 }
 
-                tbConsole.AppendText("Análise sintática concluída\n");
+                tbConsole.AppendText("Análise sintática/semântica concluída\n");
+
+                MessageBox.Show("Finalizado com sucesso");
             }
             catch (LexicalException error)
             {
@@ -244,7 +246,7 @@ namespace GUI
                 SelectLine(error.GetLine());
 
                 // Show error dialog
-                MessageBox.Show("Houve um erro ao efetuar a análise semantica do código fonte\n");
+                MessageBox.Show("Houve um erro ao efetuar a análise semântica do código fonte\n");
             }
 
             // Disabled buttons

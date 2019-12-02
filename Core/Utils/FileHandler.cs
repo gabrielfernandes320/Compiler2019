@@ -9,7 +9,7 @@ namespace Core.Utils
             File.Delete(path);
             using (StreamWriter sw = File.CreateText(path))
             {
-                foreach (var line in textToSwrite)
+                foreach (string line in textToSwrite)
                 {
                     sw.Write(line);
                 }
